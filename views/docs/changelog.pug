@@ -1,0 +1,233 @@
+extends ../partials/layout-docs
+
+//- Override default config variables
+append config
+  - var pageTitle = 'Changelog'
+  - var isNestedFile = true
+  
+//- Page Content
+block content
+  h2.h4.pb-1
+    span.text-primary v1.3&nbsp;
+    | &ndash;&nbsp;
+    | February 29, 2020
+  ul.list-unstyled
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      u.font-weight-medium Grocery Store Demo:
+      .pl-sm-4
+        ul.font-size-md.py-2
+          li
+            span.font-weight-medium Front Page (Homepage). 
+            a(href='../home-grocery-store.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Product Catalog Page. 
+            a(href='../grocery-catalog.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Single Product Page. 
+            a(href='../grocery-single.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Checkout Page Template. 
+            a(href='../grocery-checkout.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      span.font-weight-medium Single Product / Brand Store&nbsp;&nbsp;
+      a(href='../home-single-store.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      | Navbar with Side Menu. See live example on Grocery Store Demo page
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      | Transparent Navbar version. See live example on Single Product/Brand Store Demo page
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      | Javascript behavior when radio buttons behave like tabs by switching linked content. See live example on Single Product/Brand Demo page (Choose your style section)
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      | Added empty state for Cart dropdown. See live example on Single Product/Brand Demo page
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Replaced <code>Salvattore.js</code> with <code>Shuffle.js</code> and <code>imagesLoaded.js</code> for masonry grid (particularly Blog grid) layouts
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Color presets (radio buttons) now changing labels dynamically via Javascript. See it in action on Shop Single Product pages v1 and v2
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Added new icons to Cartzilla icon font
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Sketch file with new demo page design mockups
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Security patch: Added <code>rel='noopener'</code> to all links with <code>target='_blank'</code> attribute. For more info read <a href='https://developers.google.com/web/tools/lighthouse/audits/noopener' target='_blank' rel='noopener'>this article</a>
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Node modules to latest versions
+    li.mb-2
+      span.badge.badge-warning.font-size-sm.pt-1.mr-3 Fixed
+      | Handheld Toolbar styles: Removed <code>padding-bottom</code> that equals to Toolbar height from <code>body</code> by default. Now you can add bottom padding to <code>body</code> by applyoing css class <code>toolbar-enabled</code> to <code>body</code>. If you use PUG it applies automatically if <code>var isToolbar = true</code> is added to particular page template or globally enabled via <code>templates/helpers/config.pug</code>. It's done to ensure that you can remove bottom padding from <code>body</code> without editing core theme styles if you don't need Handheld Toolbar.
+    li.mb-2
+      span.badge.badge-warning.font-size-sm.pt-1.mr-3 Fixed
+      | SCSS maps in theme <code>_variable.scss</code>. Special thanks to Kevin Ramharak for the fix suggestion
+    li.mb-2
+      span.badge.badge-warning.font-size-sm.pt-1.mr-3 Fixed
+      | Minor bug fixes
+        
+  hr.my-5
+  h2.h4.pb-1
+    span.text-primary v1.2&nbsp;
+    | &ndash;&nbsp;
+    | December 20, 2019
+  ul.list-unstyled
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      | Added new Toolbar for Handheld devices that is fixed to bottom (similar to iOS) and holds all important buttons like Menu, Cart, Wishlist, Sidebar togglers, etc. This will improve user experience on handheld devices.
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      | Added .gitignore file to the download package that tells git which files (or patterns) it should ignore. Make sure to enable hidden files visibility on your system.
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Navigation bars (Headers): added tooltips for action buttons. Added separate wishlist button for cases when wishlist is available not only for registered users.
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | 404 Error page templates
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | JavaScript plugins to latest versions
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Node modules to latest versions
+    li.mb-2
+      span.badge.badge-warning.font-size-sm.pt-1.mr-3 Fixed
+      | Documentation typos and wrong content.
+    li.mb-2
+      span.badge.badge-warning.font-size-sm.pt-1.mr-3 Fixed
+      | Minor bug fixes
+        
+  hr.my-5
+
+  h2.h4.pb-1
+    span.text-primary v1.1&nbsp;
+    | &ndash;&nbsp;
+    | November 30, 2019
+  ul.list-unstyled
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      u Digital Products Marketplace Demo:
+      .pl-sm-4
+        ul.font-size-md.py-2
+          li
+            span.font-weight-medium Front Page (Homepage). 
+            a(href='../home-marketplace.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Catalog (Category) page with filters. 
+            a(href='../marketplace-category.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Single Item Page. 
+            a(href='../marketplace-single.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Vendor (Seller) Page. 
+            a(href='../marketplace-vendor.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Cart page template. 
+            a(href='../marketplace-cart.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Checkout page template. 
+            a(href='../marketplace-checkout.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-2 New
+      u Marketplace Vendor / User Dashboard:
+      .pl-sm-4
+        ul.font-size-md.py-2
+          li
+            span.font-weight-medium Profile Settings. 
+            a(href='../dashboard-settings.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Purchases. 
+            a(href='../dashboard-purchases.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Favorites. 
+            a(href='../dashboard-favorites.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Sales. 
+            a(href='../dashboard-sales.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Products. 
+            a(href='../dashboard-products.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Add New Product. 
+            a(href='../dashboard-add-new-product.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+          li
+            span.font-weight-medium Payouts. 
+            a(href='../dashboard-payouts.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Electronics Store Homepage. 
+      a(href='../home-electronics-store.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Single Product Page v2. 
+      a(href='../shop-single-v2.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Product Comparison Page (Table). 
+      a(href='../comparison.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Navbar Versions for: Marketplace and Electronics Store
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Footer Version for: Marketplace
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Qucik View Popup v2 (for Electronics Store)
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | 404 Error Page Template (Text variant). 
+      a(href='../404-simple.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Charts Component. 
+      a(href='../components/charts.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Countdown Timer Component. 
+      a(href='../components/countdown.html' target='_blank' rel='noopener').font-size-sm View demo<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Product Card for Digital (Downloadable) Products
+    li.mb-2
+      span.badge.badge-info.font-size-sm.pt-1.mr-3 New
+      | Drag &amp; Drop File Uploader. See updated Forms component page for more details
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Bootstrap to latest version 4.4.1
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Homepage Hero Slider. Added Animations to Slider Text Layers
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Icon Font. Added new Icons to the collection. 
+      a(href='../components/icon-font.html' target='_blank' rel='noopener').font-size-sm See available icons<i class='czi-arrow-right font-size-xs ml-1'></i>
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      code _variables.scss 
+      | Added <code>$path-to-fonts</code> variable. Now it's easier to change theme font via <code>_user-variables.scss</code>
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Sketch file. Added new page mockups
+    li.mb-2
+      span.badge.badge-success.font-size-sm.pt-1.mr-3 Updated
+      | Documentation and Components
+    li.mb-2
+      span.badge.badge-warning.font-size-sm.pt-1.mr-3 Fixed
+      | Minor bug fixes
+
+  hr.my-5
+
+  h2.h4
+    span.text-primary v1.0&nbsp;
+    | &ndash;&nbsp;
+    | October 21, 2019
+  ul.list-unstyled.mb-4.pb-3
+    li Initial release

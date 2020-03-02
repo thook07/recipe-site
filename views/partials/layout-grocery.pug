@@ -1,0 +1,576 @@
+//- Include config.pug file that holds all variables
+block config
+  include ../helpers/config
+
+//- Mixins - reusable code snippets
+include ../helpers/mixins
+
+doctype html
+html(lang="en")
+
+  //- head.pug template
+  include head 
+  
+  // Body
+  body.bg-secondary
+      
+    //- modal-signin.pug template
+    include modal-signin
+
+
+    // Navbar
+    header.bg-light.box-shadow-sm.fixed-top
+      .navbar.navbar-expand-lg.navbar-light
+        .container-fluid
+          a(href='index.html' style='min-width: 7rem;').navbar-brand.d-none.d-sm-block.mr-3.mr-xl-4.flex-shrink-0
+            +image('img/logo-dark.png', 'Cartzilla')(width='142')
+          a(href='index.html' style='min-width: 4.625rem;').navbar-brand.d-sm-none.mr-2
+            +image('img/logo-icon.png', 'Cartzilla')(width='74')
+          
+          // Search
+          .input-group-overlay.d-none.d-lg-block.mx-4
+            .input-group-prepend-overlay
+              span.input-group-text
+                i.czi-search
+            input(type='text' placeholder='Search for products').form-control.prepended-form-control.appended-form-control
+            .input-group-append-overlay
+              select.custom-select
+                option All categories
+                option Bakery
+                option Fruits and Vegetables
+                option Dairy and Eggs
+                option Meat and Poultry
+                option Fish and Seafood
+                option Sauces and Spices
+                option Canned Food and Oil
+                option Alcoholic Beverages
+                option Soft Drinks and Juice
+                option Packets, Cereals
+                option Frozen
+                option Snaks, Sweets and Chips
+                option Personal hygiene
+                option Kitchenware
+          
+          // Toolbar
+          .navbar-toolbar.d-flex.flex-shrink-0.align-items-center.ml-xl-2
+            a(href='#sideNav' data-toggle='sidebar').navbar-toggler
+              span.navbar-toggler-icon
+            a(href='#searchBox' data-toggle='collapse' role='button' aria-expanded='false', aria-controls='searchBox').navbar-tool.d-flex.d-lg-none
+              span.navbar-tool-tooltip Search
+              .navbar-tool-icon-box: i.navbar-tool-icon.czi-search
+            a(href='#').navbar-tool.d-none.d-lg-flex
+              span.navbar-tool-tooltip Wishlist
+              .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
+            a(href='#signin-modal' data-toggle='modal').navbar-tool.ml-1.ml-lg-0.mr-n1.mr-lg-2
+              .navbar-tool-icon-box: i.navbar-tool-icon.czi-user
+              .navbar-tool-text.ml-n3
+                small Hello, Sign in
+                | My Account
+            //.navbar-tool.dropdown.ml-3
+            //  a(href='grocery-checkout.html').navbar-tool-icon-box.bg-secondary.dropdown-toggle
+            //    span.navbar-tool-label 3
+            //    i.navbar-tool-icon.czi-cart
+            //  a(href='grocery-checkout.html').navbar-tool-text
+            //    small My Cart
+            //    | $25.00
+              .dropdown-menu.dropdown-menu-right(style='width: 20rem;')
+                .widget.widget-cart.px-3.pt-2.pb-3
+                  div(style='height: 15rem;' data-simplebar data-simplebar-auto-hide='false')
+                    .widget-cart-item.pb-2.border-bottom
+                      button(type='button' class='close text-danger' aria-label='Remove')
+                        span(aria-hidden='true') &times;
+                      .media.align-items-center
+                        a(href='grocery-single.html').d-block.mr-2
+                          +image('img/grocery/cart/th01.jpg', 'Product')(width='64')
+                        .media-body
+                          h6.widget-product-title
+                            a(href='grocery-single.html') Frozen Oven-ready Poultry
+                          .widget-product-meta
+                            span.text-accent.mr-2
+                              | $15.
+                              small 00
+                            span.text-muted x 1
+                    .widget-cart-item.py-2.border-bottom
+                      button(type='button' class='close text-danger' aria-label='Remove')
+                        span(aria-hidden='true') &times;
+                      .media.align-items-center
+                        a(href='grocery-single.html').d-block.mr-2
+                          +image('img/grocery/cart/th02.jpg', 'Product')(width='64')
+                        .media-body
+                          h6.widget-product-title
+                            a(href='grocery-single.html') Nut Chocolate Paste (750g)
+                          .widget-product-meta
+                            span.text-accent.mr-2
+                              | $6.
+                              small 50
+                            span.text-muted x 1
+                    .widget-cart-item.py-2.border-bottom
+                      button(type='button' class='close text-danger' aria-label='Remove')
+                        span(aria-hidden='true') &times;
+                      .media.align-items-center
+                        a(href='grocery-single.html').d-block.mr-2
+                          +image('img/grocery/cart/th03.jpg', 'Product')(width='64')
+                        .media-body
+                          h6.widget-product-title
+                            a(href='grocery-single.html') Mozzarella Mini Cheese
+                          .widget-product-meta
+                            span.text-accent.mr-2
+                              | $3.
+                              small 50
+                            span.text-muted x 1
+                  .d-flex.flex-wrap.justify-content-between.align-items-center.pt-3
+                    .font-size-sm.mr-2.py-2
+                      span.text-muted Total:
+                      span.text-accent.font-size-base.ml-1
+                        | $25.
+                        small 00
+                    a(href='grocery-checkout.html').btn.btn-primary.btn-sm
+                      i.czi-card.mr-2.font-size-base.align-middle
+                      | Checkout
+                      i.czi-arrow-right.ml-1.mr-n1
+
+      // Search collapse
+      #searchBox.collapse
+        .card.pt-2.pb-4.border-0.rounded-0
+          .container
+            .input-group-overlay
+              .input-group-prepend-overlay
+                span.input-group-text
+                  i.czi-search
+              input(type='text' placeholder='Search for products').form-control.prepended-form-control
+      
+
+    // Sidebar menu
+    aside#sideNav.cz-sidebar.cz-sidebar-fixed(style='padding-top: 5rem;')
+      button(type='button' class='close' data-dismiss='sidebar' aria-label='Close')
+        span.d-inline-block.font-size-xs.font-weight-normal.align-middle Close sidebar
+        span(aria-hidden='true').d-inline-block.align-middle.ml-2 &times;
+      .cz-sidebar-inner
+        ul(role='tablist' style='min-height: 3rem;').nav.nav-tabs.nav-justified.mt-2.mt-lg-4.mb-0
+          li.nav-item
+            a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Categories
+          li.nav-item
+            a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Menu
+        .cz-sidebar-body.pt-3.pb-0(data-simplebar)
+          .tab-content
+
+            // Categories
+            #categories.sidebar-nav.tab-pane.fade.show.active(role='tabpanel')
+              .widget.widget-categories
+                #shop-categories.accordion
+                  each level1 in tags
+                    // level1.name
+                    .card.border-bottom
+                      .card-header
+                        h3.accordion-heading.font-size-base.px-grid-gutter
+                          a(href="#"+level1.id role='button' data-toggle='collapse' aria-expanded='false' aria-controls=level1.id).collapsed.py-3
+                            span.d-flex.align-items-center
+                              i.czi-bread.font-size-lg.opacity-60.mt-n1.mr-2
+                              | #{level1.name}
+                            span.accordion-indicator
+                      div(id=level1.id data-parent='#shop-categories').collapse
+                        .card-body.px-grid-gutter.pb-4
+                          .widget.widget-links
+                            ul.widget-list
+                              each level2 in level1.tags
+                                li.widget-list-item
+                                  a(href='#').widget-list-link #{level2.name}
+                                  if level2.tags
+                                    ul.widget-list.pt-1
+                                      each level3 in level2.tags
+                                        li.widget-list-item
+                                          a(href='#').widget-list-link #{level3.name}
+                                
+                  
+
+            // Menu
+            #menu.sidebar-nav.tab-pane.fade(role='tabpanel')
+              .widget.widget-categories
+                #shop-menu.accordion
+                  // Homepages
+                  .card.border-bottom
+                    .card-header
+                      h3.accordion-heading.font-size-base.px-grid-gutter
+                        a(href='#home' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='home').collapsed.py-3
+                          | Homepages
+                          span.accordion-indicator
+                    #home.collapse(data-parent='#shop-menu')
+                      .card-body.px-grid-gutter.pb-4
+                        .widget.widget-links
+                          ul.widget-list
+                            li.widget-list-item
+                              a(href='home-fashion-store-v1.html').widget-list-link Fashion Store v.1
+                            li.widget-list-item
+                              a(href='home-fashion-store-v2.html').widget-list-link Fashion Store v.2
+                            li.widget-list-item
+                              a(href='home-electronics-store.html').widget-list-link Electronics Store
+                            li.widget-list-item
+                              a(href='home-marketplace.html').widget-list-link Multi-vendor Marketplace
+                            li.widget-list-item
+                              a(href='home-single-store.html').widget-list-link Single Product/Brand Store
+                            li.widget-list-item
+                              a(href='home-grocery-store.html').widget-list-link Grocery Store
+                  // Shop
+                  .card.border-bottom
+                    .card-header
+                      h3.accordion-heading.font-size-base.px-grid-gutter
+                        a(href='#shop' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='shop').collapsed.py-3
+                          | Shop
+                          span.accordion-indicator
+                    #shop.collapse(data-parent='#shop-menu')
+                      .card-body.px-grid-gutter.pb-4
+                        .widget.widget-links
+                          ul.widget-list
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Shop Layouts
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='shop-grid-ls.html').widget-list-link Shop Grid - Left Sidebar
+                                li.widget-list-item
+                                  a(href='shop-grid-rs.html').widget-list-link Shop Grid - Right Sidebar
+                                li.widget-list-item
+                                  a(href='shop-grid-ft.html').widget-list-link Shop Grid - Filters on Top
+                                li.widget-list-item
+                                  a(href='shop-list-ls.html').widget-list-link Shop List - Left Sidebar
+                                li.widget-list-item
+                                  a(href='shop-list-rs.html').widget-list-link Shop List - Right Sidebar
+                                li.widget-list-item
+                                  a(href='shop-list-ft.html').widget-list-link Shop List - Filters on Top
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Marketplace
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='marketplace-category.html').widget-list-link Category Page
+                                li.widget-list-item
+                                  a(href='marketplace-single.html').widget-list-link Single Item Page
+                                li.widget-list-item
+                                  a(href='marketplace-vendor.html').widget-list-link Vendor Page
+                                li.widget-list-item
+                                  a(href='marketplace-cart.html').widget-list-link Cart
+                                li.widget-list-item
+                                  a(href='marketplace-checkout.html').widget-list-link Checkout
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Grocery Store
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='grocery-catalog.html').widget-list-link Product Catalog
+                                li.widget-list-item
+                                  a(href='grocery-single.html').widget-list-link Single Product Page
+                                li.widget-list-item
+                                  a(href='grocery-checkout.html').widget-list-link Checkout
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Shop pages
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='shop-categories.html').widget-list-link Shop Categories
+                                li.widget-list-item
+                                  a(href='shop-single-v1.html').widget-list-link Product Page v.1
+                                li.widget-list-item
+                                  a(href='shop-single-v2.html').widget-list-link Product Page v.2
+                                li.widget-list-item
+                                  a(href='shop-cart.html').widget-list-link Cart
+                                li.widget-list-item
+                                  a(href='checkout-details.html').widget-list-link Checkout - Details
+                                li.widget-list-item
+                                  a(href='checkout-shipping.html').widget-list-link Checkout - Shipping
+                                li.widget-list-item
+                                  a(href='checkout-payment.html').widget-list-link Checkout - Payment
+                                li.widget-list-item
+                                  a(href='checkout-review.html').widget-list-link Checkout - Review
+                                li.widget-list-item
+                                  a(href='checkout-complete.html').widget-list-link Checkout - Complete
+                                li.widget-list-item
+                                  a(href='order-tracking.html').widget-list-link Order Tracking
+                                li.widget-list-item
+                                  a(href='comparison.html').widget-list-link Product Comparison
+                  // Account
+                  .card.border-bottom
+                    .card-header
+                      h3.accordion-heading.font-size-base.px-grid-gutter
+                        a(href='#account' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='account').collapsed.py-3
+                          | Account
+                          span.accordion-indicator
+                    #account.collapse(data-parent='#shop-menu')
+                      .card-body.px-grid-gutter.pb-4
+                        .widget.widget-links
+                          ul.widget-list
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Shop User Account
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='account-orders.html').widget-list-link Orders History
+                                li.widget-list-item
+                                  a(href='account-profile.html').widget-list-link Profile Settings
+                                li.widget-list-item
+                                  a(href='account-address.html').widget-list-link Account Addresses
+                                li.widget-list-item
+                                  a(href='account-payment.html').widget-list-link Payment Methods
+                                li.widget-list-item
+                                  a(href='account-wishlist.html').widget-list-link Wishlist
+                                li.widget-list-item
+                                  a(href='account-tickets.html').widget-list-link My Tickets
+                                li.widget-list-item
+                                  a(href='account-single-ticket.html').widget-list-link Single Ticket
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Vendor Dashboard
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='dashboard-settings.html').widget-list-link Settings
+                                li.widget-list-item
+                                  a(href='dashboard-purchases.html').widget-list-link Purchases
+                                li.widget-list-item
+                                  a(href='dashboard-favorites.html').widget-list-link Favorites
+                                li.widget-list-item
+                                  a(href='dashboard-sales.html').widget-list-link Sales
+                                li.widget-list-item
+                                  a(href='dashboard-products.html').widget-list-link Products
+                                li.widget-list-item
+                                  a(href='dashboard-add-new-product.html').widget-list-link Add New Product
+                                li.widget-list-item
+                                  a(href='dashboard-payouts.html').widget-list-link Payouts
+                            li.widget-list-item
+                              a(href='account-signin.html').widget-list-link Sign In / Sign Up
+                            li.widget-list-item
+                              a(href='account-password-recovery.html').widget-list-link Password Recovery
+                  // Pages
+                  .card.border-bottom
+                    .card-header
+                      h3.accordion-heading.font-size-base.px-grid-gutter
+                        a(href='#pages' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='pages').collapsed.py-3
+                          | Pages
+                          span.accordion-indicator
+                    #pages.collapse(data-parent='#shop-menu')
+                      .card-body.px-grid-gutter.pb-4
+                        .widget.widget-links
+                          ul.widget-list
+                            li.widget-list-item
+                              a(href='about.html').widget-list-link About Us
+                            li.widget-list-item
+                              a(href='contacts.html').widget-list-link Contacts
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Help Center
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='help-topics.html').widget-list-link Help Topics
+                                li.widget-list-item
+                                  a(href='help-single-topic.html').widget-list-link Single Topic
+                                li.widget-list-item
+                                  a(href='help-submit-request.html').widget-list-link Submit a Request
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium 404 Not Found
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='404-simple.html').widget-list-link 404 - Simple Text
+                                li.widget-list-item
+                                  a(href='404-illustration.html').widget-list-link 404 - Illustration
+                  // Blog
+                  .card.border-bottom
+                    .card-header
+                      h3.accordion-heading.font-size-base.px-grid-gutter
+                        a(href='#blog' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='blog').collapsed.py-3
+                          | Blog
+                          span.accordion-indicator
+                    #blog.collapse(data-parent='#shop-menu')
+                      .card-body.px-grid-gutter.pb-4
+                        .widget.widget-links
+                          ul.widget-list
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Blog List Layouts
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='blog-list-sidebar.html').widget-list-link List with Sidebar
+                                li.widget-list-item
+                                  a(href='blog-list.html').widget-list-link List no Sidebar
+                            li.widget-list-item
+                              a(href='#').widget-list-link.font-weight-medium Blog Grid Layouts
+                              ul.widget-list.pt-1
+                                li.widget-list-item
+                                  a(href='blog-grid-sidebar.html').widget-list-link Grid with Sidebar
+                                li.widget-list-item
+                                  a(href='blog-grid.html').widget-list-link Grid no Sidebar
+                            li.widget-list-item
+                              a(href='blog-single.html').widget-list-link Single Post
+                  // Docs
+                  .card.border-bottom
+                    .card-header
+                      h3.accordion-heading.font-size-base.px-grid-gutter
+                        a(href='#docs' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='docs').collapsed.py-3
+                          | Docs / Components
+                          span.accordion-indicator
+                    #docs.collapse(data-parent='#shop-menu')
+                      .card-body.px-grid-gutter.pb-4
+                        .widget.widget-links
+                          ul.widget-list
+                            li.widget-list-item
+                              a(href='docs/dev-setup.html').widget-list-link Documentation
+                            li.widget-list-item
+                              a(href='components/typography.html').widget-list-link Components
+                            li.widget-list-item
+                              a(href='docs/changelog.html').widget-list-link
+                                | Changelog
+                                span.badge.badge-success.ml-2 v1.2
+                            li.widget-list-item
+                              a(href='mailto:contact@createx.studio').widget-list-link Support
+
+        //.px-grid-gutter.pt-5.pb-4.mb-2
+        //  .d-flex.mb-3
+        //    i.czi-support.h4.mb-0.font-weight-normal.text-primary.mt-1.mr-1
+        //    .pl-2
+        //      .text-muted.font-size-sm Support
+        //      a(href='tel:+100331697720').nav-link-style.font-size-md +1 (00) 33 169 7720
+        //  .d-flex.mb-3
+        //    i.czi-mail.h5.mb-0.font-weight-normal.text-primary.mt-1.mr-1
+        //    .pl-2
+        //      .text-muted.font-size-sm Email
+        //      a(href='mailto:customer@example.com').nav-link-style.font-size-md customer@example.com
+        //  h6.pt-2.pb-1 Follow us
+        //  a(href="#").social-btn.sb-outline.sb-twitter.mr-2.mb-2
+        //    i.czi-twitter
+        //  a(href="#").social-btn.sb-outline.sb-facebook.mr-2.mb-2
+        //    i.czi-facebook
+        //  a(href="#").social-btn.sb-outline.sb-instagram.mr-2.mb-2
+        //    i.czi-instagram
+        //  a(href="#").social-btn.sb-outline.sb-youtube.mr-2.mb-2
+        //    i.czi-youtube
+
+
+
+
+    // Page
+    main.sidebar-fixed-enabled(style='padding-top: 5rem;')
+      section.px-lg-3.pt-4
+        .px-3.pt-2
+
+          // Page title + breadcrumb
+          if breadcrumbs.length
+            nav(aria-label='breadcrumb').mb-4
+              ol.breadcrumb.flex-lg-nowrap
+                li.breadcrumb-item
+                  a( href='home-grocery-store.html').text-nowrap
+                    i.czi-home
+                    | Home
+                each breadcrumb in breadcrumbs
+                  if breadcrumb.link
+                    li.breadcrumb-item.text-nowrap
+                      - var linkatts = {'href': breadcrumb.link}
+                      a()&attributes(linkatts)= breadcrumb.title
+                  else
+                    li.breadcrumb-item.text-nowrap.active(aria-current='page')= breadcrumb.title
+
+          // Content
+          block content
+
+      // Footer
+      footer.bg-dark.pt-5
+        .px-lg-3.pt-2.pb-4
+          .mx-auto.px-3(style='max-width: 80rem;')
+            .row
+              .col-xl-2.col-lg-3.col-sm-4.pb-2.mb-4
+                .mt-n1
+                  a(href='#').d-inline-block.align-middle
+                    +image('img/footer-logo-light.png', 'Cartzilla')(width='117').d-block.mb-4
+                .btn-group.dropdown.disable-autohide
+                  button(type='button' data-toggle='dropdown').btn.btn-outline-light.border-light.btn-sm.dropdown-toggle.px-2
+                    +image('img/flags/en.png', 'English')(width='20').mr-2
+                    | Eng / $
+                  ul.dropdown-menu
+                    li.dropdown-item
+                      select.custom-select.custom-select-sm
+                        option(value='usd') $ USD
+                        option(value='eur') € EUR
+                        option(value='ukp') £ UKP
+                        option(value='jpy') ¥ JPY
+                    li
+                      a(href='#').dropdown-item.pb-1
+                        +image('img/flags/fr.png', 'Français')(width='20').mr-2
+                        | Français
+                    li
+                      a(href='#').dropdown-item.pb-1
+                        +image('img/flags/de.png', 'Deutsch')(width='20').mr-2
+                        | Deutsch
+                    li
+                      a(href='#').dropdown-item
+                        +image('img/flags/it.png', 'Italiano')(width='20').mr-2
+                        | Italiano
+              .col-xl-3.col-lg-4.col-sm-4
+                .widget.widget-links.widget-light.pb-2.mb-4
+                  h3.widget-title.text-light Product catalog
+                  ul.widget-list
+                    li.widget-list-item: a(href='#').widget-list-link Special offers
+                    li.widget-list-item: a(href='#').widget-list-link Bakery
+                    li.widget-list-item: a(href='#').widget-list-link Fruits and Vegetables
+                    li.widget-list-item: a(href='#').widget-list-link Dairy and Eggs
+                    li.widget-list-item: a(href='#').widget-list-link Meat and Poultry
+                    li.widget-list-item: a(href='#').widget-list-link Fish and Seafood
+                    li.widget-list-item: a(href='#').widget-list-link Sauces and Spices
+                    li.widget-list-item: a(href='#').widget-list-link Canned Food and Oil
+                    li.widget-list-item: a(href='#').widget-list-link Alcoholic Beverages
+                    li.widget-list-item: a(href='#').widget-list-link Soft Drinks and Juice
+                    li.widget-list-item: a(href='#').widget-list-link Packets, Cereals and Poultry
+                    li.widget-list-item: a(href='#').widget-list-link Frozen
+                    li.widget-list-item: a(href='#').widget-list-link Personal hygiene
+                    li.widget-list-item: a(href='#').widget-list-link Kitchenware
+              .col-xl-3.col-lg-4.col-sm-4
+                .widget.widget-links.widget-light.pb-2.mb-4
+                  h3.widget-title.text-light Company
+                  ul.widget-list
+                    li.widget-list-item: a(href='#').widget-list-link About us
+                    li.widget-list-item: a(href='#').widget-list-link Store locator
+                    li.widget-list-item: a(href='#').widget-list-link Careers at Cartzilla
+                    li.widget-list-item: a(href='#').widget-list-link Contacts
+                    li.widget-list-item: a(href='#').widget-list-link Help center
+                    li.widget-list-item: a(href='#').widget-list-link Actions and News
+                .widget.widget-light.pb-2.mb-4
+                  h3.widget-title.text-light Follow us
+                  a(href="#").social-btn.sb-light.sb-twitter.mr-2.mb-2
+                    i.czi-twitter
+                  a(href="#").social-btn.sb-light.sb-facebook.mr-2.mb-2
+                    i.czi-facebook
+                  a(href="#").social-btn.sb-light.sb-instagram.mr-2.mb-2
+                    i.czi-instagram
+                  a(href="#").social-btn.sb-light.sb-youtube.mr-2.mb-2
+                    i.czi-youtube
+              .col-xl-4.col-sm-8
+                .widget.pb-2.mb-4
+                  h3.widget-title.text-light.pb-1 Stay informed
+                  form(action='https://studio.us12.list-manage.com/subscribe/post-json?u=c7103e2c981361a6639545bd5&amp;id=29ca296126&c=?' method='get' name='mc-embedded-subscribe-form')#mc-embedded-subscribe-form.validate
+                    .input-group.input-group-overlay.flex-nowrap
+                      .input-group-prepend-overlay
+                        span.input-group-text.text-muted.font-size-base
+                          i.czi-mail
+                      input(type='email' name='EMAIL' id='mce-EMAIL' value='' placeholder='Your email' required).form-control.prepended-form-control
+                      .input-group-append
+                        button(type='submit' name='subscribe')#mc-embedded-subscribe.btn.btn-primary Subscribe*
+                    // real people should not fill this in and expect good things - do not remove this or risk form bot signups
+                    div(style='position: absolute; left: -5000px;' aria-hidden='true')
+                      input(type='text' name='b_c7103e2c981361a6639545bd5_29ca296126' tabindex='-1')
+                    small#mc-helper.form-text.text-light.opacity-50 *Subscribe to our newsletter to receive early discount offers, updates and new products info.
+                    .subscribe-status
+                .widget.pb-2.mb-4
+                  h3.widget-title.text-light.pb-1 Download our app
+                  .d-flex.flex-wrap
+                    .mr-2.mb-2
+                      a(href='#' role='button').btn-market.btn-apple
+                        span.btn-market-subtitle Download on the
+                        span.btn-market-title App Store
+                    .mb-2
+                      a(href='#' role='button').btn-market.btn-google
+                        span.btn-market-subtitle Download on the
+                        span.btn-market-title Google Play
+        .bg-darker.px-lg-3.py-3
+          .d-sm-flex.justify-content-between.align-items-center.mx-auto.px-3(style='max-width: 80rem;')
+            .font-size-xs.text-light.opacity-50.text-center.text-sm-left.py-3
+              | © All rights reserved. Made by 
+              a(href='https://createx.studio/' target='_blank' rel='noopener').text-light Createx Studio
+            .py-3
+              +image('img/cards-alt.png', 'Payment methods')(width='187').d-block.mx-auto.mx-sm-left
+
+
+    // Back To Top Button
+    a(href='#top' data-scroll).btn-scroll-top
+      span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top
+      i.btn-scroll-top-icon.czi-arrow-up    
+    
+    // JavaScript libraries, plugins and custom scripts
+    script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': 'js/vendor.min.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': 'js/theme.min.js'})

@@ -1,0 +1,27 @@
+{
+  "name": "recipe-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thook07/recipe-site.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thook07/recipe-site/issues"
+  },
+  "homepage": "https://github.com/thook07/recipe-site#readme",
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "express": "^4.17.1",
+    "pug": "^2.0.4"
+  }
+}

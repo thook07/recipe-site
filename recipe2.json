@@ -1,0 +1,78 @@
+{
+    "id":"pumpkin-mini-muffins",
+    "name":"Pumpkin Mini Muffins",
+    "tags":["snack"],
+    "ingredients":[
+        { 
+            "amount":"1 1/2 cups",
+            "ingredientDescription":"Old Fashion Oats"
+        },
+        { 
+            "amount":"1 cup",
+            "ingredientDescription":"Pumpkin Puree"
+        },
+        { 
+            "amount":"1/4 cup",
+            "ingredientDescription":"Unsweetend Applesauce"
+        },
+        { 
+            "amount":"1 Tbsp",
+            "ingredientDescription":"Vanilla Extract"
+        },
+        { 
+            "amount":"2 Tbsp",
+            "ingredientDescription":"Melted Coconut Oil"
+        },
+        { 
+            "amount":"1/4 cup",
+            "ingredientDescription":"Unsweetend Almond Milk"
+        },
+        { 
+            "amount":"1/4 cup",
+            "ingredientDescription":"Pure Maple Syrup"
+        },
+        { 
+            "amount":"1 tsp",
+            "ingredientDescription":"Baking Powder"
+        },
+        { 
+            "amount":"1/2 tsp",
+            "ingredientDescription":"Baking Soda"
+        },
+        { 
+            "amount":"1/4 tsp",
+            "ingredientDescription":"Salt"
+        },
+        { 
+            "amount":"1 tsp",
+            "ingredientDescription":"Cinnamon"
+        },
+        { 
+            "amount":"a small amount",
+            "ingredientDescription":"Coconut oil spray"
+        }
+    ],
+    "instructions":[
+        "Preheat oven to 350 degrees",
+        "Lighly spray a mini muffin pan with coconut oil spray",
+        "Combine all ingredients in a food processor and mix until well combined",
+        "Pour into greased muffin tins and bake for 15 min, until a toothpick comes out clean"
+    ],
+    "notes":[
+        "2 / 3 mini muffins per serving",
+        "4g protein",
+        "34g carbs",
+        "8g fat",
+        "5g Fiber"
+    ],
+    "cookTime": "40",
+    "prepTime": "20",
+    "attribution":{
+        "author":"Karena Dawn & Katrina Scott",
+        "description": "Tone it up - Recipe Book",
+        "link": "https://www.noracooks.com/nourish-bowl-vegan-meal-prep/"
+    },
+    "images":[
+        "/recipe-images/pumpkin-muffins-img1.jpg"
+    ]
+}

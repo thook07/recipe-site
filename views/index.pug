@@ -1,0 +1,55 @@
+extends partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var pageTitle = 'Grocery - Product catalog'
+  - var parentMenu = 'Home'
+  - var breadcrumbs = [{'title': 'Product catalog'}]
+  
+//- Page Content
+block content
+
+  // Sorting
+  section.d-md-flex.justify-content-between.align-items-center.mb-4.pb-2
+    h1.h2.mb-3.mb-md-0.mr-3 Product catalog
+    .d-flex.align-items-center
+      .d-none.d-sm-block.py-2.font-size-sm.text-muted.text-nowrap.mr-2 Sort by:
+      ul.nav.nav-tabs.font-size-sm.mb-0
+        li.nav-item
+          a(href='#').nav-link.active Popular
+        li.nav-item
+          a(href='#').nav-link Cheap
+        li.nav-item
+          a(href='#').nav-link Expensive
+  
+
+  // Product grid
+  .row.no-gutters.mx-n2
+    
+    each recipe in recipes
+        // Product
+        .col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3
+          .card.product-card.card-static.pb-3
+            button(type='button' data-toggle='tooltip' data-placement='left' title='Coming Soon!').btn-wishlist.btn-sm
+              i.czi-heart
+            a(href="recipe/"+recipe.id).card-img-top.d-block.overflow-hidden
+              img(src='img/grocery/catalog/01.jpg' alt='Product')
+            .card-body.py-2
+              //a(href='#').product-meta.d-block.font-size-xs.pb-1 #{recipe.tags[0]}
+              h3.product-title.font-size-lg
+                a(href='grocery-single.html') #{recipe.name}
+              .product-price
+                //span.text-accent $2.<small>99</small>
+                span.text-accent Cook time: #{recipe.cookTime} min
+            .product-floating-btn
+              // -- add to cart button that shows on hover, check toast-shop.pug for details on this window -- 
+              button(type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-shadow.btn-sm
+                | +
+                i.czi-view-list.font-size-base.ml-1
+
+  .pt-4.pb-5.mb-4
+    //- pagination.pug template
+    include partials/pagination
+
+  //- toast-shop.pug template
+  include partials/toast-shop

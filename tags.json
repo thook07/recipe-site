@@ -1,0 +1,227 @@
+[
+    {
+        "id":"nutrition",
+        "name":"Nutrition",
+        "tags":[
+            {
+                "id":"no-sugar",
+                "name":"No Sugar",
+                "description":"Zero added sugar"
+            },
+            {
+                "id":"low-sugar",
+                "name":"Low Sugar",
+                "description":""
+            },
+            {
+                "id":"no-salt",
+                "name":"Sugar",
+                "description":"sugar"
+            },
+            {
+                "id":"low-salt",
+                "name":"Low Salt",
+                "description":""
+            },
+            {
+                "id":"no-oil",
+                "name":"No Oil",
+                "description":""
+            },
+            {
+                "id":"low-oil",
+                "name":"Low Oil",
+                "description":"less than 1 tsp of Oil"
+            },
+            {
+                "id":"fodmap",
+                "name":"FODMAP",
+                "description":"FODMAP stands for fermentable oligo-, di-, mono-saccharides and polyols. These are the scientific terms used to classify groups of carbs that are notorious for triggering digestive symptoms like bloating, gas and stomach pain."
+            },
+            {
+                "id":"high-fiber",
+                "name":"High Fiber",
+                "description":""
+            },
+            {
+                "id":"low-fat",
+                "name":"Lof Fat",
+                "description":""
+            },
+            {
+                "id":"gluten-free",
+                "name":"Gluten Free",
+                "description":""
+            }
+        ]
+        
+    },
+    {
+        "id":"meals",
+        "name":"Meals",
+        "tags": [
+            {
+                "id":"breakfast",
+                "name":"Breakfast"
+            },
+            {
+                "id":"lunch",
+                "name":"Lunch"
+            },
+            {
+                "id":"dinner",
+                "name":"Dinner"
+            },
+            {
+                "id":"snacks",
+                "name":"Snacks"
+            },
+            {
+                "id":"appetizers",
+                "name":"Appetizers"
+            },
+            {
+                "id":"desserts",
+                "name":"Desserts"
+            },
+            {
+                "id":"drinks",
+                "name":"Drinks"
+            }
+        ]
+        
+    },
+    {
+        "id":"time",
+        "name":"Cook Time",
+        "tags": [
+            {
+                "id":"15-min",
+                "name":"< 15 min"
+            },
+            {
+                "id":"20-min",
+                "name":"< 20 min"
+            },
+            {
+                "id":"30-min",
+                "name":"< 30 min"
+            },
+            {
+                "id":"60-min",
+                "name":"< 60 min"
+            },
+            {
+                "id":"1-to-2-hours",
+                "name":"1 to 2 hours"
+            },
+            {
+                "id":"plan-in-advance",
+                "name":"Plan in advance"
+            }
+        ]
+        
+    },
+    {
+        "id":"cooking-method",
+        "name":"Cooking Method",
+        "tags": [
+            {
+                "id":"oven",
+                "name":"Oven"
+            },
+            {
+                "id":"instant-pot",
+                "name":"Instant Pot"
+            },
+            {
+                "id":"grill",
+                "name":"Grill"
+            },
+            {
+                "id":"crockpot",
+                "name":"Crockpot"
+            },
+            {
+                "id":"no-bake",
+                "name":"No Bake"
+            }
+        ]
+        
+    },
+    {
+        "id":"other",
+        "name":"Other",
+        "tags":[
+            {
+                "id":"level-1-test-1",
+                "name":"Level 1 - Test 1",
+                "tags":[
+                    {
+                        "id":"level-2-test-1",
+                        "name":"Level 2 - Test 1"
+                    },
+                    {
+                        "id":"level-2-test-2",
+                        "name":"Level 2 - Test 2"
+                    },
+                    {
+                        "id":"level-2-test-3",
+                        "name":"Level 2 - Test 3"
+                    },
+                    {
+                        "id":"level-2-test-4",
+                        "name":"Level 2 - Test 4"
+                    }
+                    
+                ]
+            },
+            {
+                "id":"level-1-test-2",
+                "name":"Level 1 - Test 2",
+                "tags":[
+                    {
+                        "id":"level-2-test-1",
+                        "name":"Level 2 - Test 1"
+                    },
+                    {
+                        "id":"level-2-test-2",
+                        "name":"Level 2 - Test 2"
+                    },
+                    {
+                        "id":"level-2-test-3",
+                        "name":"Level 2 - Test 3"
+                    },
+                    {
+                        "id":"level-2-test-4",
+                        "name":"Level 2 - Test 4"
+                    }
+                    
+                ]
+            },
+            {
+                "id":"level-1-test-3",
+                "name":"Level 1 - Test 3",
+                "tags":[
+                    {
+                        "id":"level-2-test-1",
+                        "name":"Level 2 - Test 1"
+                    },
+                    {
+                        "id":"level-2-test-2",
+                        "name":"Level 2 - Test 2"
+                    },
+                    {
+                        "id":"level-2-test-3",
+                        "name":"Level 2 - Test 3"
+                    },
+                    {
+                        "id":"level-2-test-4",
+                        "name":"Level 2 - Test 4"
+                    }
+                    
+                ]
+            }
+        ]
+    }
+]
