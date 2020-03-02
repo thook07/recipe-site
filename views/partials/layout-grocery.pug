@@ -23,9 +23,9 @@ html(lang="en")
       .navbar.navbar-expand-lg.navbar-light
         .container-fluid
           a(href='index.html' style='min-width: 7rem;').navbar-brand.d-none.d-sm-block.mr-3.mr-xl-4.flex-shrink-0
-            +image('img/logo-dark.png', 'Cartzilla')(width='142')
+            +image('/img/logo-dark.png', 'Cartzilla')(width='142')
           a(href='index.html' style='min-width: 4.625rem;').navbar-brand.d-sm-none.mr-2
-            +image('img/logo-icon.png', 'Cartzilla')(width='74')
+            +image('/img/logo-icon.png', 'Cartzilla')(width='74')
           
           // Search
           .input-group-overlay.d-none.d-lg-block.mx-4
@@ -468,10 +468,10 @@ html(lang="en")
               .col-xl-2.col-lg-3.col-sm-4.pb-2.mb-4
                 .mt-n1
                   a(href='#').d-inline-block.align-middle
-                    +image('img/footer-logo-light.png', 'Cartzilla')(width='117').d-block.mb-4
+                    +image('/img/footer-logo-light.png', 'Cartzilla')(width='117').d-block.mb-4
                 .btn-group.dropdown.disable-autohide
                   button(type='button' data-toggle='dropdown').btn.btn-outline-light.border-light.btn-sm.dropdown-toggle.px-2
-                    +image('img/flags/en.png', 'English')(width='20').mr-2
+                    +image('/img/flags/en.png', 'English')(width='20').mr-2
                     | Eng / $
                   ul.dropdown-menu
                     li.dropdown-item
@@ -482,15 +482,15 @@ html(lang="en")
                         option(value='jpy') ¥ JPY
                     li
                       a(href='#').dropdown-item.pb-1
-                        +image('img/flags/fr.png', 'Français')(width='20').mr-2
+                        +image('/img/flags/fr.png', 'Français')(width='20').mr-2
                         | Français
                     li
                       a(href='#').dropdown-item.pb-1
-                        +image('img/flags/de.png', 'Deutsch')(width='20').mr-2
+                        +image('/img/flags/de.png', 'Deutsch')(width='20').mr-2
                         | Deutsch
                     li
                       a(href='#').dropdown-item
-                        +image('img/flags/it.png', 'Italiano')(width='20').mr-2
+                        +image('/img/flags/it.png', 'Italiano')(width='20').mr-2
                         | Italiano
               .col-xl-3.col-lg-4.col-sm-4
                 .widget.widget-links.widget-light.pb-2.mb-4
@@ -563,7 +563,7 @@ html(lang="en")
               | © All rights reserved. Made by 
               a(href='https://createx.studio/' target='_blank' rel='noopener').text-light Createx Studio
             .py-3
-              +image('img/cards-alt.png', 'Payment methods')(width='187').d-block.mx-auto.mx-sm-left
+              +image('/img/cards-alt.png', 'Payment methods')(width='187').d-block.mx-auto.mx-sm-left
 
 
     // Back To Top Button
@@ -572,5 +572,5 @@ html(lang="en")
       i.btn-scroll-top-icon.czi-arrow-up    
     
     // JavaScript libraries, plugins and custom scripts
-    script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': 'js/vendor.min.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': 'js/theme.min.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': '/js/vendor.min.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/theme.min.js'})
