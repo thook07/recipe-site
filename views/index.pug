@@ -24,20 +24,33 @@ block content
   
 
   // Product grid
-  .row.no-gutters.mx-n2
-    
-    each recipe in recipes
-        // Product
-        .col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3
+  #recipe-container.row.no-gutters.mx-n2
+    each recipe, index in recipes
+      // Product
+      - var myTags = "";
+      - for (var i = 0; i < recipe.tags.length; ++i) {
+      -    console.log(recipe.tags[i]);
+      -    if(i < 1) {
+      -      myTags = recipe.tags[i];
+      -    } else {
+      -      myTags = myTags + ", " + recipe.tags[i];
+      -    }
+      - }
+        div(recipe-tags=myTags recipe-name=recipe.id recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
           .card.product-card.card-static.pb-3
             button(type='button' data-toggle='tooltip' data-placement='left' title='Coming Soon!').btn-wishlist.btn-sm
               i.czi-heart
             a(href="recipe/"+recipe.id).card-img-top.d-block.overflow-hidden
-              img(src='img/grocery/catalog/01.jpg' alt='Product')
+              - var i = index + 1;
+              - var str = (i<10 ? '0'+i : i);
+              if recipe.images
+                img(src=recipe.images[0] alt='Product').rounded-lg
+              else
+                img(src="img/grocery/catalog/"+str+".jpg" alt='Product')
             .card-body.py-2
               //a(href='#').product-meta.d-block.font-size-xs.pb-1 #{recipe.tags[0]}
               h3.product-title.font-size-lg
-                a(href='grocery-single.html') #{recipe.name}
+                a(href="recipe/"+recipe.id) #{recipe.name}
               .product-price
                 //span.text-accent $2.<small>99</small>
                 span.text-accent Cook time: #{recipe.cookTime} min
@@ -53,3 +66,6 @@ block content
 
   //- toast-shop.pug template
   include partials/toast-shop
+  
+  
+  

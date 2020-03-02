@@ -1,44 +1,325 @@
-[
-    {
-        "name":"Mom's Chocolate Chip Cookies",
-        "id":"chocolate-chip-cookies-2",
-        "tags":["cookie", "dessert"],
-        "cookTime": "40",
-        "prepTime": "20"
-    },
-    {
-        "name":"Jalapeno Mac and Cheese",
-        "tags":["pasta","lunch","dinner"],
-        "id":"jalapeno-mac-and-cheese",
-        "cookTime": "10",
-        "prepTime": "25"
-    },
-    {
-        "name":"Jalapeno Mac and Cheese1",
-        "tags":["pasta","lunch","dinner"],
-        "id":"jalapeno-mac-and-cheese1",
-        "cookTime": "40",
-        "prepTime": "20"
-    },
-    {
-        "name":"Jalapeno Mac and Cheese2",
-        "tags":["pasta","lunch","dinner"],
-        "id":"jalapeno-mac-and-cheese2",
-        "cookTime": "40",
-        "prepTime": "20"
-    },
-    {
-        "name":"Jalapeno Mac and Cheese3",
-        "tags":["pasta","lunch","dinner"],
-        "id":"jalapeno-mac-and-cheese3",
-        "cookTime": "40",
-        "prepTime": "20"
-    },
-    {
-        "name":"Nourish Bowls",
-        "tags":["lunch","dinner"],
-        "id":"nourish-bowls",
-        "cookTime": "22",
-        "prepTime": "33min"
-    }
-]
+{
+    "recipes":{
+        "chocolate-chip-cookies-2": {
+            "id":"chocolate-chip-cookies-2",
+            "name":"Mom's Chocolate Chip Cookies",
+            "tags":["cookie", "dessert"],
+            "cookTime": "40",
+            "prepTime": "20",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "jalapeno-mac-and-cheese": {
+            "id":"jalapeno-mac-and-cheese",
+            "name":"Jalapeno Mac and Cheese",
+            "tags":["pasta","lunch","dinner"],
+            "cookTime": "10",
+            "prepTime": "25",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "nourish-bowls": {
+            "id":"nourish-bowls",
+            "name":"Nourish Bowls",
+            "tags":["lunch", "dinner","easy","meal-prep"],
+            "ingredients":[
+                { 
+                    "amount":"200g",
+                    "ingredientDescription":"cooked sweet potatoes"
+                },
+                { 
+                    "amount":"2 cups",
+                    "ingredientDescription":"cooked brown rice"
+                },
+                { 
+                    "amount":"6 cups",
+                    "ingredientDescription":"steamed kale"
+                },
+                { 
+                    "amount":"3 cups",
+                    "ingredientDescription":"cooked black beans"
+                },
+                { 
+                    "amount":"1 serving",
+                    "ingredientDescription":"cashew cream"
+                }
+            ],
+            "instructions":[
+                "Step 1",
+                "Step 2",
+                "Step 3",
+                "Step 4",
+                "Step 5",
+                "Step 6",
+                "Step 7",
+                "Step 8",
+                "Step 9",
+                "Step 10",
+                "Step 11"
+            ],
+            "notes":[
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"
+            ],
+            "cookTime": "40",
+            "prepTime": "20",
+            "attribution":{
+                "author":"Nora Cooks",
+                "description": "Nora Cooks - Nourish Bowl",
+                "link": "https://www.noracooks.com/nourish-bowl-vegan-meal-prep/"
+            },
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "pumpkin-mini-muffin": {
+            "id":"pumpkin-mini-muffins",
+            "name":"Pumpkin Mini Muffins",
+            "tags":["snack"],
+            "ingredients":[
+                { 
+                    "amount":"1 1/2 cups",
+                    "ingredientDescription":"Old Fashioned Oats"
+                },
+                { 
+                    "amount":"1 cup",
+                    "ingredientDescription":"Pumpkin Puree"
+                },
+                { 
+                    "amount":"1/4 cup",
+                    "ingredientDescription":"Unsweetened Applesauce"
+                },
+                { 
+                    "amount":"1 Tbsp",
+                    "ingredientDescription":"Vanilla Extract"
+                },
+                { 
+                    "amount":"2 Tbsp",
+                    "ingredientDescription":"Melted Coconut Oil"
+                },
+                { 
+                    "amount":"1/4 cup",
+                    "ingredientDescription":"Unsweetened Almond Milk"
+                },
+                { 
+                    "amount":"1/4 cup",
+                    "ingredientDescription":"Pure Maple Syrup"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"Baking Powder"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"Baking Soda"
+                },
+                { 
+                    "amount":"1/4 tsp",
+                    "ingredientDescription":"Salt"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"Cinnamon"
+                },
+                { 
+                    "amount":"a small amount",
+                    "ingredientDescription":"Coconut oil spray"
+                }
+            ],
+            "instructions":[
+                "Preheat oven to 350 degrees",
+                "Lighly spray a mini muffin pan with coconut oil spray",
+                "Combine all ingredients in a food processor and mix until well combined",
+                "Pour into greased muffin tins and bake for 15 min, until a toothpick comes out clean"
+            ],
+            "notes":[
+                "2 / 3 mini muffins per serving",
+                "4g protein",
+                "34g carbs",
+                "8g fat",
+                "5g Fiber"
+            ],
+            "cookTime": "40",
+            "prepTime": "20",
+            "attribution":{
+                "author":"Karena Dawn & Katrina Scott",
+                "description": "Tone it up - Recipe Book",
+                "link": "https://www.noracooks.com/nourish-bowl-vegan-meal-prep/"
+            },
+            "images":[
+                "/recipe-images/pumpkin-muffins-img1.jpg"
+            ]
+        },
+        "recipe1": {
+            "id":"recipe1",
+            "name":"Recipe 1",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe2": {
+            "id":"recipe2",
+            "name":"Recipe 2",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe3": {
+            "id":"recipe3",
+            "name":"Recipe 3",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe4": {
+            "id":"recipe4",
+            "name":"Recipe 4",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe5": {
+            "id":"recipe5",
+            "name":"Recipe 5",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe6": {
+            "id":"recipe6",
+            "name":"Recipe 6",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe7": {
+            "id":"recipe7",
+            "name":"Recipe 7",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe8": {
+            "id":"recipe8",
+            "name":"Recipe 8",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe9": {
+            "id":"recipe9",
+            "name":"Recipe 9",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe10": {
+            "id":"recipe10",
+            "name":"Recipe 10",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe11": {
+            "id":"recipe11",
+            "name":"Recipe 11",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe12": {
+            "id":"recipe12",
+            "name":"Recipe 12",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe13": {
+            "id":"recipe13",
+            "name":"Recipe 13",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe14": {
+            "id":"recipe14",
+            "name":"Recipe 14",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        },
+        "recipe15": {
+            "id":"recipe15",
+            "name":"Recipe 15",
+            "tags":["lunch","dinner"],
+            "cookTime": "22",
+            "prepTime": "33min",
+            "images":[
+                "/recipe-images/nourish-bowls-img1.jpg",
+                "/recipe-images/nourish-bowls-img2.jpg"
+            ]
+        }
+    }  
+}

@@ -32,7 +32,7 @@ html(lang="en")
             .input-group-prepend-overlay
               span.input-group-text
                 i.czi-search
-            input(type='text' placeholder='Search for products').form-control.prepended-form-control.appended-form-control
+            input(type='text' id="recipe-search-input" placeholder='Search for products').form-control.prepended-form-control.appended-form-control
             .input-group-append-overlay
               select.custom-select
                 option All categories
@@ -574,3 +574,22 @@ html(lang="en")
     // JavaScript libraries, plugins and custom scripts
     script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': '/js/vendor.min.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/theme.min.js'})
+    
+    //FIREBASE
+    //Firebase App (the core Firebase SDK) is always required and must be listed first
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js")
+
+    //If you enabled Analytics in your project, add the Firebase SDK for Analytics
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js")
+
+    //Add Firebase products that you want to use
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js")
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
+    
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/jquery.autocomplete.min.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/recipe.search.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.firebase.js'})
+    
+    
+
+    
