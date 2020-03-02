@@ -29,7 +29,6 @@ block content
       // Product
       - var myTags = "";
       - for (var i = 0; i < recipe.tags.length; ++i) {
-      -    console.log(recipe.tags[i]);
       -    if(i < 1) {
       -      myTags = recipe.tags[i];
       -    } else {
@@ -41,12 +40,10 @@ block content
             button(type='button' data-toggle='tooltip' data-placement='left' title='Coming Soon!').btn-wishlist.btn-sm
               i.czi-heart
             a(href="recipe/"+recipe.id).card-img-top.d-block.overflow-hidden
-              - var i = index + 1;
-              - var str = (i<10 ? '0'+i : i);
               if recipe.images
                 img(src=recipe.images[0] alt='Product').rounded-lg
               else
-                img(src="img/grocery/catalog/"+str+".jpg" alt='Product')
+                img(src="recipe-images/default.jpg" alt='Product')
             .card-body.py-2
               //a(href='#').product-meta.d-block.font-size-xs.pb-1 #{recipe.tags[0]}
               h3.product-title.font-size-lg

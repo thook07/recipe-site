@@ -9,7 +9,7 @@ var countries = [
 $('#recipe-search-input').autocomplete({
     lookup: countries,
     onSelect: function (suggestion) {
-        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        $('#recipe-search-input').text(suggestion);
     }
 });
 

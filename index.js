@@ -19,16 +19,13 @@ const server = app.listen(3000, () => {
 
 // -- Home Page
 app.get('/', (req, res) => {
-    
+    log.trace("entering app.get(\'/\'):")
     firebase.db.collection('recipes').get().then((snapshot) => {
         
-        console.log("Starting Search");
         var recipes = [];
         snapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
             recipes.push(doc.data());
         });
-        console.log("Finsihed looping");
         
         //showing home page..
         console.log("Showing home page...");
@@ -51,13 +48,14 @@ app.get('/recipe/:recipe', (req, res) => {
     var recipeVar = req.params.recipe;
     console.log("Starting Search. Grabbing Recipe: " + recipeVar);
     
-    let cityRef = firebase.db.collection('recipes').doc(recipeVar);
-    let getDoc = cityRef.get().then(doc => {
+    let recipeRef = firebase.db.collection('recipes').doc(recipeVar);
+    let getDoc = recipeRef.get().then(doc => {
         if (!doc.exists) {
             console.log('No such document!');
+            res.status(404);
+            res.render('404-simple.pug');
         } else {
-            console.log('Document data:', doc.data());
-            //showing home page..
+            console.log("Showing Page for recipe: " + recipeVar)
             res.render('grocery-single', {
                 recipe: doc.data(),
                 tags: tags
@@ -65,32 +63,10 @@ app.get('/recipe/:recipe', (req, res) => {
         }
     }).catch(err => {
         console.log('Error getting document', err);
+        res.status(404)
+        res.render('404-simple.pug');
     });
-
-
     
-    
-    
-    /*firebase.db.collection('recipes').get().then((snapshot) => {
-        
-        var recipe;
-        snapshot.forEach((doc) => {
-            recipe = doc.data()
-        });
-        console.log("Finished looping");
-        
-        //showing home page..
-        console.log("rendering grocery-single page..");
-        console.log(recipe);
-        res.render('grocery-single', {
-            recipe: recipe,
-            tags: tags
-        });
-        
-    }).catch((err) => {
-        console.log('Error getting documents', err);
-    });*/
-
 });
 
 
@@ -121,7 +97,7 @@ app.get('/test', (req, res) => {
 
 // Handle 404
 app.use(function(req, res) {
-    res.status(403);
+    res.status(404);
     res.render('404-simple.pug');
 });
 
