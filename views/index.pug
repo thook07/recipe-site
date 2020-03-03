@@ -5,6 +5,7 @@ append config
   - var pageTitle = 'Vegan Recipes'
   - var parentMenu = 'Home'
   - var breadcrumbs = [{'title': 'Catalog'}]
+  - var showSidebar = true
   
 //- Page Content
 block content
@@ -16,15 +17,16 @@ block content
       .d-none.d-sm-block.py-2.font-size-sm.text-muted.text-nowrap.mr-2 Sort by:
       ul.nav.nav-tabs.font-size-sm.mb-0
         li.nav-item
-          a(href='#').nav-link.active Popular
+          a(id='sort-1' href='#').nav-link.active Name a-z
         li.nav-item
-          a(href='#').nav-link Cheap
+          a(id='sort-2' href='#').nav-link Name z-a
         li.nav-item
-          a(href='#').nav-link Expensive
+          a(id='sort-3' href='#').nav-link Expensive
   
 
   // Product grid
   #recipe-container.row.no-gutters.mx-n2
+    .grid-sizer
     each recipe, index in recipes
       // Product
       - var myTags = "";

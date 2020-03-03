@@ -62,13 +62,15 @@ $(document).ready(function(){
         });
     });
     
-    $("#wishlist-button").click(function() {
+    /*$("#wishlist-button").click(function() {
         // - wishlist heart clicked.
         var user = firebase.auth().currentUser;
         console.log("User: ", user);
         console.log("toating..");
         
-    });
+        $grid.isotope({ filter: '.metal' });
+        
+    });*/
     
     updateNavbar();
 });

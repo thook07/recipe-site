@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
         });
         
         //showing home page..
-        
+        console.log("Found " + recipes.length + " recipes")
         firebase.firebase.auth().onAuthStateChanged(function(user) {
             console.log(user);
             console.log("Showing home page...");
@@ -86,6 +86,35 @@ app.get('/user-settings', (req, res) => {
     
     
 });
+
+// -- My Recipes
+app.get('/my-recipes', (req, res) => {
+    res.render('dashboard-products', {
+       tags: tags
+    });
+    
+    
+});
+
+// -- My Favorite Recipes
+app.get('/my-favorites', (req, res) => {
+    res.render('dashboard-favorites', {
+       tags: tags
+    });
+    
+    
+});
+
+// -- Add New Recipe
+app.get('/add', (req, res) => {
+    res.render('dashboard-add-new-product', {
+       tags: tags
+    });
+    
+    
+});
+
+
 
 // -- Used for Testing
 app.get('/test', (req, res) => {

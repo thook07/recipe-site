@@ -34,4 +34,47 @@ $(document).ready(function(){
         }
     });
     
+    var $grid = $('#recipe-container').isotope({
+        // options
+        itemSelector: '.recipe-card',
+        percentPosition: true,
+        masonry: {
+            columnWidth: '.grid-sizer'
+        },
+        getSortData: {
+            name: '[recipe-name]', // value of attribute
+            tags: '[recipe-tags]', // value of attribute
+            description: '[recipe-description]', // value of attribute
+           
+        }
+    });
+    
+    $("#wishlist-button").click(function() {
+        // - wishlist heart clicked.
+        var user = firebase.auth().currentUser;
+        console.log("User: ", user);
+        console.log("toating..");
+        
+        $grid.isotope({ filter: '*' });
+        
+    });
+    
+    $("#sort-1").click(function() {
+        $grid.isotope({ 
+            sortBy : 'name',
+            sortAscending : true
+        });
+    });
+    
+    $("#sort-2").click(function() {
+        $grid.isotope({ 
+            sortBy : 'name',
+            sortAscending : false
+        });
+    });
+    
+    $("#sort-3").click(function() {
+        $grid.isotope({ sortBy : 'tags' });
+    });
+    
 });

@@ -4,7 +4,8 @@ extends partials/layout-grocery
 append config
   - var pageTitle = 'Grocery - Single product'
   - var parentMenu = 'Home'
-  - var breadcrumbs = [{'title': 'Product catalog', 'link': 'grocery-catalog.html'}, {'title': 'Single product'}]
+  - var breadcrumbs = [{'title': 'Catalog', 'link': '/'}, {'title': recipe.name}]
+  - var showSidbar = false
   
 //- Page Content
 block content
