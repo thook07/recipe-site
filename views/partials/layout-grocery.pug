@@ -197,7 +197,7 @@ html(lang="en")
                                 ul.widget-list
                                   each level2 in level1.tags
                                     li.widget-list-item
-                                      a(href='#').widget-list-link #{level2.name}
+                                      a(id=level2.id href='#').tag-filter.widget-list-link #{level2.name}
                                       if level2.tags
                                         ul.widget-list.pt-1
                                           each level3 in level2.tags

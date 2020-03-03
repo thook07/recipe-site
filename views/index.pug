@@ -32,12 +32,12 @@ block content
       - var myTags = "";
       - for (var i = 0; i < recipe.tags.length; ++i) {
       -    if(i < 1) {
-      -      myTags = recipe.tags[i];
+      -      myTags = "tag-" + recipe.tags[i];
       -    } else {
-      -      myTags = myTags + ", " + recipe.tags[i];
+      -      myTags = myTags + " " + "tag-"+recipe.tags[i];
       -    }
       - }
-        div(recipe-tags=myTags recipe-name=recipe.id recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
+        div(class=myTags recipe-name=recipe.id recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
           .card.product-card.card-static.pb-3
             button(type='button' data-toggle='tooltip' data-placement='left' title='Coming Soon!').btn-wishlist.btn-sm
               i.czi-heart

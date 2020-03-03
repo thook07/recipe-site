@@ -77,4 +77,14 @@ $(document).ready(function(){
         $grid.isotope({ sortBy : 'tags' });
     });
     
+    $(".tag-filter").click(function() {
+        console.log("Filtering on tag-" + this.id);
+        var filter = ".tag-" + this.id;
+        
+        $grid.isotope({ filter: filter });
+
+        
+
+    });
+    
 });

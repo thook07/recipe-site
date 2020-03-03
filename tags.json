@@ -73,20 +73,20 @@
                 "name":"Dinner"
             },
             {
-                "id":"snacks",
-                "name":"Snacks"
+                "id":"snack",
+                "name":"Snack"
             },
             {
-                "id":"appetizers",
-                "name":"Appetizers"
+                "id":"appetizer",
+                "name":"Appetizer"
             },
             {
-                "id":"desserts",
-                "name":"Desserts"
+                "id":"dessert",
+                "name":"Dessert"
             },
             {
-                "id":"drinks",
-                "name":"Drinks"
+                "id":"drink",
+                "name":"Drink"
             }
         ]
         
