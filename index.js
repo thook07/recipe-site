@@ -20,6 +20,8 @@ const server = app.listen(3000, () => {
 // -- Home Page
 app.get('/', (req, res) => {
     log.trace("entering app.get(\'/\'):")
+    
+    
     firebase.db.collection('recipes').get().then((snapshot) => {
         
         var recipes = [];
@@ -28,20 +30,26 @@ app.get('/', (req, res) => {
         });
         
         //showing home page..
-        console.log("Showing home page...");
-        res.render('index', {
-            recipes: recipes,
-            tags: tags
+        
+        firebase.firebase.auth().onAuthStateChanged(function(user) {
+            console.log(user);
+            console.log("Showing home page...");
+            res.render('index', {
+                recipes: recipes,
+                tags: tags,
+                user: user
+            });
         });
         
         
     }).catch((err) => {
         console.log('Error getting documents', err);
+        res.send("<h1>Error Occurred</h1>");
     });
     
 });
 
-
+// -- Recipe Page
 app.get('/recipe/:recipe', (req, res) => {
     console.log("loading /recipe/{recipe} page...");
     
@@ -69,14 +77,14 @@ app.get('/recipe/:recipe', (req, res) => {
     
 });
 
+// -- Create User Page
+app.get('/user-signup'), (req, res) => {
+    console.log(req);
+    
+    
+}
 
-app.get('/grocery-single', (req, res) => {
-    res.render('grocery-single', {
-        recipe: recipe2,
-        tags: tags
-    })
-});
-
+// -- Used for Testing
 app.get('/test', (req, res) => {
     log.info("/test requested....")
     

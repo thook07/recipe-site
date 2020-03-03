@@ -11,15 +11,90 @@
                 "/recipe-images/nourish-bowls-img2.jpg"
             ]
         },
-        "jalapeno-mac-and-cheese": {
-            "id":"jalapeno-mac-and-cheese",
-            "name":"Jalapeno Mac and Cheese",
+        "jalapeno-popper-mac-and-cheese": {
+            "id":"jalapeno-popper-mac-and-cheese",
+            "name":"Jalapeno Popper Mac and Cheese",
             "tags":["pasta","lunch","dinner"],
             "cookTime": "10",
             "prepTime": "25",
+            "ingredients":[
+                { 
+                    "amount":"1/2 cup",
+                    "ingredientDescription":"raw cashews (soaked then drained)"
+                },
+                { 
+                    "amount":"1 1/2 cups",
+                    "ingredientDescription":"water"
+                },
+                { 
+                    "amount":"2 Tbsp",
+                    "ingredientDescription":"Nutritional Yeast"
+                },
+                { 
+                    "amount":"2 tsp",
+                    "ingredientDescription":"Dijon Mustard"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"salt"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"pepper"
+                },
+                { 
+                    "amount":"1 Tbsp",
+                    "ingredientDescription":"Olive Oil"
+                },
+                { 
+                    "amount":"3",
+                    "ingredientDescription":"Garlic cloves (minced)"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"small onion (finely chopped)"
+                },
+                { 
+                    "amount":"2",
+                    "ingredientDescription":"jalapeno (finely chopped)"
+                },
+                { 
+                    "amount":"2 Tbsp",
+                    "ingredientDescription":"vegan cream cheese or cashew cream (optional)"
+                },
+                { 
+                    "amount":"250g",
+                    "ingredientDescription":"Pasta of choice"
+                },
+                { 
+                    "amount":"1/2 cup",
+                    "ingredientDescription":"Breadcrumbs"
+                }
+            ],
+            "instructions":[
+                "Add the cashews, water, nutritional yeast, dijon mustard, salt, and pepper to a high speed blender and blend until smooth and creamy. Set aside",
+                "Cook Pasta according to package directions, reserve approximately 1/2 cup of the pasta water",
+                "Heat the olive oil in a pan in medium/high heat, then add the onion and cook for 2 min",
+                "Next, add the garlic and jalapenos and cook for another minute",
+                "Reduce heat to medium and add the cream cheese (if using) and cashew sauce to the pan, stirring until everything is well incorporated",
+                "Add the pasta and 1/2 cup of pasta water to the pan and mix everything together, letting cook for 2-3 minutes until thick and creamy",
+                "Transfer the mac and cheese to a baking dish and top with breadcrumbs",
+                "Place under broiler for 1-2 minutes (keep a close eye on it) until browned",
+                "Remove and serve"
+            ],
+            "notes":[
+                "We kept the seeds in the jalapenos before and it was pretty spicy.",
+                "Double it for sure! We did only 3 jalapenos with the doubled recipe (we kept all seeds)"
+            ],
+            "attribution":{
+                "author":"Nora Cooks",
+                "description": "Nora Cooks - Nourish Bowl",
+                "link": "https://www.noracooks.com/nourish-bowl-vegan-meal-prep/"
+            },
             "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
+                "/recipe-images/jalapeno-popper-mac-and-cheese-01.jpg",
+                "/recipe-images/jalapeno-popper-mac-and-cheese-02.jpg",
+                "/recipe-images/jalapeno-popper-mac-and-cheese-03.jpg"
             ]
         },
         "nourish-bowls": {
@@ -156,170 +231,299 @@
                 "/recipe-images/pumpkin-muffins-img1.jpg"
             ]
         },
-        "recipe1": {
-            "id":"recipe1",
-            "name":"Recipe 1",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
+        "quinoa-and-flax-pancakes": {
+            "id":"quinoa-and-flax-pancakes",
+            "name":"Quinoa and Flax Pancakes",
+            "tags":["breakfast"],
+            "ingredients":[
+                { 
+                    "amount":"125g",
+                    "ingredientDescription":"quinoa (uncooked)"
+                },
+                { 
+                    "amount":"2 Tbsp",
+                    "ingredientDescription":"Whole flaxseeds"
+                },
+                { 
+                    "amount":"250mL",
+                    "ingredientDescription":"Plant-based milk"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"Vanilla Extract"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"small to medium banana"
+                },
+                { 
+                    "amount":"2 Tbsp",
+                    "ingredientDescription":"Honey (or sweetener of choice)"
+                },
+                { 
+                    "amount":"a pinch",
+                    "ingredientDescription":"salt"
+                },
+                { 
+                    "amount":"A little",
+                    "ingredientDescription":"Oil for cooking"
+                }
+            ],
+            "instructions":[
+                "In a high speed blender or coffee grinder, blend the uncooked quinoa and flaxseeds together until they reach a flour-like consistency",
+                "Add the rest of the ingredients (except the oil) and blend together",
+                "Pour a tiny dash of oil into a non-stick frying pan, mix it around the pan and wipe away with a piece of kitchen paper to remove any extra fat",
+                "Put the pan on a high heat and allow it to heat up for a few minutes",
+                "Pour a dollup of your pancake batter and spread it out evenly in the pan",
+                "Turn the heat down to medium",
+                "Once the edges start to cook and the center starts to develop holes or bubbles, flip the pancake over and cook the other side until it gets light brown",
+                "Make the rest of your pancakes the same way until batter is used up"
+                
+            ],
+            "notes":[
+                "If the batter starts to get too thick, add a little more milk to thin it out"
+            ],
+            "cookTime": "60",
+            "prepTime": "10",
+            "attribution":{
+                "author":"Happy Pear",
+                "description": "The World Of the Happy Pear - Recipe Book",
+                "link": "https://www.amazon.com/World-Happy-Pear-David-Flynn/dp/0241975530"
+            },
             "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
+                "/recipe-images/quinoa-flax-pancakes-01.jpg"
             ]
         },
-        "recipe2": {
-            "id":"recipe2",
-            "name":"Recipe 2",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
+        "banana-peanut-butter-over-night-oats": {
+            "id":"banana-peanut-butter-over-night-oats",
+            "name":"Banana and PB Overnight Oats",
+            "tags":["breakfast"],
+            "ingredients":[
+                { 
+                    "amount":"2/3 cup",
+                    "ingredientDescription":"Old Fashioned Oats"
+                },
+                { 
+                    "amount":"2 Tbsp",
+                    "ingredientDescription":"Peanut Butter"
+                },
+                { 
+                    "amount":"4 tsp",
+                    "ingredientDescription":"Chia Seeds"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"Honey or Maple Syrup"
+                },
+                { 
+                    "amount":"1 cup",
+                    "ingredientDescription":"Unsweetened Almond Milk"
+                },
+                { 
+                    "amount":"1 scoop",
+                    "ingredientDescription":"Protein Powder (vanilla is perferred)"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"banana (sliced)"
+                }
+            ],
+            "instructions":[
+                "Combine everything in a bowl (except the banana)",
+                "Split mixture into 2 jars and top with banana",
+                "Let sit in fridge overnight"
+            ],
+            "notes":[
+                "Makes 2 Servings"
+            ],
+            "cookTime": "0",
+            "prepTime": "10",
+            "attribution":{
+                "author":"Karena Dawn & Katrina Scott",
+                "description": "Tone it up - Recipe Book",
+                "link": "https://my.toneitup.com/products/nutrition-plan"
+            },
             "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
+                "recipe-images/ono-banana-and-peanut-butter-01.jpg"
             ]
         },
-        "recipe3": {
-            "id":"recipe3",
-            "name":"Recipe 3",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
+        "snicker-doodle-mini-muffins": {
+            "id":"snicker-doodle-mini-muffins",
+            "name":"Snicker Doodle Mini Muffins",
+            "tags":["snacks"],
+            "ingredients":[
+                { 
+                    "amount":"3/4 cup",
+                    "ingredientDescription":"Almond Meal"
+                },
+                { 
+                    "amount":"3/4 cup",
+                    "ingredientDescription":"Vanilla Protien Powder"
+                },
+                { 
+                    "amount":"2 tsp",
+                    "ingredientDescription":"Cinnamon"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"Baking Powder"
+                },
+                { 
+                    "amount":"1/4 tsp",
+                    "ingredientDescription":"Salt"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"Flax or Chia Egg"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"Vanilla Extract"
+                },
+                { 
+                    "amount":"1/2 cup",
+                    "ingredientDescription":"Dates (soaked in warm water to soften)"
+                },
+                { 
+                    "amount":"3/4 cup",
+                    "ingredientDescription":"Unsweetened Almond Milk"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"Banana (mashed)"
+                },
+                { 
+                    "amount":"a little",
+                    "ingredientDescription":"Coconut oil spray"
+                }
+            ],
+            "instructions":[
+                "Prepare a flax/chia egg by whisking 1 Tbsp of flaxseed meal and 2 1/2 Tbsp of water. Let sit for at least 1 minute",
+                "Preheat oven to 350 degrees",
+                "Combine all dry ingredients in a bowl",
+                "Combine all wet ingredients including the dates in the blender and blend until smooth",
+                "Add wet ingredients to the dry ingredients and mix to combine",
+                "Spray a mini muffin tin with coconut oil spray. Pour batter into the muffin tins. Bake for 20-25 minutes, or until a toothpick comes out clean"
+            ],
+            "cookTime": "20",
+            "prepTime": "20",
+            "attribution":{
+                "author":"Karena Dawn & Katrina Scott",
+                "description": "Tone it up - Recipe Book",
+                "link": "https://my.toneitup.com/products/nutrition-plan"
+            },
             "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
+                "recipe-images/snicker-doodle-mini-muffins-01.jpg"
             ]
         },
-        "recipe4": {
-            "id":"recipe4",
-            "name":"Recipe 4",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
+        "lentil-tortilla-soup": {
+            "id":"lentil-tortilla-soup",
+            "name":"Lentil Tortilla Soup",
+            "tags":["dinner"],
+            "ingredients":[
+                { 
+                    "amount":"1 cup",
+                    "ingredientDescription":"Onion (diced)"
+                },
+                { 
+                    "amount":"1 cup",
+                    "ingredientDescription":"Onion (diced)"
+                },
+                { 
+                    "amount":"1 tsp",
+                    "ingredientDescription":"avocado oil (or olive oil)"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"bell pepper diced"
+                },
+                { 
+                    "amount":"1",
+                    "ingredientDescription":"jalapeno pepper diced"
+                },
+                { 
+                    "amount":"2.5 cups",
+                    "ingredientDescription":"vegetable broth"
+                },
+                { 
+                    "amount":"1 can (15 oz)",
+                    "ingredientDescription":"canned tomato sauce or crushed tomatoes"
+                },
+                { 
+                    "amount":"1/2 cup",
+                    "ingredientDescription":"mild or medium salsa verde (or your favorite salsa!)"
+                },
+                { 
+                    "amount":"1 Tbsp",
+                    "ingredientDescription":"tomato paste"
+                },
+                { 
+                    "amount":"1 can (15 oz)",
+                    "ingredientDescription":"black beans (drained + rinsed)"
+                },
+                { 
+                    "amount":"1 can (15 oz)",
+                    "ingredientDescription":"pinto beans (drained + rinsed)"
+                },
+                { 
+                    "amount":"1 cup",
+                    "ingredientDescription":"corn (fresh, canned, or frozen)"
+                },
+                { 
+                    "amount":"3/4 cup",
+                    "ingredientDescription":"dried red lentils"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"chili powder"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"garlic powder"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"cumin"
+                },
+                { 
+                    "amount":"1/4 tsp",
+                    "ingredientDescription":"cayenne pepper"
+                },
+                { 
+                    "amount":"1/2 tsp",
+                    "ingredientDescription":"1/4-1/2 cup heavy cream (optional - see notes)"
+                },
+                { 
+                    "amount":"a pinch",
+                    "ingredientDescription":"salt and pepper to taste"
+                }
+            ],
+            "instructions":[
+                "First, chop your veggies and measure out the ingredients.",
+                "Next add everything but the heavy cream your toppings.",
+                "This includes bell pepper, jalapeño, corn, lentils, black beans, pinto beans, broth, tomato sauce, tomato paste, salsa verde, and all your herbs + spices. Toss them in and set Instantpot to high pressure for 15 minutes. Walk away; FREEDOM!",
+                "Allow natural pressure release.",
+                "Stir in the cream, add all your favorite toppings, and enjoy!"
+            ],
+            "notes":[
+                "For a thicker soup, feel free to add some corn tortillas (torn into pieces) to the soup or simply swirl crushed tortilla chips into the soup after serving!",
+                "Feel free to adjust the consistency of the soup to your liking. The soup can be thinned with a little broth or tomato sauce if desired or thickened with extra cream or beans/veggies! If you add a lot of extra liquid, consider amping up the spices a smidge to compensate. You can also make this as mild or as spicy as you'd like. As written it's on the medium side. The type of salsa used, jalapeños, and cayenne pepper will control the heat factor.",
+                "Want it super chunky? Feel free to add extra beans and veggies! Simply amp up the seasoning as needed depending on how much extra goodies you add to the pot.",
+                "A NOTE ON SALT AND PEPPER :: I leave salting the dish to the end to prevent over-seasoning. Depending on the brand and type of broth, tomatoes, and beans that you use, the sodium content will vary. I usually don't add any salt until the end once I am able to taste the soup.",
+                "Pressure cooker recipes always leave out the details so here's a breakdown of what you can expect time-wise: About 13 minutes to come to pressure plus 15 minutes cook time and 15 or so to release pressure. You won't need to be anywhere near your kitchen for this all to partake, the Instant Pot will handle it all and switch to warm once it's done. So fabulous right? For the slow cooker, simply set a timer and you're good to go."
+            ],
+            "cookTime": "45",
+            "prepTime": "10",
+            "attribution":{
+                "description": "Peas and Crayons - Torilla Soup",
+                "link": "https://peasandcrayons.com/2017/02/vegetarian-lentil-tortilla-soup.html?fbclid=IwAR2kixT1k7YNN1U-eWO0_v7VB5buovbnib4nTppMwyOSVGinGVppJzMd0zo"
+            },
             "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe5": {
-            "id":"recipe5",
-            "name":"Recipe 5",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe6": {
-            "id":"recipe6",
-            "name":"Recipe 6",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe7": {
-            "id":"recipe7",
-            "name":"Recipe 7",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe8": {
-            "id":"recipe8",
-            "name":"Recipe 8",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe9": {
-            "id":"recipe9",
-            "name":"Recipe 9",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe10": {
-            "id":"recipe10",
-            "name":"Recipe 10",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe11": {
-            "id":"recipe11",
-            "name":"Recipe 11",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe12": {
-            "id":"recipe12",
-            "name":"Recipe 12",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe13": {
-            "id":"recipe13",
-            "name":"Recipe 13",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe14": {
-            "id":"recipe14",
-            "name":"Recipe 14",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
-            ]
-        },
-        "recipe15": {
-            "id":"recipe15",
-            "name":"Recipe 15",
-            "tags":["lunch","dinner"],
-            "cookTime": "22",
-            "prepTime": "33min",
-            "images":[
-                "/recipe-images/nourish-bowls-img1.jpg",
-                "/recipe-images/nourish-bowls-img2.jpg"
+                "recipe-images/lentil-tortilla-soup-01.jpg"
             ]
         }
+        
+        
+        
     }  
 }
