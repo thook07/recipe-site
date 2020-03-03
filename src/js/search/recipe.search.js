@@ -78,10 +78,14 @@ $(document).ready(function(){
     });
     
     $(".tag-filter").click(function() {
-        console.log("Filtering on tag-" + this.id);
-        var filter = ".tag-" + this.id;
+        if( $(this).hasClass("tag-view-all") ) {
+            $grid.isotope({ filter: '*'})
+        } else {
+            var filter = ".tag-" + this.id;
+            $grid.isotope({ filter: filter });
+        }
         
-        $grid.isotope({ filter: filter });
+
 
         
 
