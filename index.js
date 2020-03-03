@@ -77,12 +77,15 @@ app.get('/recipe/:recipe', (req, res) => {
     
 });
 
-// -- Create User Page
-app.get('/user-signup'), (req, res) => {
-    console.log(req);
+
+// -- User Settings Page
+app.get('/user-settings', (req, res) => {
+    res.render('account-profile', {
+       tags: tags
+    });
     
     
-}
+});
 
 // -- Used for Testing
 app.get('/test', (req, res) => {

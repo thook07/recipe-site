@@ -45,6 +45,8 @@ $(document).ready(function(){
         
         updateNavbar();
         $("#signin-modal").modal('hide');
+        $('#sign-in-toast').toast('show');
+        
 
     });
     
@@ -52,6 +54,7 @@ $(document).ready(function(){
         firebase.auth().signOut().then(function() {
             console.log("User has logged out successfully");
             updateNavbar();
+            $('#sign-out-toast').toast('show');
         }).catch(function(error) {
             // An error happened.
             console.log("An Error has occured", error);
@@ -61,7 +64,13 @@ $(document).ready(function(){
     
     $("#wishlist-button").click(function() {
         // - wishlist heart clicked.
+        var user = firebase.auth().currentUser;
+        console.log("User: ", user);
+        console.log("toating..");
+        
     });
+    
+    updateNavbar();
 });
     
 

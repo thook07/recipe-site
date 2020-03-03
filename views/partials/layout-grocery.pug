@@ -22,7 +22,7 @@ html(lang="en")
     header.bg-light.box-shadow-sm.fixed-top
       .navbar.navbar-expand-lg.navbar-light
         .container-fluid
-          a(href='index.html' style='min-width: 7rem;').navbar-brand.d-none.d-sm-block.mr-3.mr-xl-4.flex-shrink-0
+          a(href='/' style='min-width: 7rem;').navbar-brand.d-none.d-sm-block.mr-3.mr-xl-4.flex-shrink-0
             +image('/img/logo-dark.png', 'Cartzilla')(width='142')
           a(href='index.html' style='min-width: 4.625rem;').navbar-brand.d-sm-none.mr-2
             +image('/img/logo-icon.png', 'Cartzilla')(width='74')
@@ -67,14 +67,14 @@ html(lang="en")
                 small Hello, Sign in
                 | My Account
             div(id="navbar-user-account" style="display:none").navbar-tool.dropdown.ml-2
-              a(href='dashboard-sales.html').navbar-tool-icon-box.border.dropdown-toggle
+              a(href='/user-settings').navbar-tool-icon-box.border.dropdown-toggle
                 +image('img/marketplace/account/avatar-sm.png', 'Createx Studio')(width='32')
-              a(id="navbar-sign-in-link" href='dashboard-sales.html').navbar-tool-text.ml-n1
+              a(id="navbar-sign-in-link" href='/user-settings').navbar-tool-text.ml-n1
                 small#navbar-signed-in-user User
                 span#navbar-signed-in-user-description newbie
               .dropdown-menu.dropdown-menu-right(style='min-width: 14rem;')
                 h6.dropdown-header Account
-                a(href='dashboard-settings.html').dropdown-item.d-flex.align-items-center
+                a(href='/user-settings').dropdown-item.d-flex.align-items-center
                   i.czi-settings.opacity-60.mr-2
                   | Settings
                 a(href='/my-recipes').dropdown-item.d-flex.align-items-center
