@@ -109,7 +109,9 @@ app.get('/test', (req, res) => {
 // Handle 404
 app.use(function(req, res) {
     res.status(404);
-    res.render('404-simple.pug');
+    res.render('404-simple.pug', {
+        tags: tags
+    });
 });
 
 
