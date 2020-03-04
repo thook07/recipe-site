@@ -91,4 +91,10 @@ $(document).ready(function(){
 
     });
     
+    //sort rightaway
+    $grid.isotope({ 
+        sortBy : 'name',
+        sortAscending : true
+    });
+    
 });

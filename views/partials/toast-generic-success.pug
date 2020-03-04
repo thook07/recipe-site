@@ -1,0 +1,10 @@
+// Toast: generic success. Make sure to set message and title
+.toast-container.toast-top-center
+  #generic-success-toast.toast.mb-3.fade.hide(data-delay='2500' role='alert' aria-live='assertive' aria-atomic='true')
+    .toast-header.bg-success.text-white
+      i.czi-check-circle.mr-2
+      h6#toast-title.font-size-sm.text-white.mb-0.mr-auto Success!
+      button(type='button' data-dismiss='toast' aria-label='Close').close.text-white.ml-2.mb-1
+        span(aria-hidden='true') &times;
+    #toast-body.toast-body Your recipe has been created successfully!
+

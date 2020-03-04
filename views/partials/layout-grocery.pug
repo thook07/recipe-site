@@ -188,7 +188,7 @@ html(lang="en")
                             h3.accordion-heading.font-size-base.px-grid-gutter
                               a(href="#"+level1.id role='button' data-toggle='collapse' aria-expanded='false' aria-controls=level1.id).collapsed.py-3
                                 span.d-flex.align-items-center
-                                  i.czi-bread.font-size-lg.opacity-60.mt-n1.mr-2
+                                  i(class=level1.icon).font-size-lg.opacity-60.mt-n1.mr-2
                                   | #{level1.name}
                                 span.accordion-indicator
                           div(id=level1.id data-parent='#shop-categories').collapse
@@ -625,6 +625,7 @@ html(lang="en")
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/recipe.search.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.firebase.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/create-recipe.js'})
     
     
 

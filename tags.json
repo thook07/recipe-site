@@ -45,7 +45,7 @@
             },
             {
                 "id":"low-fat",
-                "name":"Lof Fat",
+                "name":"Low Fat",
                 "description":""
             },
             {
@@ -53,8 +53,8 @@
                 "name":"Gluten Free",
                 "description":""
             }
-        ]
-        
+        ],
+        "icon":"czi-broccoli" 
     },
     {
         "id":"meals",
@@ -88,7 +88,40 @@
                 "id":"drink",
                 "name":"Drink"
             }
-        ]
+        ],
+        "icon":"czi-basket-alt"
+        
+    },
+    {
+        "id":"category",
+        "name":"Category",
+        "tags": [
+            {
+                "id":"soup",
+                "name":"Soup"
+            },
+            {
+                "id":"burger",
+                "name":"Burger"
+            },
+            {
+                "id":"pasta",
+                "name":"Pasta"
+            },
+            {
+                "id":"mexican",
+                "name":"Mexican"
+            },
+            {
+                "id":"thai",
+                "name":"Thai"
+            },
+            {
+                "id":"salad",
+                "name":"Salad"
+            }
+        ],
+        "icon": "czi-bread"
         
     },
     {
@@ -119,7 +152,8 @@
                 "id":"plan-in-advance",
                 "name":"Plan in advance"
             }
-        ]
+        ],
+        "icon":"czi-time"
         
     },
     {
@@ -146,7 +180,8 @@
                 "id":"no-bake",
                 "name":"No Bake"
             }
-        ]
+        ],
+        "icon":"czi-pot"
         
     },
     {
@@ -222,6 +257,7 @@
                     
                 ]
             }
-        ]
+        ],
+        "icon":"czi-store"
     }
 ]

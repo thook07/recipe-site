@@ -105,10 +105,16 @@ app.get('/my-favorites', (req, res) => {
     
 });
 
+
+var meals = tags[1];
+var cats = tags[2];
+
 // -- Add New Recipe
 app.get('/add', (req, res) => {
-    res.render('dashboard-add-new-product', {
-       tags: tags
+    res.render('add-recipe', {
+       tags: tags,
+       meals: meals,
+        cats: cats
     });
     
     
