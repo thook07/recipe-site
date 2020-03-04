@@ -43,6 +43,11 @@ $(document).ready(function(){
         searchCatalog($grid);
     })
     
+    $("#collapsed-search-button").on('submit', function(e){
+        e.preventDefault();
+        searchCatalog($grid);
+    })
+    
     //used for testing at the moment
     $("#wishlist-button").click(function() {
         // - wishlist heart clicked.
