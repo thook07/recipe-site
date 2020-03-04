@@ -39,14 +39,15 @@ $(document).ready(function(){
     });
     
     $("#collapsed-nav-bar-search-button").click(function(){
-        console.log("COLLAPSED!!");
         searchCatalog($grid);
     })
     
-    $("#collapsed-search-button").on('submit', function(e){
-        e.preventDefault();
-        searchCatalog($grid);
+    $("#collapsed-search-input").keyup(function(){
+        console.log('Searching...');
+        debounce(searchCatalog($grid), 200);
     })
+    
+    
     
     //used for testing at the moment
     $("#wishlist-button").click(function() {
@@ -149,4 +150,19 @@ function noResultsCheck($grid) {
         //do something here, like turn on a div, or insert a msg with jQuery's .html() function
         $("#no-results-div").show();
     }
+}
+
+// debounce so filtering doesn't happen every millisecond
+function debounce( fn, threshold ) {
+  var timeout;
+  threshold = threshold || 100;
+  return function debounced() {
+    clearTimeout( timeout );
+    var args = arguments;
+    var _this = this;
+    function delayed() {
+      fn.apply( _this, args );
+    }
+    timeout = setTimeout( delayed, threshold );
+  };
 }
