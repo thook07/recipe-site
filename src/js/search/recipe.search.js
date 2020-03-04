@@ -34,6 +34,10 @@ $(document).ready(function(){
         }
     });
     
+    $("#nav-bar-search-button").click(function(){
+        searchCatalog($grid);
+    });
+    
     //used for testing at the moment
     $("#wishlist-button").click(function() {
         // - wishlist heart clicked.

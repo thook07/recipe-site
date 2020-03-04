@@ -29,14 +29,10 @@ html(lang="en")
           
           // Search
           .input-group-overlay.d-none.d-lg-block.mx-4
-            .input-group-prepend-overlay
-              span.input-group-text
-                i.czi-search
-            input(type='text' id="recipe-search-input" placeholder='Search for products').form-control.prepended-form-control.appended-form-control
+            input(type='text' id="recipe-search-input" placeholder='Search for products').form-control.appended-form-control
             .input-group-append-overlay
-              select.custom-select
-                option All Recipes
-                option More Coming Soon...
+              a(href="#")#nav-bar-search-button.navbar-tool.input-group-text
+               i.czi-search
           
           // Toolbar
           .navbar-toolbar.d-flex.flex-shrink-0.align-items-center.ml-xl-2
