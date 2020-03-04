@@ -38,6 +38,11 @@ $(document).ready(function(){
         searchCatalog($grid);
     });
     
+    $("#collapsed-nav-bar-search-button").click(function(){
+        console.log("COLLAPSED!!");
+        searchCatalog($grid);
+    })
+    
     //used for testing at the moment
     $("#wishlist-button").click(function() {
         // - wishlist heart clicked.
@@ -112,11 +117,20 @@ function searchCatalog(grid){
             var name = $(this).attr('recipe-name');
             var tags = $(this).attr('recipe-tags');
             var search = $('#recipe-search-input').val();
+            var searchCollapsed = $('#collapsed-search-input').val();
+            console.log("Search Collapsed: ", searchCollapsed)
             name = name.toUpperCase();
             tags = tags.toUpperCase();
             search = search.toUpperCase();
-
-            return name.includes(search) || tags.includes(search);
+            searchCollapsed = searchCollapsed.toUpperCase();
+            console.log("Search Collapsed: ", searchCollapsed)
+            console.log("Search: ", search)
+            if(search == null || search == undefined || search == "") {
+                //the UI was probably collapsed
+                search = searchCollapsed;
+            }
+            console.log("Search: ", search)
+            return name.includes(search) || tags.includes(search)
         } 
     });
     
