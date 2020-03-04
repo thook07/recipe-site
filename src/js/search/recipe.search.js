@@ -14,26 +14,11 @@ $('#recipe-search-input').autocomplete({
 });
 
 
-
+var $grid;
 //#recipe-container
 //.product-card
 $(document).ready(function(){
-    $('#recipe-search-input').keypress(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'){
-            var value = $(this).val().toLowerCase();
-            $('#recipe-container').children('.recipe-card').each(function () {
-                var tags = $(this).attr("recipe-tags");
-                var name = $(this).attr("recipe-name");
-                if(tags.includes(value) || name.includes(value)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-    });
-    
+    //create the isotope grid
     var $grid = $('#recipe-container').isotope({
         // options
         itemSelector: '.recipe-card',
@@ -49,6 +34,7 @@ $(document).ready(function(){
         }
     });
     
+    //used for testing at the moment
     $("#wishlist-button").click(function() {
         // - wishlist heart clicked.
         var user = firebase.auth().currentUser;
@@ -58,6 +44,7 @@ $(document).ready(function(){
         $grid.isotope({ filter: '*' });
         
     });
+    
     
     $("#sort-1").click(function() {
         $grid.isotope({ 
@@ -77,6 +64,7 @@ $(document).ready(function(){
         $grid.isotope({ sortBy : 'tags' });
     });
     
+    //left side bar tag filtering
     $(".tag-filter").click(function() {
         if( $(this).hasClass("tag-view-all") ) {
             $grid.isotope({ filter: '*'})
@@ -84,12 +72,16 @@ $(document).ready(function(){
             var filter = ".tag-" + this.id;
             $grid.isotope({ filter: filter });
         }
-        
-
-
-        
-
     });
+    
+    // searching
+    $('#recipe-search-input').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            searchCatalog($grid);
+        }
+    });
+    
     
     //sort rightaway
     $grid.isotope({ 
@@ -98,3 +90,40 @@ $(document).ready(function(){
     });
     
 });
+
+//variable holding all the filters we are using
+var filterFns = {
+  recipeName: function() {
+    var name = $(this).attr('recipe-name');
+    console.log($(this).attr('recipe-name'));
+    return name.match( getSearchInput() );
+  }
+};
+
+// -- Search the recipe catalog using the filter functions
+function searchCatalog(grid){
+    $("#no-results-div").hide();
+    grid.isotope({ 
+        filter: function() {
+            var name = $(this).attr('recipe-name');
+            var tags = $(this).attr('recipe-tags');
+            var search = $('#recipe-search-input').val();
+            name = name.toUpperCase();
+            tags = tags.toUpperCase();
+            search = search.toUpperCase();
+
+            return name.includes(search) || tags.includes(search);
+        } 
+    });
+    
+    noResultsCheck(grid)
+    
+}
+
+function noResultsCheck($grid) {
+    var elems = $grid.isotope('getFilteredItemElements')
+    if (elems.length == 0) {
+        //do something here, like turn on a div, or insert a msg with jQuery's .html() function
+        $("#no-results-div").show();
+    }
+}

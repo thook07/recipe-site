@@ -111,17 +111,6 @@ $(document).ready(function(){
     
 });
 
-function checkForFormErrors(){
-    //remember, required form fields are already handled by theme natively
-    if( parseAndValidateIngredients($('#cr-recipe-ingredients').val()) == null) {
-        
-    }
-    
-    
-    
-    
-}
-
 
 function parseTextAreaIntoArray(rawText) {
     var array = rawText.split(/\r?\n/);
