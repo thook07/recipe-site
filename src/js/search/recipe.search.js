@@ -17,6 +17,14 @@ $('#recipe-search-input').autocomplete({
 var $grid;
 //#recipe-container
 //.product-card
+
+$('#recipe-container').on('load', function() {
+    $grid.isotope({ 
+        sortBy : 'name',
+        sortAscending : true
+    });
+})
+
 $(document).ready(function(){
     //create the isotope grid
     var $grid = $('#recipe-container').isotope({
@@ -95,13 +103,6 @@ $(document).ready(function(){
         if(keycode == '13'){
             searchCatalog($grid);
         }
-    });
-    
-    
-    //sort rightaway
-    $grid.isotope({ 
-        sortBy : 'name',
-        sortAscending : true
     });
     
 });
