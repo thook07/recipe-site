@@ -1,4 +1,4 @@
-extends partials/layout-grocery
+extends recipe-partials/layout-grocery
 
 //- Override default config variables
 append config
@@ -61,12 +61,12 @@ block content
 
   .pt-4.pb-5.mb-4
     //- pagination.pug template
-    include partials/pagination
+    include recipe-partials/pagination
 
   //- toast-shop.pug template
-  include partials/toast-shop
-  include partials/toast-signed-in
-  include partials/toast-signed-out
+  include recipe-partials/toast-shop
+  include recipe-partials/toast-signed-in
+  include recipe-partials/toast-signed-out
   
   
   
