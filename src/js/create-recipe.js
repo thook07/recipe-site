@@ -96,21 +96,7 @@ $(document).ready(function(){
 
     $('#cr-recipe-name').on('change', function(e){
         var recipeName = $('#cr-recipe-name').val();
-        var id = buildRecipeId(recipeName);
-        var recipeRef = db.collection('recipes').doc(id)
-
-        recipeRef.get().then((docSnapshot) => {
-            if (docSnapshot.exists) {
-                recipeId = id + "-2"
-                console.log('already existed: ' + recipeId)
-            } else {
-                recipeId = id;
-                console.log('after check: ' + recipeId)
-            }
-        });
-        
-        console.log('on change: ' + recipeId);
-    
+        validateAndCreateRecipeId(recipeName,1)
     });
     
 });
@@ -143,19 +129,43 @@ function parseAndValidateIngredients(rawText) {
     return jsonObj;
 }
 
-function buildRecipeId(name){
+function validateAndCreateRecipeId(name, index){
+    console.log("validateAndCreateRecipeId:", name, index);
+    var id;
+    if( index <= 1 ) {
+        //first time
+        id = generateRecipeId(name);
+    } else {
+        id = generateRecipeId(name + "-" + index.toString()); 
+    }
+    
+    var recipeRef = db.collection('recipes').doc(id);
+    
+    recipeRef.get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+            console.log(recipeId, ' already existed. Lets try again...');
+            validateAndCreateRecipeId(name, index + 1);
+        } else {
+            console.log('Found Unique Recipe Id:' + id);
+            recipeId = id;
+        }
+    });
+    
+}
+
+
+function generateRecipeId(name) {  
     var nameStr = "";
     if(name == null || name == "") {
         return "";
     }
-    var nameStr = name.replace(new RegExp(' ', 'g'),"-");
+    var nameStr = name.trim().replace(new RegExp(' ', 'g'),"-");
     nameStr = nameStr.replace(/[^a-zA-Z0-9-_]/g, ''); //remove anything that wont be put in a url
     
     var url = nameStr.toLowerCase();
     url = url.replace(new RegExp('---', 'g'),"-");
     
     return url;
-
 }
 
 function parseTagsIntoJson() {
