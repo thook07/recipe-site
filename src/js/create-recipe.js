@@ -23,6 +23,10 @@
 var recipeId = "";
 $(document).ready(function(){
    
+    $('#cr-recipe-name').keyup(function() {
+        console.log(recipeId)
+    })
+    
     $( "#cr-form" ).on( "submit", function(e) {
         e.preventDefault();
         

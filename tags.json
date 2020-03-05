@@ -1,7 +1,7 @@
 [
     {
         "id":"nutrition",
-        "name":"Nutrition",
+        "name":"Nutrition - Coming Soon",
         "tags":[
             {
                 "id":"no-sugar",
@@ -126,7 +126,7 @@
     },
     {
         "id":"time",
-        "name":"Cook Time",
+        "name":"Cook Time - Coming Soon",
         "tags": [
             {
                 "id":"15-min",
@@ -186,7 +186,7 @@
     },
     {
         "id":"other",
-        "name":"Other",
+        "name":"Other -",
         "tags":[
             {
                 "id":"level-1-test-1",
