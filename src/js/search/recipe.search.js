@@ -19,10 +19,7 @@ var $grid;
 //.product-card
 
 $('#recipe-container').on('load', function() {
-    $grid.isotope({ 
-        sortBy : 'name',
-        sortAscending : true
-    });
+
 })
 
 $(document).ready(function(){
@@ -69,7 +66,8 @@ $(document).ready(function(){
     });
     
     
-    $("#sort-1").click(function() {
+    $("#sort-1").click(function() {    
+        handleSortButtons('#sort-1');
         $grid.isotope({ 
             sortBy : 'name',
             sortAscending : true
@@ -77,6 +75,7 @@ $(document).ready(function(){
     });
     
     $("#sort-2").click(function() {
+        handleSortButtons('#sort-2');
         $grid.isotope({ 
             sortBy : 'name',
             sortAscending : false
@@ -84,6 +83,7 @@ $(document).ready(function(){
     });
     
     $("#sort-3").click(function() {
+        handleSortButtons('#sort-3');
         $grid.isotope({ sortBy : 'tags' });
     });
     
@@ -104,6 +104,8 @@ $(document).ready(function(){
             searchCatalog($grid);
         }
     });
+    
+    setTimeout(function(){ $('#sort-1').click() }, 250);
     
 });
 
@@ -166,4 +168,11 @@ function debounce( fn, threshold ) {
     }
     timeout = setTimeout( delayed, threshold );
   };
+}
+
+function handleSortButtons(id) {
+    $("#sort-1").removeClass('active');
+    $("#sort-2").removeClass('active');
+    $("#sort-3").removeClass('active');
+    $(id).addClass('active');
 }

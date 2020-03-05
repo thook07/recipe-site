@@ -119,6 +119,14 @@
             {
                 "id":"salad",
                 "name":"Salad"
+            },
+            {
+                "id":"sauce",
+                "name":"Sauce / Dressing"
+            },
+            {
+                "id":"side",
+                "name":"Side"
             }
         ],
         "icon": "czi-bread"
@@ -167,6 +175,10 @@
             {
                 "id":"instant-pot",
                 "name":"Instant Pot"
+            },
+            {
+                "id":"stove-top",
+                "name":"Stove Top"
             },
             {
                 "id":"grill",

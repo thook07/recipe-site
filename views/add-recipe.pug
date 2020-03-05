@@ -56,7 +56,7 @@ block content
                   em.d-inline-block.border-right.pr-2.mr-2.my-1 2 cups | Old Fashioned Oats
                   em.d-inline-block.border-right.pr-2.mr-2.my-1 1 tsp - salt
                   em.d-inline-block.border-right.pr-2.mr-2.my-1 2 Tbsp | Honey
-                  em.d-inline-block.border-right.pr-2.mr-2.my-1 1 - small onion
+                  em.d-inline-block.border-right.pr-2.mr-2.my-1 Also Note, you can use "na - Tortilla chips, for serving" 
 
               //Instructions
               .form-group.py-2
@@ -100,19 +100,11 @@ block content
                         input(type="checkbox", data-name=tag.name id=tag.id).custom-control-input.tag-switches
                         label.custom-control-label(for=tag.id) #{tag.name}
                   .col-sm-4.form-group
-                    label(for='unp-product-name').font-weight-low -- Cooking Method --
-                    .custom-control.custom-switch.mb-2
-                      input(type="checkbox", id="oven").custom-control-input.tag-switches
-                      label.custom-control-label(for="oven") Oven
-                    .custom-control.custom-switch.mb-2
-                      input(type="checkbox", id="instant-pot").custom-control-input.tag-switches
-                      label.custom-control-label(for="instant-pot") Instant Pot
-                    .custom-control.custom-switch.mb-2
-                      input(type="checkbox", id="grill").custom-control-input.tag-switches
-                      label.custom-control-label(for="grill") Grill
-                    .custom-control.custom-switch.mb-2
-                      input(type="checkbox", id="no-bake").custom-control-input.tag-switches
-                      label.custom-control-label(for="no-bake") No Bake
+                    label(for='unp-product-name').font-weight-low --#{cooks.name}--
+                    each tag in cooks.tags
+                      .custom-control.custom-switch.mb-2
+                        input(type="checkbox", data-name=tag.name id=tag.id).custom-control-input.tag-switches
+                        label.custom-control-label(for=tag.id) #{tag.name}
               .form-group.pb-2
                 label(for='cr-recipe-author').font-weight-medium Recipe Author
                 .input-group

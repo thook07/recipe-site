@@ -108,13 +108,15 @@ app.get('/my-favorites', (req, res) => {
 
 var meals = tags[1];
 var cats = tags[2];
+var cooks = tags[4];
 
 // -- Add New Recipe
 app.get('/add', (req, res) => {
     res.render('add-recipe', {
        tags: tags,
        meals: meals,
-        cats: cats
+        cats: cats,
+        cooks: cooks
     });
     
     

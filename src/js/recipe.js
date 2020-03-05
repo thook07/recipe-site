@@ -72,10 +72,12 @@ $(document).ready(function(){
     });
     
     $('#sign-out-button').click(function () {
+        console.log("Signing Out..");
         firebase.auth().signOut().then(function() {
-            console.log("User has logged out successfully");
+            $('#toast-title').text('Success');
+            $('#toast-body').text('Sign out successful.');
+            $('#generic-success-toast').toast('show');
             updateNavbar();
-            $('#sign-out-toast').toast('show');
         }).catch(function(error) {
             // An error happened.
             console.log("An Error has occured", error);

@@ -117,6 +117,9 @@ function parseAndValidateIngredients(rawText) {
     var array = rawText.split(/\r?\n/);
     var jsonObj = []
     for (var i = 0; i < array.length; i++) {
+        if( array[i] == "" ) {
+            continue;
+        }
         var ingredient = array[i].replace(new RegExp('-','g'),'|')
         var strArray = ingredient.split('|');
         var amount = strArray[0];
