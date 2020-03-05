@@ -11,18 +11,29 @@ $(document).ready(function(){
     });
     
     $("#signup-tab").on("submit", function(e){
-        e.preventDefault();
-        console.log("Submit!!");
+        
+        if ($('#signup-tab')[0].checkValidity() === false) {
+            e.preventDefault()
+            e.stopPropagation();
+            
+            return;
+        } 
+        
         var name = $('#su-name').val();
         var email = $('#su-email').val();
         var password = $('#su-password').val();
         
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
+        console.log("Create User - Email and Password", email, password);
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(function(result) {
+            //successfully created user. now lets update.
+            console.log("Success. Updating user: ", displayName)
+            return result.user.updateProfile({
+                displayName: name
+            });
+        }).catch(function(error) {
+            console.log(error);
         });
+        
         
         updateNavbar();
         $("#signin-modal").modal('hide');
@@ -30,24 +41,34 @@ $(document).ready(function(){
     });
     
     $("#signin-tab").on("submit", function(e){
-        e.preventDefault();
+        console.log("Signing in...", $('#signin-tab')[0].checkValidity());
+        e.preventDefault()
+            
+        if ($('#signin-tab')[0].checkValidity() === false) {
+            e.stopPropagation();
+            return;
+        } 
+        
         console.log("Submit!!");
         var email = $('#si-email').val();
         var password = $('#si-password').val();
         
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log(error);
-          // ...
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function(){
+            updateNavbar();
+            $("#signin-modal").modal('hide');
+            $('#sign-in-toast').toast('show');
+            $("#si-password").removeClass("is-invalid")
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(error);
+            console.log("Message: ", errorMessage);
+            $("#signin-tab-passworderror").text(errorMessage);
+            $("#signin-tab").removeClass('was-validated');
+            $("#si-password").addClass("is-invalid")
         });
         
-        updateNavbar();
-        $("#signin-modal").modal('hide');
-        $('#sign-in-toast').toast('show');
-        
-
     });
     
     $('#sign-out-button').click(function () {

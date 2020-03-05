@@ -134,7 +134,6 @@ function parseAndValidateIngredients(rawText) {
         if(amount == null || amount == undefined || ingredient == null || ingredient == undefined) {
             return null;
         }
-        console.log(amount.trim());
         jsonObj.push({ "amount": amount.trim(), "ingredient": ingredient.trim()});
     }
     return jsonObj;
@@ -149,6 +148,8 @@ function buildRecipeId(name){
     nameStr = nameStr.replace(/[^a-zA-Z0-9-_]/g, ''); //remove anything that wont be put in a url
     
     var url = nameStr.toLowerCase();
+    url = url.replace(new RegExp('---', 'g'),"-");
+    
     return url;
 
 }

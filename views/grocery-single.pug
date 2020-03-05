@@ -90,7 +90,10 @@ block content
                 if recipe.ingredients
                   each ingredient in recipe.ingredients
                     li.list-group-item
-                      | #{ingredient.amount} - #{ingredient.ingredientDescription}
+                      if ingredient.amount == "na"
+                        | #{ingredient.ingredient}
+                      else
+                        | #{ingredient.amount} - #{ingredient.ingredient}
           if recipe.instructions
             div(id="instructions", class="tab-pane fade", role="tabpanel")
               p.font-size-sm

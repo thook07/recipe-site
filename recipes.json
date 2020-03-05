@@ -20,55 +20,55 @@
             "ingredients":[
                 { 
                     "amount":"1/2 cup",
-                    "ingredientDescription":"raw cashews (soaked then drained)"
+                    "ingredient":"raw cashews (soaked then drained)"
                 },
                 { 
                     "amount":"1 1/2 cups",
-                    "ingredientDescription":"water"
+                    "ingredient":"water"
                 },
                 { 
                     "amount":"2 Tbsp",
-                    "ingredientDescription":"Nutritional Yeast"
+                    "ingredient":"Nutritional Yeast"
                 },
                 { 
                     "amount":"2 tsp",
-                    "ingredientDescription":"Dijon Mustard"
+                    "ingredient":"Dijon Mustard"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"salt"
+                    "ingredient":"salt"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"pepper"
+                    "ingredient":"pepper"
                 },
                 { 
                     "amount":"1 Tbsp",
-                    "ingredientDescription":"Olive Oil"
+                    "ingredient":"Olive Oil"
                 },
                 { 
                     "amount":"3",
-                    "ingredientDescription":"Garlic cloves (minced)"
+                    "ingredient":"Garlic cloves (minced)"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"small onion (finely chopped)"
+                    "ingredient":"small onion (finely chopped)"
                 },
                 { 
                     "amount":"2",
-                    "ingredientDescription":"jalapeno (finely chopped)"
+                    "ingredient":"jalapeno (finely chopped)"
                 },
                 { 
                     "amount":"2 Tbsp",
-                    "ingredientDescription":"vegan cream cheese or cashew cream (optional)"
+                    "ingredient":"vegan cream cheese or cashew cream (optional)"
                 },
                 { 
                     "amount":"250g",
-                    "ingredientDescription":"Pasta of choice"
+                    "ingredient":"Pasta of choice"
                 },
                 { 
                     "amount":"1/2 cup",
-                    "ingredientDescription":"Breadcrumbs"
+                    "ingredient":"Breadcrumbs"
                 }
             ],
             "instructions":[
@@ -104,23 +104,23 @@
             "ingredients":[
                 { 
                     "amount":"200g",
-                    "ingredientDescription":"cooked sweet potatoes"
+                    "ingredient":"cooked sweet potatoes"
                 },
                 { 
                     "amount":"2 cups",
-                    "ingredientDescription":"cooked brown rice"
+                    "ingredient":"cooked brown rice"
                 },
                 { 
                     "amount":"6 cups",
-                    "ingredientDescription":"steamed kale"
+                    "ingredient":"steamed kale"
                 },
                 { 
                     "amount":"3 cups",
-                    "ingredientDescription":"cooked black beans"
+                    "ingredient":"cooked black beans"
                 },
                 { 
                     "amount":"1 serving",
-                    "ingredientDescription":"cashew cream"
+                    "ingredient":"cashew cream"
                 }
             ],
             "instructions":[
@@ -160,51 +160,51 @@
             "ingredients":[
                 { 
                     "amount":"1 1/2 cups",
-                    "ingredientDescription":"Old Fashioned Oats"
+                    "ingredient":"Old Fashioned Oats"
                 },
                 { 
                     "amount":"1 cup",
-                    "ingredientDescription":"Pumpkin Puree"
+                    "ingredient":"Pumpkin Puree"
                 },
                 { 
                     "amount":"1/4 cup",
-                    "ingredientDescription":"Unsweetened Applesauce"
+                    "ingredient":"Unsweetened Applesauce"
                 },
                 { 
                     "amount":"1 Tbsp",
-                    "ingredientDescription":"Vanilla Extract"
+                    "ingredient":"Vanilla Extract"
                 },
                 { 
                     "amount":"2 Tbsp",
-                    "ingredientDescription":"Melted Coconut Oil"
+                    "ingredient":"Melted Coconut Oil"
                 },
                 { 
                     "amount":"1/4 cup",
-                    "ingredientDescription":"Unsweetened Almond Milk"
+                    "ingredient":"Unsweetened Almond Milk"
                 },
                 { 
                     "amount":"1/4 cup",
-                    "ingredientDescription":"Pure Maple Syrup"
+                    "ingredient":"Pure Maple Syrup"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"Baking Powder"
+                    "ingredient":"Baking Powder"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"Baking Soda"
+                    "ingredient":"Baking Soda"
                 },
                 { 
                     "amount":"1/4 tsp",
-                    "ingredientDescription":"Salt"
+                    "ingredient":"Salt"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"Cinnamon"
+                    "ingredient":"Cinnamon"
                 },
                 { 
                     "amount":"a small amount",
-                    "ingredientDescription":"Coconut oil spray"
+                    "ingredient":"Coconut oil spray"
                 }
             ],
             "instructions":[
@@ -238,35 +238,35 @@
             "ingredients":[
                 { 
                     "amount":"125g",
-                    "ingredientDescription":"quinoa (uncooked)"
+                    "ingredient":"quinoa (uncooked)"
                 },
                 { 
                     "amount":"2 Tbsp",
-                    "ingredientDescription":"Whole flaxseeds"
+                    "ingredient":"Whole flaxseeds"
                 },
                 { 
                     "amount":"250mL",
-                    "ingredientDescription":"Plant-based milk"
+                    "ingredient":"Plant-based milk"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"Vanilla Extract"
+                    "ingredient":"Vanilla Extract"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"small to medium banana"
+                    "ingredient":"small to medium banana"
                 },
                 { 
                     "amount":"2 Tbsp",
-                    "ingredientDescription":"Honey (or sweetener of choice)"
+                    "ingredient":"Honey (or sweetener of choice)"
                 },
                 { 
                     "amount":"a pinch",
-                    "ingredientDescription":"salt"
+                    "ingredient":"salt"
                 },
                 { 
                     "amount":"A little",
-                    "ingredientDescription":"Oil for cooking"
+                    "ingredient":"Oil for cooking"
                 }
             ],
             "instructions":[
@@ -301,31 +301,31 @@
             "ingredients":[
                 { 
                     "amount":"2/3 cup",
-                    "ingredientDescription":"Old Fashioned Oats"
+                    "ingredient":"Old Fashioned Oats"
                 },
                 { 
                     "amount":"2 Tbsp",
-                    "ingredientDescription":"Peanut Butter"
+                    "ingredient":"Peanut Butter"
                 },
                 { 
                     "amount":"4 tsp",
-                    "ingredientDescription":"Chia Seeds"
+                    "ingredient":"Chia Seeds"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"Honey or Maple Syrup"
+                    "ingredient":"Honey or Maple Syrup"
                 },
                 { 
                     "amount":"1 cup",
-                    "ingredientDescription":"Unsweetened Almond Milk"
+                    "ingredient":"Unsweetened Almond Milk"
                 },
                 { 
                     "amount":"1 scoop",
-                    "ingredientDescription":"Protein Powder (vanilla is perferred)"
+                    "ingredient":"Protein Powder (vanilla is perferred)"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"banana (sliced)"
+                    "ingredient":"banana (sliced)"
                 }
             ],
             "instructions":[
@@ -354,47 +354,47 @@
             "ingredients":[
                 { 
                     "amount":"3/4 cup",
-                    "ingredientDescription":"Almond Meal"
+                    "ingredient":"Almond Meal"
                 },
                 { 
                     "amount":"3/4 cup",
-                    "ingredientDescription":"Vanilla Protien Powder"
+                    "ingredient":"Vanilla Protien Powder"
                 },
                 { 
                     "amount":"2 tsp",
-                    "ingredientDescription":"Cinnamon"
+                    "ingredient":"Cinnamon"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"Baking Powder"
+                    "ingredient":"Baking Powder"
                 },
                 { 
                     "amount":"1/4 tsp",
-                    "ingredientDescription":"Salt"
+                    "ingredient":"Salt"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"Flax or Chia Egg"
+                    "ingredient":"Flax or Chia Egg"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"Vanilla Extract"
+                    "ingredient":"Vanilla Extract"
                 },
                 { 
                     "amount":"1/2 cup",
-                    "ingredientDescription":"Dates (soaked in warm water to soften)"
+                    "ingredient":"Dates (soaked in warm water to soften)"
                 },
                 { 
                     "amount":"3/4 cup",
-                    "ingredientDescription":"Unsweetened Almond Milk"
+                    "ingredient":"Unsweetened Almond Milk"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"Banana (mashed)"
+                    "ingredient":"Banana (mashed)"
                 },
                 { 
                     "amount":"a little",
-                    "ingredientDescription":"Coconut oil spray"
+                    "ingredient":"Coconut oil spray"
                 }
             ],
             "instructions":[
@@ -423,79 +423,79 @@
             "ingredients":[
                 { 
                     "amount":"1 cup",
-                    "ingredientDescription":"Onion (diced)"
+                    "ingredient":"Onion (diced)"
                 },
                 { 
                     "amount":"1 cup",
-                    "ingredientDescription":"Onion (diced)"
+                    "ingredient":"Onion (diced)"
                 },
                 { 
                     "amount":"1 tsp",
-                    "ingredientDescription":"avocado oil (or olive oil)"
+                    "ingredient":"avocado oil (or olive oil)"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"bell pepper diced"
+                    "ingredient":"bell pepper diced"
                 },
                 { 
                     "amount":"1",
-                    "ingredientDescription":"jalapeno pepper diced"
+                    "ingredient":"jalapeno pepper diced"
                 },
                 { 
                     "amount":"2.5 cups",
-                    "ingredientDescription":"vegetable broth"
+                    "ingredient":"vegetable broth"
                 },
                 { 
                     "amount":"1 can (15 oz)",
-                    "ingredientDescription":"canned tomato sauce or crushed tomatoes"
+                    "ingredient":"canned tomato sauce or crushed tomatoes"
                 },
                 { 
                     "amount":"1/2 cup",
-                    "ingredientDescription":"mild or medium salsa verde (or your favorite salsa!)"
+                    "ingredient":"mild or medium salsa verde (or your favorite salsa!)"
                 },
                 { 
                     "amount":"1 Tbsp",
-                    "ingredientDescription":"tomato paste"
+                    "ingredient":"tomato paste"
                 },
                 { 
                     "amount":"1 can (15 oz)",
-                    "ingredientDescription":"black beans (drained + rinsed)"
+                    "ingredient":"black beans (drained + rinsed)"
                 },
                 { 
                     "amount":"1 can (15 oz)",
-                    "ingredientDescription":"pinto beans (drained + rinsed)"
+                    "ingredient":"pinto beans (drained + rinsed)"
                 },
                 { 
                     "amount":"1 cup",
-                    "ingredientDescription":"corn (fresh, canned, or frozen)"
+                    "ingredient":"corn (fresh, canned, or frozen)"
                 },
                 { 
                     "amount":"3/4 cup",
-                    "ingredientDescription":"dried red lentils"
+                    "ingredient":"dried red lentils"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"chili powder"
+                    "ingredient":"chili powder"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"garlic powder"
+                    "ingredient":"garlic powder"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"cumin"
+                    "ingredient":"cumin"
                 },
                 { 
                     "amount":"1/4 tsp",
-                    "ingredientDescription":"cayenne pepper"
+                    "ingredient":"cayenne pepper"
                 },
                 { 
                     "amount":"1/2 tsp",
-                    "ingredientDescription":"1/4-1/2 cup heavy cream (optional - see notes)"
+                    "ingredient":"1/4-1/2 cup heavy cream (optional - see notes)"
                 },
                 { 
                     "amount":"a pinch",
-                    "ingredientDescription":"salt and pepper to taste"
+                    "ingredient":"salt and pepper to taste"
                 }
             ],
             "instructions":[
