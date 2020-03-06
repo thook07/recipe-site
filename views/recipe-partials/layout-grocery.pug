@@ -156,7 +156,7 @@ html(lang="en")
               li.nav-item
                 a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Categories
               li.nav-item
-                a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Menu
+                a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Admin
             .cz-sidebar-body.pt-3.pb-0(data-simplebar)
               .tab-content
 
@@ -200,226 +200,20 @@ html(lang="en")
                         .card-header
                           h3.accordion-heading.font-size-base.px-grid-gutter
                             a(href='#home' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='home').collapsed.py-3
-                              | Homepages
+                              | Manage Recipes
                               span.accordion-indicator
                         #home.collapse(data-parent='#shop-menu')
                           .card-body.px-grid-gutter.pb-4
                             .widget.widget-links
                               ul.widget-list
                                 li.widget-list-item
-                                  a(href='home-fashion-store-v1.html').widget-list-link Fashion Store v.1
+                                  a(href='/add').widget-list-link Create New Recipe
                                 li.widget-list-item
-                                  a(href='home-fashion-store-v2.html').widget-list-link Fashion Store v.2
+                                  a(href='#').widget-list-link View Ingredients - Coming Soon
                                 li.widget-list-item
-                                  a(href='home-electronics-store.html').widget-list-link Electronics Store
-                                li.widget-list-item
-                                  a(href='home-marketplace.html').widget-list-link Multi-vendor Marketplace
-                                li.widget-list-item
-                                  a(href='home-single-store.html').widget-list-link Single Product/Brand Store
-                                li.widget-list-item
-                                  a(href='home-grocery-store.html').widget-list-link Grocery Store
-                      // Shop
-                      .card.border-bottom
-                        .card-header
-                          h3.accordion-heading.font-size-base.px-grid-gutter
-                            a(href='#shop' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='shop').collapsed.py-3
-                              | Shop
-                              span.accordion-indicator
-                        #shop.collapse(data-parent='#shop-menu')
-                          .card-body.px-grid-gutter.pb-4
-                            .widget.widget-links
-                              ul.widget-list
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Shop Layouts
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='shop-grid-ls.html').widget-list-link Shop Grid - Left Sidebar
-                                    li.widget-list-item
-                                      a(href='shop-grid-rs.html').widget-list-link Shop Grid - Right Sidebar
-                                    li.widget-list-item
-                                      a(href='shop-grid-ft.html').widget-list-link Shop Grid - Filters on Top
-                                    li.widget-list-item
-                                      a(href='shop-list-ls.html').widget-list-link Shop List - Left Sidebar
-                                    li.widget-list-item
-                                      a(href='shop-list-rs.html').widget-list-link Shop List - Right Sidebar
-                                    li.widget-list-item
-                                      a(href='shop-list-ft.html').widget-list-link Shop List - Filters on Top
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Marketplace
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='marketplace-category.html').widget-list-link Category Page
-                                    li.widget-list-item
-                                      a(href='marketplace-single.html').widget-list-link Single Item Page
-                                    li.widget-list-item
-                                      a(href='marketplace-vendor.html').widget-list-link Vendor Page
-                                    li.widget-list-item
-                                      a(href='marketplace-cart.html').widget-list-link Cart
-                                    li.widget-list-item
-                                      a(href='marketplace-checkout.html').widget-list-link Checkout
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Grocery Store
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='grocery-catalog.html').widget-list-link Product Catalog
-                                    li.widget-list-item
-                                      a(href='grocery-single.html').widget-list-link Single Product Page
-                                    li.widget-list-item
-                                      a(href='grocery-checkout.html').widget-list-link Checkout
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Shop pages
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='shop-categories.html').widget-list-link Shop Categories
-                                    li.widget-list-item
-                                      a(href='shop-single-v1.html').widget-list-link Product Page v.1
-                                    li.widget-list-item
-                                      a(href='shop-single-v2.html').widget-list-link Product Page v.2
-                                    li.widget-list-item
-                                      a(href='shop-cart.html').widget-list-link Cart
-                                    li.widget-list-item
-                                      a(href='checkout-details.html').widget-list-link Checkout - Details
-                                    li.widget-list-item
-                                      a(href='checkout-shipping.html').widget-list-link Checkout - Shipping
-                                    li.widget-list-item
-                                      a(href='checkout-payment.html').widget-list-link Checkout - Payment
-                                    li.widget-list-item
-                                      a(href='checkout-review.html').widget-list-link Checkout - Review
-                                    li.widget-list-item
-                                      a(href='checkout-complete.html').widget-list-link Checkout - Complete
-                                    li.widget-list-item
-                                      a(href='order-tracking.html').widget-list-link Order Tracking
-                                    li.widget-list-item
-                                      a(href='comparison.html').widget-list-link Product Comparison
-                      // Account
-                      .card.border-bottom
-                        .card-header
-                          h3.accordion-heading.font-size-base.px-grid-gutter
-                            a(href='#account' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='account').collapsed.py-3
-                              | Account
-                              span.accordion-indicator
-                        #account.collapse(data-parent='#shop-menu')
-                          .card-body.px-grid-gutter.pb-4
-                            .widget.widget-links
-                              ul.widget-list
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Shop User Account
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='account-orders.html').widget-list-link Orders History
-                                    li.widget-list-item
-                                      a(href='account-profile.html').widget-list-link Profile Settings
-                                    li.widget-list-item
-                                      a(href='account-address.html').widget-list-link Account Addresses
-                                    li.widget-list-item
-                                      a(href='account-payment.html').widget-list-link Payment Methods
-                                    li.widget-list-item
-                                      a(href='account-wishlist.html').widget-list-link Wishlist
-                                    li.widget-list-item
-                                      a(href='account-tickets.html').widget-list-link My Tickets
-                                    li.widget-list-item
-                                      a(href='account-single-ticket.html').widget-list-link Single Ticket
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Vendor Dashboard
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='dashboard-settings.html').widget-list-link Settings
-                                    li.widget-list-item
-                                      a(href='dashboard-purchases.html').widget-list-link Purchases
-                                    li.widget-list-item
-                                      a(href='dashboard-favorites.html').widget-list-link Favorites
-                                    li.widget-list-item
-                                      a(href='dashboard-sales.html').widget-list-link Sales
-                                    li.widget-list-item
-                                      a(href='dashboard-products.html').widget-list-link Products
-                                    li.widget-list-item
-                                      a(href='dashboard-add-new-product.html').widget-list-link Add New Product
-                                    li.widget-list-item
-                                      a(href='dashboard-payouts.html').widget-list-link Payouts
-                                li.widget-list-item
-                                  a(href='account-signin.html').widget-list-link Sign In / Sign Up
-                                li.widget-list-item
-                                  a(href='account-password-recovery.html').widget-list-link Password Recovery
-                      // Pages
-                      .card.border-bottom
-                        .card-header
-                          h3.accordion-heading.font-size-base.px-grid-gutter
-                            a(href='#pages' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='pages').collapsed.py-3
-                              | Pages
-                              span.accordion-indicator
-                        #pages.collapse(data-parent='#shop-menu')
-                          .card-body.px-grid-gutter.pb-4
-                            .widget.widget-links
-                              ul.widget-list
-                                li.widget-list-item
-                                  a(href='about.html').widget-list-link About Us
-                                li.widget-list-item
-                                  a(href='contacts.html').widget-list-link Contacts
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Help Center
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='help-topics.html').widget-list-link Help Topics
-                                    li.widget-list-item
-                                      a(href='help-single-topic.html').widget-list-link Single Topic
-                                    li.widget-list-item
-                                      a(href='help-submit-request.html').widget-list-link Submit a Request
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium 404 Not Found
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='404-simple.html').widget-list-link 404 - Simple Text
-                                    li.widget-list-item
-                                      a(href='404-illustration.html').widget-list-link 404 - Illustration
-                      // Blog
-                      .card.border-bottom
-                        .card-header
-                          h3.accordion-heading.font-size-base.px-grid-gutter
-                            a(href='#blog' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='blog').collapsed.py-3
-                              | Blog
-                              span.accordion-indicator
-                        #blog.collapse(data-parent='#shop-menu')
-                          .card-body.px-grid-gutter.pb-4
-                            .widget.widget-links
-                              ul.widget-list
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Blog List Layouts
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='blog-list-sidebar.html').widget-list-link List with Sidebar
-                                    li.widget-list-item
-                                      a(href='blog-list.html').widget-list-link List no Sidebar
-                                li.widget-list-item
-                                  a(href='#').widget-list-link.font-weight-medium Blog Grid Layouts
-                                  ul.widget-list.pt-1
-                                    li.widget-list-item
-                                      a(href='blog-grid-sidebar.html').widget-list-link Grid with Sidebar
-                                    li.widget-list-item
-                                      a(href='blog-grid.html').widget-list-link Grid no Sidebar
-                                li.widget-list-item
-                                  a(href='blog-single.html').widget-list-link Single Post
-                      // Docs
-                      .card.border-bottom
-                        .card-header
-                          h3.accordion-heading.font-size-base.px-grid-gutter
-                            a(href='#docs' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='docs').collapsed.py-3
-                              | Docs / Components
-                              span.accordion-indicator
-                        #docs.collapse(data-parent='#shop-menu')
-                          .card-body.px-grid-gutter.pb-4
-                            .widget.widget-links
-                              ul.widget-list
-                                li.widget-list-item
-                                  a(href='docs/dev-setup.html').widget-list-link Documentation
-                                li.widget-list-item
-                                  a(href='components/typography.html').widget-list-link Components
-                                li.widget-list-item
-                                  a(href='docs/changelog.html').widget-list-link
-                                    | Changelog
-                                    span.badge.badge-success.ml-2 v1.2
-                                li.widget-list-item
-                                  a(href='mailto:contact@createx.studio').widget-list-link Support
-
+                                  a(href='#').widget-list-link Update Tags - Coming Soon
+                                  
+                     
         //.px-grid-gutter.pt-5.pb-4.mb-2
         //  .d-flex.mb-3
         //    i.czi-support.h4.mb-0.font-weight-normal.text-primary.mt-1.mr-1

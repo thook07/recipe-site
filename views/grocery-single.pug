@@ -2,7 +2,7 @@ extends recipe-partials/layout-grocery
 
 //- Override default config variables
 append config
-  - var pageTitle = 'Grocery - Single product'
+  - var pageTitle = recipe.name
   - var parentMenu = 'Home'
   - var breadcrumbs = [{'title': 'Catalog', 'link': '/'}, {'title': recipe.name}]
   - var showSidbar = false
@@ -56,10 +56,11 @@ block content
         //    i.czi-heart.font-size-lg
         .col-xl-12.px-2.mb-3
           if recipe.attribution
-            a(href=recipe.attribution.link target="_blank")
-              button(type="button").btn.btn-outline-primary 
-                i.czi-link.mr-2
-                | #{recipe.attribution.author}
+            if recipe.attribution.link
+              a(href=recipe.attribution.link target="_blank")
+                button(type="button").btn.btn-outline-primary 
+                  i.czi-link.mr-2
+                  | #{recipe.attribution.author}
 
 
   
