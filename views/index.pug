@@ -55,7 +55,10 @@ block content
                 a(href="recipe/"+recipe.id) #{recipe.name}
               .product-price
                 //span.text-accent $2.<small>99</small>
-                span.text-accent #{recipe.attribution.author}
+                if recipe.attribution
+                  span.text-accent #{recipe.attribution.author}
+                else
+                  span.text-accent Unknown
             .product-floating-btn
               // -- add to cart button that shows on hover, check toast-shop.pug for details on this window -- 
               button(type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-shadow.btn-sm
