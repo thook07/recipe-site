@@ -64,7 +64,7 @@ $(document).ready(function(){
             $("#cr-recipe-ingredients").removeClass("is-invalid");
             console.log(recipeIngredients);
         }
-
+        
         var json = {
             'id': recipeId,
             'name': recipeName,

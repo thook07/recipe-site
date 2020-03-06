@@ -395,6 +395,7 @@ html(lang="en")
     script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
     
     //Searching JS
+    //script(src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous")
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/jquery.autocomplete.min.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/isotope.pkgd.min.js'})
     
@@ -404,7 +405,8 @@ html(lang="en")
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.firebase.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/create-recipe.js'})
-    
+    if updateRecipe
+      script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/update-recipe.js'})
     
 
     

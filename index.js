@@ -122,6 +122,31 @@ app.get('/add', (req, res) => {
     
 });
 
+// -- Update Recipe
+app.get('/update', (req, res) => {
+    
+    let ref = firebase.db.collection('recipes');
+    ref.get().then(function(doc) {
+        
+        var documents = doc.docs;
+        console.log(documents);
+        console.log(doc);
+        res.render('update-recipe', {
+           docs: documents
+        });
+        
+        
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
+
+    
+   
+    
+    
+});
+
 
 
 // -- Used for Testing
