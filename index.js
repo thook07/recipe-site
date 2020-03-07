@@ -125,23 +125,67 @@ app.get('/add', (req, res) => {
 // -- Update Recipe
 app.get('/update', (req, res) => {
     
-    let ref = firebase.db.collection('recipes');
-    ref.get().then(function(doc) {
+    if(req.query.id == undefined) {
+    
+        let ref = firebase.db.collection('recipes');
+        ref.get().then(function(doc) {
+            //got the list of recipes
+            var documents = doc.docs;
+            for(var i=0; i< documents.length; i++) {
+                var data = documents[i].data();
+                //console.log('data', data)
+                var count = 0;
+                for(var key in data['ingredients']){
+                    count = count + 1;
+                }
+                console.log(documents[i].id,' has ',count,' ingredients');
+                //for(var name in data){
+                //    console.log(name,data[name]);
+                //}
+            }
+            
+            
+            res.render('all-ingredients', {
+                docs: documents
+            });
+
+            /*var ref = firebase.rDB.ref("ingredientIds");
+
+            ref.on("value", function(snapshot) {
+                console.log('ingredientIds', snapshot.val());
+
+                res.render('all-ingredients', {
+                    docs: documents
+                });
+
+            }, function (errorObject) {
+                console.log("Couldn't find ingredientIds");
+            });*/
+            
+            
+            
+
+        }).catch(err => {
+            console.log('Error getting document', err);
+        });
+        return
+    }
+    
+    let ref = firebase.db.collection('recipes').doc(req.query.id);
+    ref.get().then(function(doc){
+        let data = doc.data();
         
-        var documents = doc.docs;
-        console.log(documents);
-        console.log(doc);
         res.render('update-recipe', {
-           docs: documents
+            data: data
         });
         
+    }).catch( function(error) {
         
-      })
-      .catch(err => {
-        console.log('Error getting document', err);
-      });
-
+    });
     
+
+
+
    
     
     

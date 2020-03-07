@@ -1,0 +1,75 @@
+extends recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var pageTitle = 'Update Recipe'
+  - var parentMenu = 'Account'
+  - var navbarTemplate = 'navbar-marketplace'
+  - var footerTemplate = 'footer-marketplace'
+  - var isFileUploadScript = true
+  - var showSidebar = false
+  - var updateRecipe = true
+
+//- Page Content
+block content
+
+  //- dashboard-header.pug template
+  //include partials/dashboard-header
+
+  .container.mb-5.pb-3
+    .bg-light.box-shadow-lg.rounded-lg.overflow-hidden
+      .row
+
+        // Sidebar
+        aside.col-lg-4
+          //- sidebar-dashboard.pug template
+          //include partials/sidebar-dashboard
+
+        // Content
+        section.col-lg-12.pt-lg-4.pb-4.mb-3.ml-3
+          .pt-2.px-4.pr-xl-5
+
+            // Title
+            .d-sm-flex.flex-wrap.justify-content-between.align-items-center.pb-2
+              h2.h3.py-2.mr-2.text-center.text-sm-left Update Ingredients
+            ul.list-group
+              each doc in docs
+                - var ingredients = doc.data()['ingredients']
+                - console.log(ingredients)
+                - var count = 0;
+                - for(var key in ingredients){
+                -       count = count + 1;
+                - }
+                li.list-group-item.d-flex.justify-content-between.list-group-item-dark
+                  span
+                    | #{doc.data()['name']}
+                  span.badge.badge-pill.badge-info #{count}
+                - var i = 0;
+                each value, key in doc.data()['ingredients']
+                  - var id = doc.id + "-" + i
+                  - var ingId = value.ingredientId
+                  - var ingClass = ""
+                  - if(ingId == undefined) {
+                  -   ingId = "";
+                  -   ingClass = "list-group-item-danger"
+                  - } else {
+                  -   ingClass = "list-group-item-success"
+                  - }
+                  li(class=ingClass).list-group-item.d-flex.justify-content-between.align-items-center
+                    span(recipe-amount=value.amount recipe-ingredient=value.ingredient recipe-ingredient-id=ingId class=doc.id)
+                      if value.amount == "na"
+                        | #{value.ingredient}
+                      else
+                        | #{value.amount} - #{value.ingredient}
+                    div(style="max-width:400px").input-group
+
+                      input(type="text", placeholder="Lookup Ingredient" id=id value=ingId).form-control
+                      .input-group-append
+                        button(data-recipe-ingredient=value.ingredient data-recipe-id=doc.id data-recipe-index=i type="button").upload-btn.btn.btn-primary Upload
+                  - i = i + 1;
+                       
+                       
+              
+                    
+  include recipe-partials/toast-generic-success

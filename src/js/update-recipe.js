@@ -40,6 +40,44 @@ $(document).ready(function(){
         });
         
     })
+    
+    $('.upload-btn').click(function(e){ 
+        var ingredientArray = [];
+        var ingredientId = $('#' + $(this).attr("data-recipe-id") + "-" + $(this).attr("data-recipe-index")).val();
+        var ingredientToCheck = $(this).attr("data-recipe-ingredient");
+        var recipeId = $(this).attr("data-recipe-id")
+        $("."+recipeId).each(function(i, obj) {
+            var amount = $(obj).attr('recipe-amount');
+            var ingredient = $(obj).attr('recipe-ingredient');
+            var existingId = $(obj).attr('recipe-ingredient-id');
+            
+            if(ingredient == ingredientToCheck) {
+                var map = {
+                    'amount':amount,
+                    'ingredient': ingredient,
+                    'ingredientId': ingredientId
+                }
+            } else {
+                var map = {
+                    'amount':amount,
+                    'ingredient': ingredient,
+                    'ingredientId': existingId
+                }
+            }
+            ingredientArray.push(map);
+        });
+        var json = {
+            "ingredients":ingredientArray
+        }
+        
+        console.log(recipeId)
+        let update = db.collection('recipes').doc(recipeId).update(json);
+        
+        
+        
+        
+    });
+    
 
     /*docRef.get().then(function(doc) {
         if (doc.exists) {

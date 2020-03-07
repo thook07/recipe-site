@@ -37,14 +37,17 @@ log.info("===================================");
 let serviceAccount = require('./recipes-servacct.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://recipes-71c4b.firebaseio.com"
 });
 
 let db = admin.firestore();
+let rDB = admin.database();
 
 
 // pass the object back
 exports.firebase = firebase;
 exports.db = db;
+exports.rDB = rDB;
 exports.firebaseConfig = firebaseConfig;
 exports.admin = admin
