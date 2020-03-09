@@ -36,16 +36,27 @@ block content
                   | +
                   i.czi-cart.font-size-base.ml-1
   
-  section.pb-5.mb-2.mb-xl-4  
-    h2.h5.mb-4 Shopping List 
-    ul.list-group
+  section.pb-5.mb-2.mb-xl-4 
+    .row
+      .col
+        h2.h5.pt-2 Shopping List 
+      .col
+        .btn-group(role="group", aria-label="Outline button group").float-right
+          button(type="button").btn.btn-primary#show-checked
+            | Show
+            i.czi-check.ml-2
+          button(type="button").btn.btn-outline-primary#hide-checked
+            | Hide 
+            i.czi-check.ml-2
+    ul.list-group.mt-4
     .list-group.d-flex.justify-content-between.align-items-center
       each item in list.items
         - var check = "icon-"+ item.id;
-        a(data-check=check).list-group-item.list-group-item-action.grocery-item
+        a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
           span(id=check).d-none
             i.czi-check.mr-2
-          | #{item.id}
+          span(id=item.id)
+            | #{item.id}
           each amt in item.amount
             span.badge.badge-accent.ml-2
               | #{amt} 

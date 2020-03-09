@@ -1,7 +1,6 @@
 class GroceryListItem {
     
     constructor(ingredientId, amount, recipeId) {
-        console.log("in GroceryListItem constructor")
         this.id = ingredientId;
         this.amount = [];
         this.amount.push(amount);
