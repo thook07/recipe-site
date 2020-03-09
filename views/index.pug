@@ -40,7 +40,11 @@ block content
       -      myTagList = myTagList + " " + recipe.tags[i];
       -    }
       - }
-        div(class=myTags recipe-tags=myTagList recipe-name=recipe.name recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
+      - var author = ""
+      - if(recipe.attribution != undefined) {
+      -     author = recipe.attribution.author
+      - }
+        div(class=myTags recipe-author=author recipe-tags=myTagList recipe-name=recipe.name recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
           .card.product-card.card-static.pb-3
             button(type='button' data-toggle='tooltip' data-placement='left' title='Coming Soon!').btn-wishlist.btn-sm
               i.czi-heart
@@ -59,7 +63,7 @@ block content
                   span.text-accent #{recipe.attribution.author}
             .product-floating-btn
               // -- add to cart button that shows on hover, check toast-shop.pug for details on this window -- 
-              button(type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-shadow.btn-sm
+              button(type='button' recipe-id=recipe.id data-toggle='toast' data-target='#cart-toast').grocery-item-add-btn.btn.btn-primary.btn-shadow.btn-sm
                 | +
                 i.czi-view-list.font-size-base.ml-1
 

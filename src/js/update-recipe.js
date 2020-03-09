@@ -46,6 +46,7 @@ $(document).ready(function(){
         var ingredientId = $('#' + $(this).attr("data-recipe-id") + "-" + $(this).attr("data-recipe-index")).val();
         var ingredientToCheck = $(this).attr("data-recipe-ingredient");
         var recipeId = $(this).attr("data-recipe-id")
+        var span = "";
         $("."+recipeId).each(function(i, obj) {
             var amount = $(obj).attr('recipe-amount');
             var ingredient = $(obj).attr('recipe-ingredient');
@@ -57,6 +58,7 @@ $(document).ready(function(){
                     'ingredient': ingredient,
                     'ingredientId': ingredientId
                 }
+                span = $(obj);
             } else {
                 var map = {
                     'amount':amount,
@@ -70,8 +72,14 @@ $(document).ready(function(){
             "ingredients":ingredientArray
         }
         
-        console.log(recipeId)
-        let update = db.collection('recipes').doc(recipeId).update(json);
+        span.attr("recipe-ingredient-id",ingredientId)
+        
+        let update = db.collection('recipes').doc(recipeId).update(json).then(function() {
+            $(this).attr("data-recipe-ingredient",ingredientId);
+            console.log("Success! Added " + ingredientId + " to database!");
+        }).catch(function(e){
+            console.log(e);  
+        });
         
         
         

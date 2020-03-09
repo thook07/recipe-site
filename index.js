@@ -1,12 +1,21 @@
 const express = require('express');
+var Promise = require('promise');
 const app = express();
+var bodyParser = require('body-parser')
 var firebase = require('./firebase.js');
 var log = require('./logger.js');
 //const recipes = require('./recipes.json');
 const recipe1 = require('./recipe1.json');
 const recipe2 = require('./recipe2.json');
 const tags = require('./tags.json');
+require('./node-js/Recipe.js');
+require('./node-js/User.js');
 
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/src'))
@@ -22,17 +31,19 @@ app.get('/', (req, res) => {
     log.trace("entering app.get(\'/\'):")
     
     
-    firebase.db.collection('recipes').get().then((snapshot) => {
-        
-        var recipes = [];
-        snapshot.forEach((doc) => {
-            recipes.push(doc.data());
-        });
+    firebase.db.collection("recipes")
+        .withConverter(recipeConverter).get().then(function(docs) {
+            
+            var recipes = [];
+            docs.forEach((doc) => {
+                recipe = doc.data();
+                recipes.push(recipe);
+            });
         
         //showing home page..
         console.log("Found " + recipes.length + " recipes")
         firebase.firebase.auth().onAuthStateChanged(function(user) {
-            console.log(user);
+            console.log("user", user);
             console.log("Showing home page...");
             res.render('index', {
                 recipes: recipes,
@@ -104,6 +115,95 @@ app.get('/my-favorites', (req, res) => {
     
     
 });
+
+// -- My Grocery List
+app.get('/my-grocery-list', (req, res) => {
+    
+    var userEmail = req.query.email;
+    
+    console.log('user',userEmail);
+    
+    firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
+        var user = doc.data();
+        console.log("user",user);
+        var promises = []
+        for(i=0;i<user.groceryList.length;i++){
+            console.log("Adding: ", user.groceryList[i], " to the list");
+            const p = firebase.db.collection("recipes").doc(user.groceryList[i]).withConverter(recipeConverter).get();
+            promises.push(p);
+        }
+        Promise.all(promises).then(function(snapshots){
+            var recipes = []
+            snapshots.forEach(function(doc){
+                var recipe = doc.data();
+                console.log('recipe: ', recipe.name)
+                recipes.push(recipe);
+            });
+            console.log(recipes.length);
+            var map = buildIngredientsListMap(recipes);
+            
+            res.render('my-grocery-list', {
+                user: user,
+                recipes: recipes,
+                ingredientsMap: map
+            });
+            
+        });
+        
+        
+        
+    }).catch(function(e){
+        console.log("Error Occured:",e); 
+    });
+});
+
+
+function buildIngredientsListMap(recipes){
+    log.trace("Entering buildIngredientsListMap....",recipes.length);
+    var map = {}
+    
+    for(var i=0; i<recipes.length; i++){
+        var recipe = recipes[i]
+        log.trace("Recipe......",recipe.name)
+        log.trace(recipe.ingredients.length)
+        for(var j=0; j<recipe.ingredients.length; j++) {
+            var id = recipes[i].ingredients[j].ingredientId;
+            var amount = recipes[i].ingredients[j].amount;
+            
+            if(id == 'header') { continue; }
+            
+            log.trace("Ingredient.....", id, amount);
+            if(map[id] != undefined) {
+                map[id] = map[id] + " " + amount
+            } else {
+                map[id] = amount
+            }
+        }
+    }
+
+    console.log("MAP: ", map);
+    return map;
+}
+
+
+
+
+app.post('/validateToken', (req, res) => {
+    
+    var token = req.body.token
+    
+    firebase.admin.auth().verifyIdToken(token).then(function(decodedToken) {
+        let uid = decodedToken.uid;
+        console.log("decoded", uid);
+        
+    }).catch(function(error) {
+        // Handle error
+    });
+    
+    res.send('success');
+})
+
+
 
 
 var meals = tags[1];
@@ -192,11 +292,19 @@ app.get('/update', (req, res) => {
 });
 
 
-
 // -- Used for Testing
 app.get('/test', (req, res) => {
     log.info("/test requested....")
     
+    
+    firebase.firebase.auth().onAuthStateChanged(function(user) {
+        console.log("user", user);
+        console.log("Showing home page...");
+        res.render('test');
+    });
+
+    
+
     /*log.trace("getting docRef for users");
     let docRef = firebase.db.collection('users').doc('alovelace');
 
@@ -208,8 +316,6 @@ app.get('/test', (req, res) => {
     });
     log.trace("done writing data!");*/
     
-    
-    res.send("<h1>Done.</h1>")
 });
 
 // Handle 404

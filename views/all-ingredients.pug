@@ -36,7 +36,6 @@ block content
             ul.list-group
               each doc in docs
                 - var ingredients = doc.data()['ingredients']
-                - console.log(ingredients)
                 - var count = 0;
                 - for(var key in ingredients){
                 -       count = count + 1;
@@ -50,13 +49,14 @@ block content
                   - var id = doc.id + "-" + i
                   - var ingId = value.ingredientId
                   - var ingClass = ""
-                  - if(ingId == undefined) {
+                  - if(ingId == undefined || ingId == "") {
                   -   ingId = "";
-                  -   ingClass = "list-group-item-danger"
+                  -   ingClass = "list-group-item-danger d-flex"
                   - } else {
-                  -   ingClass = "list-group-item-success"
+                  -   ingClass = "list-group-item-success d-none"
                   - }
-                  li(class=ingClass).list-group-item.d-flex.justify-content-between.align-items-center
+                  - console.log(ingClass,value.ingredientId)
+                  li(class=ingClass).list-group-item.justify-content-between.align-items-center
                     span(recipe-amount=value.amount recipe-ingredient=value.ingredient recipe-ingredient-id=ingId class=doc.id)
                       if value.amount == "na"
                         | #{value.ingredient}

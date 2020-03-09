@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/thook07/recipe-site#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "core-js": "^3.6.4",
     "dateformat": "^3.0.3",
     "express": "^4.17.1",
@@ -28,6 +29,7 @@
     "firebase-functions": "^3.3.0",
     "firestore-export-import": "^0.3.2",
     "isotope-layout": "^3.0.6",
+    "promise": "^8.1.0",
     "pug": "^2.0.4",
     "shufflejs": "^5.2.3"
   }

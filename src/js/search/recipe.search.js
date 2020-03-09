@@ -125,21 +125,26 @@ function searchCatalog(grid){
         filter: function() {
             var name = $(this).attr('recipe-name');
             var tags = $(this).attr('recipe-tags');
+            var author = $(this).attr('recipe-author');
+            if( author == undefined) {
+                author = "";
+            }
+            
             var search = $('#recipe-search-input').val();
             var searchCollapsed = $('#collapsed-search-input').val();
             console.log("Search Collapsed: ", searchCollapsed)
             name = name.toUpperCase();
             tags = tags.toUpperCase();
+            author = author.toUpperCase();
             search = search.toUpperCase();
             searchCollapsed = searchCollapsed.toUpperCase();
-            console.log("Search Collapsed: ", searchCollapsed)
-            console.log("Search: ", search)
             if(search == null || search == undefined || search == "") {
                 //the UI was probably collapsed
                 search = searchCollapsed;
             }
-            console.log("Search: ", search)
-            return name.includes(search) || tags.includes(search)
+            
+            console.log("Search: ", search, author, name.includes(search) || tags.includes(search) || author.includes(search))
+            return name.includes(search) || tags.includes(search) || author.includes(search)
         } 
     });
     
