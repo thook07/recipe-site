@@ -1,0 +1,34 @@
+                //each doc in docs
+                  //- var ingredients = doc.data()['ingredients']
+                  //- console.log(ingredients)
+                  //- var count = 0;
+                  //- for(var key in ingredients){
+                  //-       count = count + 1;
+                  //- }
+                  // | #{doc.data()['name']}
+                  //span.badge.badge-pill.badge-info #{count}
+                  //each value, key in doc.data()['ingredients']
+                  //label(for='search-input') &nbsp;&nbsp;#{value.amount} - #{value.ingredient}  
+                  
+                  
+<div class='widget-cart-item py-2 border-bottom'>
+  <button class='close text-danger' type='button' aria-label='Remove'>
+    <span aria-hidden='true'>×</span>
+  </button>
+  <div class='media align-items-center'>
+    <a class='d-block mr-2' href='grocery-single.html'>
+      <img width='64' src='img/grocery/cart/th03.jpg' alt='Product'>
+    </a>
+    <div class='media-body'>
+      <h6 class='widget-product-title'>
+        <a href='grocery-single.html'>Mozzarella Mini Cheese</a>
+      </h6>
+      <div class='widget-product-meta'>
+        <span class='text-accent mr-2'>
+          $3.<small>50</small>
+        </span>
+        <span class='text-muted'>x 1</span>
+      </div>
+    </div>
+  </div>
+</div>

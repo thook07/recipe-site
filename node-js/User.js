@@ -82,3 +82,6 @@ userConverter = {
   }
 }
 
+
+
+module.exports = User;

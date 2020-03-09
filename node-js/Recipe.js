@@ -48,7 +48,6 @@ recipeConverter = {
       return recipe.toFirebase()
   },
   fromFirestore: function(snapshot, options){
-      console.log('fromFirestore', snapshot.id);
       return new Recipe(snapshot)
   }
 }

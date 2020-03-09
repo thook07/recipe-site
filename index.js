@@ -8,8 +8,10 @@ var log = require('./logger.js');
 const recipe1 = require('./recipe1.json');
 const recipe2 = require('./recipe2.json');
 const tags = require('./tags.json');
-require('./node-js/Recipe.js');
-require('./node-js/User.js');
+var Recipe = require('./node-js/Recipe.js');
+var GroceryList = require('./node-js/GroceryList.js');
+var GroceryListItem = require('./node-js/GroceryListItem.js');
+var User = require('./node-js/User.js');
 
 
 app.use(bodyParser.urlencoded({
@@ -19,7 +21,6 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/src'))
-
 
 const server = app.listen(3000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
@@ -140,12 +141,11 @@ app.get('/my-grocery-list', (req, res) => {
                 recipes.push(recipe);
             });
             console.log(recipes.length);
-            var map = buildIngredientsListMap(recipes);
-            
+            var list = buildGroceryItemsList(recipes);
             res.render('my-grocery-list', {
                 user: user,
                 recipes: recipes,
-                ingredientsMap: map
+                list: list
             });
             
         });
@@ -158,31 +158,24 @@ app.get('/my-grocery-list', (req, res) => {
 });
 
 
-function buildIngredientsListMap(recipes){
-    log.trace("Entering buildIngredientsListMap....",recipes.length);
-    var map = {}
+function buildGroceryItemsList(recipes){
+    log.trace("Entering buildGroceryItemsllList...." + recipes.length);
+    
+    var list = new GroceryList()
     
     for(var i=0; i<recipes.length; i++){
         var recipe = recipes[i]
-        log.trace("Recipe......",recipe.name)
-        log.trace(recipe.ingredients.length)
-        for(var j=0; j<recipe.ingredients.length; j++) {
+        for(var j=0; j < recipe.ingredients.length; j++) {
             var id = recipes[i].ingredients[j].ingredientId;
             var amount = recipes[i].ingredients[j].amount;
             
             if(id == 'header') { continue; }
             
-            log.trace("Ingredient.....", id, amount);
-            if(map[id] != undefined) {
-                map[id] = map[id] + " " + amount
-            } else {
-                map[id] = amount
-            }
+            list.addItem(id,amount,recipe.id);
         }
     }
-
-    console.log("MAP: ", map);
-    return map;
+    //console.log(recipes);
+    return list;
 }
 
 

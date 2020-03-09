@@ -21,11 +21,9 @@ $(document).ready(function(){
     });
     
     $("#signup-tab").on("submit", function(e){
-        
+        e.preventDefault()
         if ($('#signup-tab')[0].checkValidity() === false) {
-            e.preventDefault()
             e.stopPropagation();
-            
             return;
         } 
         
@@ -33,20 +31,27 @@ $(document).ready(function(){
         var email = $('#su-email').val();
         var password = $('#su-password').val();
         
-        console.log("Create User - Email and Password", email, password);
         firebase.auth().createUserWithEmailAndPassword(email, password).then(function(result) {
+            console.log("Successfully created user: ", email)
             //successfully created user. now lets update.
-            console.log("Success. Updating user: ", displayName)
-            return result.user.updateProfile({
-                displayName: name
-            });
+            $("#signin-modal").modal('hide');
+            $('#sign-in-toast').toast('show');
+            $("#si-password").removeClass("is-invalid");        
+            updateNavbar();
+            $("#signin-modal").modal('hide');
+            
         }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
             console.log(error);
+            $("#signup-tab-passworderror").text(errorMessage);
+            $("#signup-tab").removeClass('was-validated');
+            $("#su-password").addClass("is-invalid")
         });
         
         
-        updateNavbar();
-        $("#signin-modal").modal('hide');
+
 
     });
     
