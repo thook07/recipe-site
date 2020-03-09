@@ -2,7 +2,7 @@
 
 const ALL_RECIPES = {};
 var recipesLoaded = false;
-var loggedInUser;
+let loggedInUser = null;
 $(document).ready(function(){
 
     db.collection("recipes").withConverter(recipeConverter).get().then(function(snapshot) { 
@@ -13,13 +13,14 @@ $(document).ready(function(){
         recipesLoaded = true;
     });
     
-    
+    //sign in button
     $("#recipe-signin-button").click(function(){
         console.log("Signin button clicked!");
 
 
     });
     
+    //sign up tab submit
     $("#signup-tab").on("submit", function(e){
         e.preventDefault()
         if ($('#signup-tab')[0].checkValidity() === false) {
@@ -55,6 +56,7 @@ $(document).ready(function(){
 
     });
     
+    //sign in tab submit
     $("#signin-tab").on("submit", function(e){
         console.log("Signing in...", $('#signin-tab')[0].checkValidity());
         e.preventDefault()
@@ -86,12 +88,14 @@ $(document).ready(function(){
         
     });
     
+    //sign out (from dropdown)
     $('#sign-out-button').click(function () {
         console.log("Signing Out..");
         firebase.auth().signOut().then(function() {
             $('#toast-title').text('Success');
             $('#toast-body').text('Sign out successful.');
             $('#generic-success-toast').toast('show');
+            loggedInUser = null;
             updateNavbar();
         }).catch(function(error) {
             // An error happened.
@@ -110,17 +114,33 @@ $(document).ready(function(){
         
     });*/
     
-    $(".grocery-item-add-btn").click(function(){
-        recipeId = $(this).attr("recipe-id");
-        console.log("Adding recipe to list", recipeId);
-        if(loggedInUser == null) {
-            console.log("need to show signin page...");
+    $('#grocery-list-show-button').click(function(){
+        
+        // similar behavior as clicking on a link
+        window.location.href = "/my-grocery-list?email=" + loggedInUser.email;       
+    });
+
+    
+    $(".grocery-item-add-btn").on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if( !isUserLoggedIn() ) {
+            $("#navbar-sign-in").click();
             return;
         }
+        
+        
+        
+        recipeId = $(this).attr("recipe-id");
+        console.log("Adding recipe to list", recipeId);
         
         if(loggedInUser.addItemToGroceryList(recipeId) != null){
             loggedInUser.save(function(){
                 updateNavbar();
+                $('#toast-title').text('Success');
+                $('#toast-body').text('Recipe has been added to Grocery List!');
+                $('#generic-success-toast').toast('show');
             });
         }
         
@@ -145,6 +165,11 @@ $(window).on('load', function() {
 });
     
 
+function isUserLoggedIn(){
+    console.log("isUserLoggedIn", loggedInUser != null, loggedInUser)
+    return loggedInUser != null;
+}
+
 
 function updateNavbar(){
     
@@ -152,14 +177,10 @@ function updateNavbar(){
     firebase.auth().onAuthStateChanged(function(authUser) {
         if (authUser) {
             
-
             firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-                console.log("token", idToken);
                 
                 data = {}
-                data["key1"] = "value";
                 data["token"] = idToken;
-                
                 
                 $.ajax({
                     url: '/validateToken',
