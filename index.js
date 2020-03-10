@@ -12,7 +12,8 @@ var Recipe = require('./node-js/Recipe.js');
 var GroceryList = require('./node-js/GroceryList.js');
 var GroceryListItem = require('./node-js/GroceryListItem.js');
 var User = require('./node-js/User.js');
-
+var Ingredient = require('./node-js/Ingredient.js');
+let INGREDIENTS_CACHE = {};
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -141,12 +142,7 @@ app.get('/my-grocery-list', (req, res) => {
                 recipes.push(recipe);
             });
             console.log(recipes.length);
-            var list = buildGroceryItemsList(recipes);
-            res.render('my-grocery-list', {
-                user: user,
-                recipes: recipes,
-                list: list
-            });
+            var list = buildGroceryItemsList(recipes, user, res);
             
         });
         
@@ -158,26 +154,50 @@ app.get('/my-grocery-list', (req, res) => {
 });
 
 
-function buildGroceryItemsList(recipes){
+function buildGroceryItemsList(recipes, user, res){
     log.trace("Entering buildGroceryItemsllList...." + recipes.length);
     
-    var list = new GroceryList()
-    
-    for(var i=0; i<recipes.length; i++){
-        var recipe = recipes[i]
-        for(var j=0; j < recipe.ingredients.length; j++) {
-            var id = recipes[i].ingredients[j].ingredientId;
-            var amount = recipes[i].ingredients[j].amount;
-            
-            if(id == 'header') { continue; }
-            
-            list.addItem(id,amount,recipe.id);
-        }
-    }
-    //console.log(recipes);
-    return list;
-}
+    console.log("Buildilng Cache!");
+    firebase.db.collection("ingredients").withConverter(ingredientConverter).get().then(function(documents){
+        console.log("Got Documents: " + Object.keys(documents).length);
+        documents.forEach(function(doc){
+            console.log("Got",doc.id,"adding to cache");
+            var ing = doc.data();
+            console.log(ing);
+            INGREDIENTS_CACHE[ing.id] = ing;
+        });
 
+        console.log("Updated Cache Successfully. Cache now has",Object.keys(INGREDIENTS_CACHE).length,"ingredients");
+        
+        var list = new GroceryList();
+        
+        for(var i=0; i<recipes.length; i++){
+            var recipe = recipes[i]
+            for(var j=0; j < recipe.ingredients.length; j++) {
+                var id = recipes[i].ingredients[j].ingredientId;
+                var amount = recipes[i].ingredients[j].amount;
+
+                if(id == 'header') { continue; }
+
+                list.addItem(id,amount,recipe.id,INGREDIENTS_CACHE[id]);
+            }
+        }
+        
+       
+        list.populateItemsByCategory();
+        
+        res.render('my-grocery-list', {
+            user: user,
+            recipes: recipes,
+            list: list
+        });
+    }).catch(function(e){
+       console.log("Error",e); 
+    });
+    
+    
+    
+}
 
 
 
@@ -196,9 +216,6 @@ app.post('/validateToken', (req, res) => {
     res.send('success');
 })
 
-
-
-
 var meals = tags[1];
 var cats = tags[2];
 var cooks = tags[4];
@@ -216,9 +233,30 @@ app.get('/add', (req, res) => {
 });
 
 // -- Update Recipe
-app.get('/update', (req, res) => {
+app.get('/update/:action', (req, res) => {
     
-    if(req.query.id == undefined) {
+    
+    console.log("REQ: ", req.params);
+    if(req.params.action == "ingredients") {
+        
+        firebase.db.collection('ingredients').withConverter(ingredientConverter).get().then(function(documents){
+            
+            var ingredients = [];
+            documents.forEach(function(snapshot){
+                var ingredient = snapshot.data(); 
+                ingredients.push(ingredient);
+            });
+            
+            res.render('all-ingredients-2', {
+                ingredients: ingredients
+            });
+        
+            
+            
+            
+        })
+        
+    }else if(req.query.id == undefined) {
     
         let ref = firebase.db.collection('recipes');
         ref.get().then(function(doc) {
@@ -261,26 +299,28 @@ app.get('/update', (req, res) => {
         }).catch(err => {
             console.log('Error getting document', err);
         });
-        return
+        return;
+    } else {
+        
+        if( req.query.id != undefined) {
+            let ref = firebase.db.collection('recipes').doc(req.query.id);
+            ref.get().then(function(doc){
+                let data = doc.data();
+
+                res.render('update-recipe', {
+                    data: data
+                });
+
+            }).catch( function(error) {
+
+            });
+        }
+        
+        
+
+        
     }
-    
-    let ref = firebase.db.collection('recipes').doc(req.query.id);
-    ref.get().then(function(doc){
-        let data = doc.data();
-        
-        res.render('update-recipe', {
-            data: data
-        });
-        
-    }).catch( function(error) {
-        
-    });
-    
-
-
-
-   
-    
+    //res.send("<h1>test</h1>");    
     
 });
 

@@ -108,7 +108,52 @@ $(document).ready(function(){
         console.log("Error getting document:", error);
     });*/
     
-
+    $(".ingredient-item").click(function(){
+        $(this).toggleClass("list-group-item-dark");
+        $(this).toggleClass("checked");
+        
+    });
+    
+    $("#update-button").on( 'click', function(e){
+        e.preventDefault()
+        e.stopPropagation();
+        
+        var category = $("#category-name-input").val();
+        
+        var itemsToUpdate = []
+        $(".checked").each(function() {
+            itemsToUpdate.push($(this).attr("id"));
+        });
+        
+        console.log("Updating", itemsToUpdate.length, "ingredients to", category);
+        for(i=0; i<itemsToUpdate.length; i++){
+            console.log("ingredients >",itemsToUpdate[i],">",category);
+            db.collection("ingredients").doc(itemsToUpdate[i]).set({
+                id: itemsToUpdate[i],
+                category: category
+            }).then(function(){
+                console.log("Successfully written.")
+            }).catch(function(error){
+                console.log("Error occurred.", error);
+            });
+            
+            
+            
+        }
+        
+        $(".checked").each(function() {
+            $(this).removeClass(".checked");
+            $(this).removeClass("list-group-item-dark");
+        });
+        
+        
+    });
+    
+    $("#hide-category-button").on( 'click', function(e){
+        e.preventDefault()
+        e.stopPropagation();
+        $(".hasCategory").hide();
+    })
     
     
 });

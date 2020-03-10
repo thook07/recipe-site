@@ -1,0 +1,48 @@
+extends recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var pageTitle = 'Update Recipe'
+  - var parentMenu = 'Account'
+  - var navbarTemplate = 'navbar-marketplace'
+  - var footerTemplate = 'footer-marketplace'
+  - var isFileUploadScript = true
+  - var showSidebar = false
+  - var updateRecipe = true
+
+//- Page Content
+block content
+
+  //- dashboard-header.pug template
+  //include partials/dashboard-header
+
+  .container.mb-5.pb-3
+    .bg-light.box-shadow-lg.rounded-lg.overflow-hidden
+      .row
+
+        // Content
+        section.col-lg-12.pt-lg-4.pb-4.mb-3.ml-3
+          .pt-2.px-4.pr-xl-5
+            .row
+              .col
+                form.form-inline.pt-2
+                  label.sr-only(for="inline-form-input-name") Name
+                  input(type="text", id="category-name-input", placeholder="Category...").form-control.mb-3.mr-sm-4
+                  button.btn.btn-primary.mb-3(id="update-button") Update All
+                  button.btn.mb-3(id="hide-category-button") Hide
+            .row
+              .col
+                .list-group
+                  each ing, index in ingredients
+                    - var id = ing.id;
+                    - var catClass = (ing.category != undefined ? "hasCategory" : "")
+                    a(id=id class=catClass).list-group-item.list-group-item-action.ingredient-item
+                      | #{index} &nbsp; &nbsp; #{ing.id}
+                      span.badge.badge-primary.badge-shadow.float-right
+                        | #{ing.category}
+                
+                       
+              
+                    
+  include recipe-partials/toast-generic-success

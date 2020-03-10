@@ -35,6 +35,19 @@ $(document).ready(function(){
         firebase.auth().createUserWithEmailAndPassword(email, password).then(function(result) {
             console.log("Successfully created user: ", email)
             //successfully created user. now lets update.
+            
+            var data = {}
+            data["email"] = email;
+            data["groceryList"] = [];
+            console.log("adding data to user", data);
+            var tempUser = new User(data);
+            console.log("created new user. Saving...", tempUser);
+            tempUser.save(function(){
+                console.log("Done!");
+            });
+            
+            
+            
             $("#signin-modal").modal('hide');
             $('#sign-in-toast').toast('show');
             $("#si-password").removeClass("is-invalid");        

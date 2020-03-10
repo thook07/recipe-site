@@ -23,8 +23,9 @@ block content
             .card.product-card.card-static.pb-3
               button(type='button' data-toggle='tooltip' data-placement='left' title='Add to wishlist').btn-wishlist.btn-sm
                 i.czi-heart
+              - var imageUrl = ( recipe.images != undefined ? recipe.images[0] : "/recipe-images/default.jpg")
               a(href='grocery-single.html').card-img-top.d-block.overflow-hidden.text-center
-                img(src=recipe.images[0] alt='Product' style="max-height:150px;")
+                img(src=imageUrl alt='Product' style="max-height:150px;")
               .card-body.py-2
                 a(href='#').product-meta.d-block.font-size-xs.pb-1 -------
                 h3.product-title.font-size-sm
@@ -49,17 +50,19 @@ block content
             | Hide 
             i.czi-check.ml-2
     ul.list-group.mt-4
-    .list-group.d-flex.justify-content-between.align-items-center
-      each item in list.items
-        - var check = "icon-"+ item.id;
-        a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
-          span(id=check).d-none
-            i.czi-check.mr-2
-          span(id=item.id)
-            | #{item.id}
-          each amt in item.amount
-            span.badge.badge-accent.ml-2
-              | #{amt} 
-          each recipeId in item.recipes
-            span.badge.badge-secondary.ml-2.float-right.d-none.d-md-block
-              | #{recipeId}
+      .list-group.d-flex.justify-content-between.align-items-center
+        each items, cat in list.itemsByCategory
+          a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
+          each item in items
+            - var check = "icon-"+ item.id;
+            a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
+              span(id=check).d-none
+                i.czi-check.mr-2
+              span(id=item.id)
+                | #{item.id}
+              each amt in item.amount
+                span.badge.badge-accent.ml-2
+                  | #{amt} 
+              each recipeId in item.recipes
+                span.badge.badge-secondary.ml-2.float-right.d-none.d-md-block
+                  | #{recipeId}

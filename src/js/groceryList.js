@@ -10,7 +10,6 @@ $(document).ready(function(){
         $(this).toggleClass("list-group-item-dark");
         $(this).toggleClass("checked");
         
-        console.log('testig...', !showChecked, $(this).hasClass("checked"), $(this).hasClass("checked") && showChecked == false)
         if($(this).hasClass("checked") && !showChecked) {
             $(".checked").hide();
         }
