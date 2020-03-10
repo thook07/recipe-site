@@ -38,7 +38,6 @@ class GroceryList {
         var catMap = {};
         for(var i=0; i<this.items.length; i++){
             var item = this.items[i];
-            console.log("item: ",item.id,item.ingredient.category);
             if( catMap[item.ingredient.category] == undefined) {
                 catMap[item.ingredient.category] = [item];
             } else {

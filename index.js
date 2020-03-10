@@ -123,11 +123,8 @@ app.get('/my-grocery-list', (req, res) => {
     
     var userEmail = req.query.email;
     
-    console.log('user',userEmail);
-    
     firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
         var user = doc.data();
-        console.log("user",user);
         var promises = []
         for(i=0;i<user.groceryList.length;i++){
             console.log("Adding: ", user.groceryList[i], " to the list");
@@ -163,7 +160,6 @@ function buildGroceryItemsList(recipes, user, res){
         documents.forEach(function(doc){
             console.log("Got",doc.id,"adding to cache");
             var ing = doc.data();
-            console.log(ing);
             INGREDIENTS_CACHE[ing.id] = ing;
         });
 

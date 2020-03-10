@@ -41,7 +41,7 @@ html(lang="en")
             a(href='#searchBox' data-toggle='collapse' role='button' aria-expanded='false', aria-controls='searchBox').navbar-tool.d-flex.d-lg-none
               span.navbar-tool-tooltip Search
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-search
-            a(id="wishlist-button" href='#').navbar-tool.d-none.d-lg-flex
+            a(id="wishlist-button" href='/my-favorites').navbar-tool.d-none.d-lg-flex
               span.navbar-tool-tooltip Wishlist
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
             a(href='#signin-modal' id='navbar-sign-in'  data-toggle='modal').navbar-tool.ml-1.ml-lg-0.mr-n1.mr-lg-2
@@ -72,10 +72,10 @@ html(lang="en")
                   i.czi-sign-out.opacity-60.mr-2
                   | Sign Out
             .navbar-tool.dropdown.ml-3
-              a(href='grocery-checkout.html').navbar-tool-icon-box.bg-secondary.dropdown-toggle
+              a(id="nav-bar-cart-link").navbar-tool-icon-box.bg-secondary.dropdown-toggle
                 #grocery-list-badge.span.navbar-tool-label 0
                 i.navbar-tool-icon.czi-cart
-              a(href='grocery-checkout.html').navbar-tool-text
+              a(id="nav-bar-my-grocery-list-link").navbar-tool-text
                 small My Grocery List
                 span#grocery-list-items 0 
                 | &nbsp;items

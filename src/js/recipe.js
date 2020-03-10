@@ -171,6 +171,38 @@ $(document).ready(function(){
     })
     
    
+    $('#nav-bar-cart-link').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();  
+        
+        if( !isUserLoggedIn() ) {
+            $("#navbar-sign-in").click();
+            return;
+        }
+        
+        window.location.href = "/my-grocery-list?email=" + loggedInUser.email;
+        
+    })
+    
+    $('#nav-bar-my-grocery-list-link').on('click', function(e){
+        $('#nav-bar-cart-link').click();
+    });
+    
+    $('.user-settings-sign-out').click(function(){
+        console.log("Signing Out..");
+        firebase.auth().signOut().then(function() {
+            $('#toast-title').text('Success');
+            $('#toast-body').text('Sign out successful.');
+            $('#generic-success-toast').toast('show');
+            loggedInUser = null;
+            window.location.href = "/";
+        }).catch(function(error) {
+            // An error happened.
+            console.log("An Error has occured", error);
+            updateNavbar();
+        });
+    })
+    
 });
 
 $(window).on('load', function() {
@@ -316,6 +348,9 @@ function buildGroceryList(recipes){
     
     
 }
+
+
+
 
 /*
 */
