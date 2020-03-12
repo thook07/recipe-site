@@ -346,40 +346,14 @@ html(lang="en")
       span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top
       i.btn-scroll-top-icon.czi-arrow-up    
     
-    // JavaScript libraries, plugins and custom scripts
+
+    // Back To Top Button
+    a(href='#top' data-scroll).btn-scroll-top
+      span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top
+      i.btn-scroll-top-icon.czi-arrow-up    
+    
     script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': '/js/vendor.min.js'})
     script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/theme.min.js'})
-    
-    //FIREBASE
-    //Firebase App (the core Firebase SDK) is always required and must be listed first
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js")
-
-    //If you enabled Analytics in your project, add the Firebase SDK for Analytics
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js")
-
-    //Add Firebase products that you want to use
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js")
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
-    
-    //Searching JS
-    //script(src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous")
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/jquery.autocomplete.min.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/isotope.pkgd.min.js'})
-    
-    
-    //Custom Recipe JS
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/search/recipe.search.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.firebase.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/recipe.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/create-recipe.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/groceryList.js'})
-    if updateRecipe
-      script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/update-recipe.js'})
-    if test
-      script(src='/js/test.js')
-    
-    //Load Classes
-    script(src='/js/objects/Recipe.js')
-    script(src='/js/objects/User.js')
-
-    
+    script(src='/js/search/isotope.pkgd.min.js')
+  
+  

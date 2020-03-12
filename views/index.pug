@@ -6,6 +6,15 @@ append config
   - var parentMenu = 'Home'
   - var breadcrumbs = [{'title': 'Catalog'}]
   - var showSidebar = true
+  - var includeFirebase = true
+  - var includeIsotope = true
+  - var includeAutoComplete = true
+  - var includeRecipe = true
+  - var includeRecipeSearch = true
+  - var includeCreateRecipe = false
+  - var includeGroceryList = false
+  - var includeUpdateRecipe = false
+  - var includeTest = false
   
 //- Page Content
 block content
@@ -82,6 +91,5 @@ block content
   include recipe-partials/toast-shop
   include recipe-partials/toast-signed-in
   include recipe-partials/toast-signed-out
-  
   
   

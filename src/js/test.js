@@ -5,40 +5,40 @@ $(document).ready(function(){
     $('#test-button-1').click(function(){
         console.log("test-button-1 clicked.");
         
-        db.collection("recipes-test").doc("test-recipe")
-        .withConverter(recipeConverter)
-        .get().then(function(doc) {
-            if (doc.exists){
-                // Convert to City object
-                recipe = doc.data();
-
-                recipe.name = 'Test Recipe';
-                recipe.notes = ['my note 1','my note 2','etc.'];
-                recipe.cookTime = 20;
-                recipe.prepTime = 30;
-                
-                var attribution = {
-                    'author': 'Nora Cooks',
-                    'link': 'www.noracooks.com'
-                }
-                recipe.attribution = attribution;
-
-            } else {
-                console.log("No such document!")
-            }}).catch(function(error) {
-                console.log("Error getting document:", error)
-        });
-
+        console.log("Storing to local cache");
+        
+        db.collection("recipes").withConverter(recipeConverter).get().then(function(docs){
+            
+            var recipes = [];
+            docs.forEach(function(doc){
+                var recipe = doc.data();
+                console.log("adding recipe name:",recipe.name);
+                recipes.push(recipe.name);
+            });
+            
+            localStorage["recipes"] = recipes;
+            console.log("Done!",recipes.length," recipes were added.");
+        })
+        
+        localStorage["recipes"] = ["One","Two", "Three"];
+        
         
     });
     
      $('#test-button-2').click(function(){
-        console.log("test-button-2 clicked.");
-        
-        db.collection("recipes-test").doc("test-recipe")
-        .withConverter(recipeConverter)
-        .set(recipe);
-
+         
+         var data = {}
+         data.recipeId = "gravy"
+         
+       framework.post("http://3.14.147.18:1338/getRecipe", data, function(res, err){
+           if(err) {
+               console.log("Error:",err)
+           }
+           console.log(res);
+           
+       });
+         
+         
     });
 
     $('#test-button-3').click(function(){
@@ -72,3 +72,13 @@ $(document).ready(function(){
     
     
 });
+
+
+
+ firebase.auth().onAuthStateChanged(function(authUser) {
+     if(authUser) {
+         console.log(authUser.email, "is logged in")
+     } else {
+         console.log("No user is logged in");
+     }
+ });

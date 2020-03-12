@@ -5,13 +5,20 @@ append config
   - var pageTitle = 'Grocery - Checkout'
   - var parentMenu = 'Home'
   - var breadcrumbs = [{'title': 'Checkout'}]
-  - var groceryList = true
+  - var includeFirebase = true
+  - var includeIsotope = true
+  - var includeAutoComplete = true
+  - var includeRecipe = true
+  - var includeRecipeSearch = true
+  - var includeCreateRecipe = true
+  - var includeGroceryList = true
+  - var includeUpdateRecipe = false
+  - var includeTest = false
   
 //- Page Content
 block content
 
-  // Checkout form
-  
+  //your recipes
   section.pb-5
     h2.h3.pb-2.mb-grid-gutter.text-center Here are the recipes in your grocery list
     .cz-carousel.cz-controls-static.cz-controls-outside.cz-dots-enabled
@@ -20,22 +27,19 @@ block content
         // Product
         each recipe in recipes
           div
-            .card.product-card.card-static.pb-3
-              button(type='button' data-toggle='tooltip' data-placement='left' title='Add to wishlist').btn-wishlist.btn-sm
-                i.czi-heart
+            div(id=recipe.id).card.product-card.card-static.pb-3
+              button(data-recipe=recipe.id type='button' data-toggle='tooltip' data-placement='left' title='Remove From List').btn-wishlist.btn-sm
+                i.czi-trash
               - var imageUrl = ( recipe.images != undefined ? recipe.images[0] : "/recipe-images/default.jpg")
-              a(href='grocery-single.html').card-img-top.d-block.overflow-hidden.text-center
+              - var recipeUrl = "/recipe/" + recipe.id
+              a(href=recipeUrl).card-img-top.d-block.overflow-hidden.text-center
                 img(src=imageUrl alt='Product' style="max-height:150px;")
               .card-body.py-2
-                a(href='#').product-meta.d-block.font-size-xs.pb-1 -------
+                a(href=recipeUrl).product-meta.d-block.font-size-xs.pb-1 -------
                 h3.product-title.font-size-sm
-                  a(href='grocery-single.html') #{recipe.name}
+                  a(href=recipeUrl) #{recipe.name}
                 .product-price
                   span.text-accent #{recipe.attribution.author}
-              .product-floating-btn
-                button(type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-shadow.btn-sm
-                  | +
-                  i.czi-cart.font-size-base.ml-1
   
   section.pb-5.mb-2.mb-xl-4 
     .row
@@ -51,7 +55,7 @@ block content
             i.czi-check.ml-2
     ul.list-group.mt-4
       .list-group.d-flex.justify-content-between.align-items-center
-        each items, cat in list.itemsByCategory
+        each items, cat in list.getItemsByCategory()
           a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
           each item in items
             - var check = "icon-"+ item.id;
@@ -60,9 +64,9 @@ block content
                 i.czi-check.mr-2
               span(id=item.id)
                 | #{item.id}
-              each amt in item.amount
-                span.badge.badge-accent.ml-2
+              each amt, recipeId in item.amountMap
+                span(class=recipeId).badge.badge-accent.ml-2.amount-badge
                   | #{amt} 
               each recipeId in item.recipes
-                span.badge.badge-secondary.ml-2.float-right.d-none.d-md-block
+                span(class=recipeId).badge.badge-secondary.ml-2.float-right.d-none.d-md-block.recipe-badge
                   | #{recipeId}

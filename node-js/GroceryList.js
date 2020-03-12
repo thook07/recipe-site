@@ -3,12 +3,11 @@ var Ingredient = require("./Ingredient");
 
 class GroceryList {
     
-    constructor(cache) {
+    constructor() {
         this.items = [];
-        this.itemsByCategory = [];
     }
     
-    addItem(id, amount, recipeId, ing) {
+    addItem(id, amount, recipeId, category) {
         
         var alreadyExists = false;
         for(i=0; i<this.items.length; i++){
@@ -21,7 +20,7 @@ class GroceryList {
         if( alreadyExists ) {
             this.items[i].addIngredient(amount, recipeId);
         } else {
-            this.items.push(new GroceryListItem(id,amount,recipeId,ing));
+            this.items.push(new GroceryListItem(id,amount,recipeId,category));
         }
         
         this.items.sort();
@@ -33,21 +32,22 @@ class GroceryList {
         return "GroceryList: Items ["+this.items.length+"] Ingredients:" + this.ingredients.toString();
     }
     
-    populateItemsByCategory() {
+    getItemsByCategory() {
         
         var catMap = {};
         for(var i=0; i<this.items.length; i++){
             var item = this.items[i];
-            if( catMap[item.ingredient.category] == undefined) {
-                catMap[item.ingredient.category] = [item];
+            console.log(item);
+            if( catMap[item.category] == undefined) {
+                catMap[item.category] = [item];
             } else {
-                catMap[item.ingredient.category].push(item);
+                catMap[item.category].push(item);
             }
             
         }
         
         //console.log("catmap",catMap);
-        this.itemsByCategory = catMap;
+        return catMap;
         
     }
     

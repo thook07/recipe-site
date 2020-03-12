@@ -1,0 +1,36 @@
+extends recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var pageTitle = Test
+  - var parentMenu = 'Home'
+  - var breadcrumbs = [{'title': 'Catalog', 'link': '/'}, {'title': Test}]
+  - var showSidbar = true
+  - var includeFirebase = true
+  - var includeIsotope = true
+  - var includeAutoComplete = false
+  - var includeRecipe = false
+  - var includeRecipeSearch = false
+  - var includeCreateRecipe = false
+  - var includeGroceryList = false
+  - var includeUpdateRecipe = false
+  - var includeTest = false
+  - var includeTest2 = true
+  
+//- Page Content
+block content
+
+  // Product Gallery + description
+  section.row.no-gutters.mx-n2.pb-5.mb-xl-3
+    .col-xl-6.px-2.mb-3
+      .card
+        .card-body
+          h5.card-title
+            | Use this card to do testing...
+          p.card-text.font-size-sm.text-muted
+            | Some quick example text to build on the card title and make up the bulk of the card's content.
+          a#test-button-1.btn.btn-sm.btn-primary(href="#") Test2 Button 1
+
+    .col-xl-6.px-2.mb-3
+      
+      

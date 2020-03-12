@@ -1,4 +1,5 @@
 var showChecked = true;
+var user = null
 $(document).ready(function(){
    
     
@@ -41,6 +42,44 @@ $(document).ready(function(){
         $("#show-checked").removeClass("btn-outline-primary");
     });
     
+    $(".btn-wishlist").click(function(){ 
+        var recipeId = $(this).attr("data-recipe");
+        console.log("remove button clicked on",recipeId);
+        
+        console.log(user.email);
+        db.collection("users").doc(user.email).get().then(function(doc){
+            
+            var list = doc.data().groceryList;
+            console.log(list);
+            
+            var index = list.indexOf(recipeId);
+            if (index !== -1) {
+                list.splice(index, 1)
+            }
+            db.collection("users").doc(user.email).update({groceryList: list}).then(function(){
+                location.reload();
+            }).catch(function(e){
+                console.log("Error",e)
+            });
+        
+        
+        }).catch(function(error){
+            console.log("Error occurred.", error);
+        });
+        
+        
+        
+    });
     
+    
+});
+
+firebase.auth().onAuthStateChanged(function(authUser) {
+    if(authUser) {
+        console.log("User is logged in", authUser.email);
+        user = authUser;
+    } else {
+        console.log("User is not logged in..");    
+    }   
     
 });

@@ -35,3 +35,43 @@ head
   // Main Theme Styles + Bootstrap
   link(rel="stylesheet", media="screen", id="main-styles")&attributes(isNestedFile ? {'href': '../css/theme.min.css'} : {'href': '/css/theme.min.css'})
   link(rel="stylesheet", media="screen", id="main-styles")&attributes(isNestedFile ? {'href': '../css/theme.min.css'} : {'href': '/css/recipe.search.css'})
+  
+  
+  // JavaScript libraries, plugins and custom scripts
+  //Load Classes
+  script(src='/js/objects/Recipe.js')
+  script(src='/js/objects/User.js')
+  
+  //Javascript
+  script(src="https://code.jquery.com/jquery-3.4.1.min.js")
+  //FIREBASE
+  if includeFirebase
+    //Firebase App (the core Firebase SDK) is always required and must be listed first
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js")
+    //script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js")
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js")
+    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
+    script(src='/js/recipe.firebase.js')
+    
+  script(src='/js/recipe.framework.js')
+
+  //Searching JS
+  if includeAutoComplete
+    script(src='/js/search/jquery.autocomplete.min.js')
+  if includeRecipe
+    script(src='/js/recipe.js')
+  if includeRecipeSearch
+    script(src='/js/search/recipe.search.js')
+  if includeCreateRecipe
+    script(src='/js/create-recipe.js')
+  if includeGroceryList
+    script(src='/js/groceryList.js')
+  if includeUpdateRecipe
+    script(src='/js/update-recipe.js')
+  if includeTest
+    script(src='/js/test.js')
+  if includeTest2
+    script(src='/js/test2.js')
+
+  
+  
