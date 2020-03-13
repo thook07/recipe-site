@@ -202,6 +202,11 @@ $(document).ready(function(){
             updateNavbar();
         });
     })
+
+    $('.ingredient-link').click(function(){
+        var id = $(this).attr("recipe-id");
+        scrollToRecipe(id);
+    });
     
 });
 
@@ -209,6 +214,12 @@ $(window).on('load', function() {
     updateNavbar();
 });
     
+function scrollToRecipe(id){
+    var aTag = $("#" + id);
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+}
+
+
 
 function isUserLoggedIn(){
     console.log("isUserLoggedIn", loggedInUser != null, loggedInUser)

@@ -9,6 +9,7 @@ const recipe1 = require('./recipe1.json');
 const recipe2 = require('./recipe2.json');
 const tags = require('./tags.json');
 var Recipe = require('./node-js/Recipe.js');
+var RecipeGroup = require('./node-js/RecipeGroup.js');
 var GroceryList = require('./node-js/GroceryList.js');
 var GroceryListItem = require('./node-js/GroceryListItem.js');
 var User = require('./node-js/User.js');
@@ -34,7 +35,7 @@ const server = app.listen(3000, () => {
 app.get('/', (req, res) => {
     log.trace("entering app.get(\'/\'):")
     
-    framework.getRecipes(function(response, error) {
+    framework.getRecipes(undefined, function(response, error) {
         if(error){
             log.error("Error Occurred:" + error);
             res.send("<h1>Error Occurred: "+error+"</h1>")
@@ -42,7 +43,7 @@ app.get('/', (req, res) => {
         }
         
         res.render('index', {
-            recipes: response.data.recipes,
+            recipes: response.data.recipeGroup,
             tags: tags,
             user: null
         });
@@ -85,16 +86,20 @@ app.get('/recipe/:recipe', (req, res) => {
     var recipeId = req.params.recipe;
     log.trace("Grabbing Recipe: " + recipeId);
     
-    framework.getRecipe(recipeId, function(response, err){
+    framework.getRecipes([recipeId], function(response, err){
         if(err) {
             log.error("No Recipe found for ["+recipeId+"]");
             res.status(404);
             res.render('404-simple.pug');
         }
-        var recipe = response.data.recipe;
-        log.debug("Showing Page for recipe: " + recipeId)
+        var recipe = response.data.recipeGroup[0];
+        var nestedRecipes = response.data.nestedRecipes;
+        //adding the original recipe to the front of the array
+        nestedRecipes = [recipe].concat(nestedRecipes);
+        log.debug("Showing Page for recipe: " + recipe.id)
         res.render('grocery-single', {
             recipe: recipe,
+            nestedRecipes: nestedRecipes, 
             tags: tags
         });
         
@@ -163,28 +168,27 @@ app.get('/my-grocery-list', (req, res) => {
             console.log("Adding: ", user.groceryList[i], " to the list");
             recipeIds.push(user.groceryList[i]);
         }
-        framework.getGroceryList(recipeIds, function(response, err){
+        log.trace("recipeIds " + recipeIds);
+        framework.getRecipes(recipeIds, function(response, err){
             
             if(err) {
+                log.error(err);
                 log.error("Error occured building grocery list.");
                 res.status(404);
                 res.render('404-simple.pug');
                 return;
             }
-            var items = response.data.items;
-            var recipes = response.data.recipes;
-            log.debug("Showing Page for my-grocery-list")
-            log.trace("Items: "+items.length)
-            log.trace("Recipes: "+recipes.length)
             
-            var groceryList = new GroceryList()
-            for(var i=0; i<items.length; i++){
-                groceryList.addItem(items[i].ingredientId, items[i].amount, items[i].recipe.id, items[i].category)
-            };
+            var recipeGroup = new RecipeGroup(response.data.recipeGroup);
+            log.debug("Showing Page for my-grocery-list")
+            //log.trace("Items: "+items.length)
+            log.trace("Recipes: "+recipeGroup.recipes)
+            
+            var groceryList = recipeGroup.getGroceryList();
             
             res.render('my-grocery-list', {
                 user: user,
-                recipes: response.data.recipes,
+                recipes: recipeGroup.recipes,
                 list: groceryList
             });
             

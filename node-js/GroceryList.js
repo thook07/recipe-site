@@ -8,7 +8,7 @@ class GroceryList {
     }
     
     addItem(id, amount, recipeId, category) {
-        
+        console.log("addItem...["+id+"] ["+amount+"] ["+recipeId+"] ["+category+"]")
         var alreadyExists = false;
         for(i=0; i<this.items.length; i++){
             if(this.items[i].id == id) {
@@ -33,11 +33,9 @@ class GroceryList {
     }
     
     getItemsByCategory() {
-        
         var catMap = {};
         for(var i=0; i<this.items.length; i++){
             var item = this.items[i];
-            console.log(item);
             if( catMap[item.category] == undefined) {
                 catMap[item.category] = [item];
             } else {

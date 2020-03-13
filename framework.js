@@ -9,7 +9,6 @@ exports.getToken = function(onCompletion){
     data.apiKey = "e6b6cb37-183d-4c41-b42f-57e31be79d1c";
     
     axios.post(API_URL+'/authenticate', data).then(function (response) {
-        console.log(response);
         onCompletion(response,null)
     }).catch(function (error) {
         log.error("/getToken catch Error Occurred:" + error);
@@ -17,18 +16,24 @@ exports.getToken = function(onCompletion){
     });
 }
 
-exports.getRecipes = function(onCompletion){
+exports.getRecipes = function(recipeIds, onCompletion){
     
     exports.getToken( function(res,err){
         if(err) {
-            console.log("Error Occurred:",err)
-            return
+            console.log("Error Occurred:",err);
+            return;
         }
         
-        var data = {}
-        data.token = res.data.token
+        var data = {};
+        data.token = res.data.token;
+
+        if(recipeIds != undefined){
+            log.trace("Getting a subset of recipes: " + recipeIds)
+            data.recipeIds = recipeIds;
+        }
         
         axios.post(API_URL+'/getRecipes', data).then(function (response) {
+            console.log(response.data);
             onCompletion(response,null)
         
         }).catch(function (error) {

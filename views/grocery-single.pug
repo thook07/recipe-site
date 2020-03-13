@@ -20,101 +20,125 @@ append config
 block content
 
   // Product Gallery + description
-  section.row.no-gutters.mx-n2.pb-5.mb-xl-3
-    .col-xl-6.px-2.mb-3
-      .h-100.bg-light.rounded-lg.py-5.px-4.px-sm-5
-        a(href='#').product-meta.d-block.font-size-sm.pb-2 
-          each tag in recipe.tags
-            span.mr-2 #{tag}
-        h1.h2 #{recipe.name}
-        
-        .col-xl-12.px-2.mb-3
-          .h-100.bg-light.rounded-lg.p-4
-            .cz-product-gallery
-              .cz-preview.order-sm-2
-                if recipe.images
-                  each image, index in recipe.images
-                    if index == 0
-                      div(id="image-" + index).cz-preview-item.active
-                        img(src=image alt='Product image')
-                    else
-                      div(id="image-" + index).cz-preview-item
-                        img(src=image alt='Product image')
-                else
-                  div(id="default-image").cz-preview-item.active
-                    img(src="/recipe-images/default.jpg" alt='Product image')
-              .cz-thumblist.order-sm-1
-                if recipe.images
-                  each image, index  in recipe.images
-                    a(href="#image-" + index).cz-thumblist-item
-                      img(src=image alt='Product thumb')
-                else
-                  a(href="#default-image").cz-thumblist-item
-                      img(src="/recipe-images/default.jpg" alt='Product thumb')
-        //.form-group.d-flex.flex-wrap.align-items-center.pt-4.pb-2.justify-content-center
-        //  select(style='width: 5rem;').custom-select.mr-3.mb-3
-        //    option(value='1') 1
-        //    option(value='2') 2
-        //    option(value='3') 3
-        //    option(value='4') 4
-        //    option(value='5') 5
-        //  button(type='submit').btn.btn-primary.btn-shadow.mr-3.mb-3
-        //    i.czi-cart.font-size-lg.mr-2
-        //    | Add to Cart
-        //  button(type='submit' data-toggle='tooltip' title='Add to Wishlist').btn.btn-icon.btn-secondary.mb-3
-        //    i.czi-heart.font-size-lg
-        .col-xl-12.px-2.mb-3
-          if recipe.attribution
-            if recipe.attribution.link
-              a(href=recipe.attribution.link target="_blank")
-                button(type="button").btn.btn-outline-primary 
-                  i.czi-link.mr-2
-                  | #{recipe.attribution.author}
-
-
-  
-    .col-xl-6.px-2.mb-3
-      .h-100.bg-light.rounded-lg.py-5.px-4.px-sm-5
-        ul(class="nav nav-tabs nav-fill", role="tablist")
-          li.nav-item
-            a(href="#ingredients", class="nav-link active", data-toggle="tab", role="tab")
-              i.czi-view-list.mr-2
-              | Ingredients
-          if recipe.instructions    
-            li.nav-item
-              a(href="#instructions", class="nav-link", data-toggle="tab", role="tab")
-                i.czi-menu.mr-2
-                | Instructions
-          if recipe.notes
-            li.nav-item
-              a(href="#notes", class="nav-link", data-toggle="tab", role="tab")
-                i.czi-edit-alt.mr-2
-                | Notes
-              
-              
-        .tab-content
-          div(id="ingredients", class="tab-pane fade show active", role="tabpanel")
-            p.font-size-sm
-              // Basic list group
-              ul.list-group
-                if recipe.ingredients
-                  each ingredient in recipe.ingredients
-                    li.list-group-item
-                      if ingredient.amount == "na"
-                        | #{ingredient.ingredient}
+  each recipe in nestedRecipes
+    section(id=recipe.id).row.no-gutters.mx-n2.pb-5.mb-xl-3
+      .col-xl-6.px-2.mb-3
+        .h-100.bg-light.rounded-lg.py-5.px-4.px-sm-5
+          a(href='#').product-meta.d-block.font-size-sm.pb-2 
+            each tag in recipe.tags
+              span.mr-2 #{tag}
+          h1.h2 #{recipe.name}
+          
+          .col-xl-12.px-2.mb-3
+            .h-100.bg-light.rounded-lg.p-4
+              .cz-product-gallery
+                .cz-preview.order-sm-2
+                  if recipe.images
+                    each image, index in recipe.images
+                      if index == 0
+                        div(id="image-" + index).cz-preview-item.active
+                          img(src=image alt='Product image')
                       else
-                        | #{ingredient.amount} - #{ingredient.ingredient}
-          if recipe.instructions
-            div(id="instructions", class="tab-pane fade", role="tabpanel")
+                        div(id="image-" + index).cz-preview-item
+                          img(src=image alt='Product image')
+                  else
+                    div(id="default-image").cz-preview-item.active
+                      img(src="/recipe-images/default.jpg" alt='Product image')
+                .cz-thumblist.order-sm-1
+                  if recipe.images
+                    each image, index  in recipe.images
+                      a(href="#image-" + index).cz-thumblist-item
+                        img(src=image alt='Product thumb')
+                  else
+                    a(href="#default-image").cz-thumblist-item
+                        img(src="/recipe-images/default.jpg" alt='Product thumb')
+          //.form-group.d-flex.flex-wrap.align-items-center.pt-4.pb-2.justify-content-center
+          //  select(style='width: 5rem;').custom-select.mr-3.mb-3
+          //    option(value='1') 1
+          //    option(value='2') 2
+          //    option(value='3') 3
+          //    option(value='4') 4
+          //    option(value='5') 5
+          //  button(type='submit').btn.btn-primary.btn-shadow.mr-3.mb-3
+          //    i.czi-cart.font-size-lg.mr-2
+          //    | Add to Cart
+          //  button(type='submit' data-toggle='tooltip' title='Add to Wishlist').btn.btn-icon.btn-secondary.mb-3
+          //    i.czi-heart.font-size-lg
+          .col-xl-12.px-2.mb-3
+            if recipe.attribution
+              if recipe.attribution.link
+                a(href=recipe.attribution.link target="_blank")
+                  button(type="button").btn.btn-outline-primary 
+                    i.czi-link.mr-2
+                    | #{recipe.attribution.author}
+
+
+    
+      .col-xl-6.px-2.mb-3
+        .h-100.bg-light.rounded-lg.py-5.px-4.px-sm-5
+          ul(class="nav nav-tabs nav-fill", role="tablist")
+            li.nav-item
+              a(href="#ingredients", class="nav-link active", data-toggle="tab", role="tab")
+                span.d-none.d-sm-block
+                  i.czi-view-list.mr-2
+                  | Ingredients
+                span.d-block.d-sm-none
+                  i.czi-view-list.mr-2
+                  | Ingredients
+            if recipe.instructions    
+              li.nav-item
+                a(href="#instructions", class="nav-link", data-toggle="tab", role="tab")
+                  span.d-none.d-sm-block
+                    i.czi-menu.mr-2
+                    | Instructions
+                  span.d-block.d-sm-none
+                    i.czi-menu.mr-2
+                    | How To
+            if recipe.notes
+              li.nav-item
+                a(href="#notes", class="nav-link", data-toggle="tab", role="tab")
+                  span.d-none.d-sm-block
+                    i.czi-edit-alt.mr-2
+                    | Notes
+                  span.d-block.d-sm-none
+                    i.czi-edit-alt.mr-2
+                
+                
+          .tab-content
+            div(id="ingredients", class="tab-pane fade show active", role="tabpanel")
               p.font-size-sm
-                ul.list-group
-                  each instruction in recipe.instructions
-                    li.list-group-item
-                      | #{instruction}          
-          if recipe.notes
-            div(id="notes", class="tab-pane fade", role="tabpanel")
-              p.font-size-sm
-                ul.list-group
-                  each note in recipe.notes
-                    li.list-group-item
-                      | #{note}
+                // Basic list group
+                .list-group
+                  each recipeIngredient in recipe.recipeIngredients
+                    if recipeIngredient.isRecipe == 1
+                      a(recipe-id=recipeIngredient.recipe.id).ingredient-link.list-group-item.list-group-item-action
+                        //i.czi-link.mr-2
+                        if recipeIngredient.amount == "na"
+                          | #{recipeIngredient.ingredientDescription} 
+                          span.float-right
+                            i.czi-basket-alt
+                        else
+                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
+                          span.float-right
+                            i.czi-basket-alt
+
+                    else
+                      .list-group-item
+                        if recipeIngredient.amount == "na"
+                          | #{recipeIngredient.ingredientDescription} 
+                        else
+                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
+            if recipe.instructions
+              div(id="instructions", class="tab-pane fade", role="tabpanel")
+                p.font-size-sm
+                  ul.list-group
+                    each instruction in recipe.instructions
+                      li.list-group-item
+                        | #{instruction}          
+            if recipe.notes
+              div(id="notes", class="tab-pane fade", role="tabpanel")
+                p.font-size-sm
+                  ul.list-group
+                    each note in recipe.notes
+                      li.list-group-item
+                        | #{note}
