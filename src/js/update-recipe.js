@@ -22,140 +22,96 @@
 */
 const RECIPE_COLLECTION = "recipes";
 $(document).ready(function(){
-    
-    
-    $(".recipe-id").click(function(e) {
-        console.log('Testing', this.id);
-        var docRef = db.collection(RECIPE_COLLECTION).doc(this.id);
-        docRef.get().then(function(doc) {
-            if (doc.exists) {
-                console.log(doc.get('ingredients'));
-                $('#textarea-test').val(JSON.stringify(doc.get('ingredients')));
-            } else {
-                // doc.data() will be undefined in this case
-                $('#textarea-test').val("Couldnt find it..");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-        
-    })
-    
-    $('.upload-btn').click(function(e){ 
-        var ingredientArray = [];
-        var ingredientId = $('#' + $(this).attr("data-recipe-id") + "-" + $(this).attr("data-recipe-index")).val();
-        var ingredientToCheck = $(this).attr("data-recipe-ingredient");
-        var recipeId = $(this).attr("data-recipe-id")
-        var span = "";
-        $("."+recipeId).each(function(i, obj) {
-            var amount = $(obj).attr('recipe-amount');
-            var ingredient = $(obj).attr('recipe-ingredient');
-            var existingId = $(obj).attr('recipe-ingredient-id');
-            
-            if(ingredient == ingredientToCheck) {
-                var map = {
-                    'amount':amount,
-                    'ingredient': ingredient,
-                    'ingredientId': ingredientId
+
+    $(".update-btn").click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var id = $(this).attr("ri-id");
+        var action = $("#"+id).val();
+        if(action.length == 1) {
+            //update isRecipe
+            console.log("Updating isRecipe to ["+action+"] for recipeIngredient ["+id+"]");
+
+            var data = {};
+            data["id"] = id;
+            data["isRecipe"] = action;
+
+            framework.post("http://3.14.147.18:1338/updateRecipeIngredient", data, function(res, err){
+                if(err) {
+                    console.log("Error:",err)
                 }
-                span = $(obj);
-            } else {
-                var map = {
-                    'amount':amount,
-                    'ingredient': ingredient,
-                    'ingredientId': existingId
+                console.log(res);   
+            });
+        } else {
+            //update ingredient
+            console.log("Updating ingredientId to ["+action+"] for recipeIngredient ["+id+"]")
+            var data = {};
+            data["id"] = id;
+            data["ingredientId"] = action;
+
+            framework.post("http://3.14.147.18:1338/updateRecipeIngredient", data, function(res, err){
+                if(err) {
+                    console.log("Error:",err)
                 }
-            }
-            ingredientArray.push(map);
-        });
-        var json = {
-            "ingredients":ingredientArray
+                console.log(res);   
+            });
         }
-        
-        span.attr("recipe-ingredient-id",ingredientId)
-        
-        let update = db.collection('recipes').doc(recipeId).update(json).then(function() {
-            $(this).attr("data-recipe-ingredient",ingredientId);
-            console.log("Success! Added " + ingredientId + " to database!");
-        }).catch(function(e){
-            console.log(e);  
-        });
-        
-        
-        
-        
     });
     
 
-    /*docRef.get().then(function(doc) {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            var ingredients = doc.get('ingredients');
-            
-            ingredients[1].id = 'sauce';
-            
-            
-            db.collection("recipes-test").doc("test-recipe").update({
-                ingredients: ingredients
-            });
-            
-            
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });*/
-    
-    $(".ingredient-item").click(function(){
-        $(this).toggleClass("list-group-item-dark");
-        $(this).toggleClass("checked");
+    $("td.update-column").click(function(){
+        console.log("clickeD");
+        var column = $(this).attr("data-name");
+        var recipeId = $(this).parent().attr("data-id");
+
+        console.log("column", column)
+        console.log("recipeId", recipeId);
+
+        $("#col-"+recipeId).html(column);
         
+
     });
-    
-    $("#update-button").on( 'click', function(e){
-        e.preventDefault()
+
+    $(".update-recipe-btn").click(function(e) {
         e.stopPropagation();
-        
-        var category = $("#category-name-input").val();
-        
-        var itemsToUpdate = []
-        $(".checked").each(function() {
-            itemsToUpdate.push($(this).attr("id"));
-        });
-        
-        console.log("Updating", itemsToUpdate.length, "ingredients to", category);
-        for(i=0; i<itemsToUpdate.length; i++){
-            console.log("ingredients >",itemsToUpdate[i],">",category);
-            db.collection("ingredients").doc(itemsToUpdate[i]).set({
-                id: itemsToUpdate[i],
-                category: category
-            }).then(function(){
-                console.log("Successfully written.")
-            }).catch(function(error){
-                console.log("Error occurred.", error);
-            });
+        e.preventDefault();
+        var id = $(this).attr("ri-id");
+        var column = $("#col-"+id).html();
+        var value = $("#"+id).val();
+
+        console.log("id",id);
+        console.log("column",column);
+        console.log("value",value);
+
+        var data = {};
+        data["id"] = id;
             
-            
-            
+        if(column == "images") {
+            var imageLinks = value.split(",");
+            data["images"] = imageLinks;
         }
-        
-        $(".checked").each(function() {
-            $(this).removeClass(".checked");
-            $(this).removeClass("list-group-item-dark");
+
+        if(column == "name") {
+            data["name"] = value;
+        }
+
+        if(column == "cookTime") {
+            data["cookTime"] = value;
+        }
+
+        if(column == "prepTime") {
+            data["prepTime"] = value;
+        }
+    
+        framework.post("http://3.14.147.18:1338/updateRecipe", data, function(res, err){
+            if(err) {
+                console.log("Error:",err)
+            }
+            console.log(res);   
         });
-        
-        
     });
-    
-    $("#hide-category-button").on( 'click', function(e){
-        e.preventDefault()
-        e.stopPropagation();
-        $(".hasCategory").hide();
-    })
-    
-    
+
+
 });
    
     

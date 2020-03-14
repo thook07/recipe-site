@@ -40,13 +40,18 @@ block content
       // Product
       - var myTags = "";
       - var myTagList = "";
-      - for (var i = 0; i < recipe.tags.length; ++i) {
-      -    if(i < 1) {
-      -      myTags = "tag-" + recipe.tags[i];
-      -      myTagList = recipe.tags[i];
-      -    } else {
-      -      myTags = myTags + " " + "tag-"+recipe.tags[i];
-      -      myTagList = myTagList + " " + recipe.tags[i];
+      - if( recipe.tags == undefined || recipe.tags == null) {
+      -   myTags = "";
+      -   myTagsList = "";
+      - } else {
+      -    for (var i = 0; i < recipe.tags.length; ++i) {
+      -       if(i < 1) {
+      -         myTags = "tag-" + recipe.tags[i];
+      -         myTagList = recipe.tags[i];
+      -       } else {
+      -         myTags = myTags + " " + "tag-"+recipe.tags[i];
+      -         myTagList = myTagList + " " + recipe.tags[i];
+      -       }
       -    }
       - }
       - var author = ""

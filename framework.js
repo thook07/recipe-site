@@ -95,6 +95,50 @@ exports.getGroceryList = function(recipeIds, onCompletion){
     });
 }
 
+exports.getRecipeIngredientIssues = function(data, onCompletion){
+    
+    exports.getToken(function(res,err){
+        if(err) {
+            console.log("Error Occurred:",err);
+            return;
+        }
+        
+        data.token = res.data.token;
 
+        axios.post(API_URL+'/getRecipeIngredientIssues', data).then(function (response) {
+            onCompletion(response,null)
+        
+        }).catch(function (error) {
+            onCompletion(null,error);
+        });
+
+
+    });
+}
+
+
+
+exports.getRecipesTable = function(data, onCompletion){
+
+    console.log("Calling /getRecipesTable...")
+    exports.getToken(function(res,err){
+        if(err) {
+            console.log("Error Occurred:",err);
+            return;
+        }
+        
+        data.token = res.data.token;
+        console.log(data);
+
+        axios.post(API_URL+'/getRecipesTable', data).then(function (response) {
+            onCompletion(response,null)
+        
+        }).catch(function (error) {
+            onCompletion(null,error);
+        });
+
+
+    });
+}
   
 

@@ -64,7 +64,6 @@ block content
                   - } else {
                   -   ingClass = "list-group-item-success d-none"
                   - }
-                  - console.log(ingClass,value.ingredientId)
                   li(class=ingClass).list-group-item.justify-content-between.align-items-center
                     span(recipe-amount=value.amount recipe-ingredient=value.ingredient recipe-ingredient-id=ingId class=doc.id)
                       if value.amount == "na"

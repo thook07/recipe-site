@@ -9,9 +9,8 @@ append config
   - var footerTemplate = 'footer-marketplace'
   - var isFileUploadScript = true
   - var showSidebar = false
-  - var showSidbar = true
   - var includeFirebase = true
-  - var includeIsotope = true
+  - var includeIsotope = false
   - var includeAutoComplete = false
   - var includeRecipe = false
   - var includeRecipeSearch = false
@@ -41,37 +40,33 @@ block content
 
             // Title
             .d-sm-flex.flex-wrap.justify-content-between.align-items-center.pb-2
-              h2.h3.py-2.mr-2.text-center.text-sm-left Update Recipes
+              h2.h3.py-2.mr-2.text-center.text-sm-left Update Ingredients
             .table-responsive
               table.table.table-striped
                 thead
                   tr
                     th id
-                    th name
-                    th cookTime
-                    th prepTime
-                    th author
-                    th link
-                    th notes
-                    th instructions
-                    th images
+                    th ingredientDescription
+                    th ingredientId
+                    th recipeId
+                    th amount
+                    th isRecipe
                     th action
                 tbody
-                  each recipe in recipes
+                  each ri in recipeIngredients
                     tr
-                      td #{recipe.id}
-                      td #{recipe.name}
-                      td #{recipe.cookTime}
-                      td #{recipe.prepTime}
-                      td #{recipe.attAuthor}
-                      td 
-                        a(href=recipe.attLink) Link
-                      td notes
-                      td instructions
-                      td #{recipe.images}
+                      td #{ri.id}
+                      td #{ri.ingredientDescription}
+                      td #{ri.ingredientId}
+                      td #{ri.recipeId}
+                      td #{ri.amount}
+                      td #{ri.isRecipe}
                       td 
                         form.form-inline.pt-2
-                          input(type="text").form-control.mb-3.mr-sm-4
-                          button(ri-id=recipe.id).update-btn.btn.btn-primary.mb-3 Update
+                          input(type="text", id=ri.id, placeholder=ri.ingredientId).form-control.mb-3.mr-sm-4
+                          button(ri-id=ri.id).update-btn.btn.btn-primary.mb-3 Update
+                      
+
+
                     
   include recipe-partials/toast-generic-success

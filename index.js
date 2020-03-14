@@ -312,87 +312,41 @@ app.get('/update/:action', (req, res) => {
     
     
     console.log("REQ: ", req.params);
-    if(req.params.action == "ingredients") {
-        
-        firebase.db.collection('ingredients').withConverter(ingredientConverter).get().then(function(documents){
-            
-            var ingredients = [];
-            documents.forEach(function(snapshot){
-                var ingredient = snapshot.data(); 
-                ingredients.push(ingredient);
-            });
-            
-            res.render('all-ingredients-2', {
-                ingredients: ingredients
-            });
-        
-            
-            
-            
-        })
-        
-    }else if(req.query.id == undefined) {
-    
-        let ref = firebase.db.collection('recipes');
-        ref.get().then(function(doc) {
-            //got the list of recipes
-            var documents = doc.docs;
-            for(var i=0; i< documents.length; i++) {
-                var data = documents[i].data();
-                //console.log('data', data)
-                var count = 0;
-                for(var key in data['ingredients']){
-                    count = count + 1;
-                }
-                console.log(documents[i].id,' has ',count,' ingredients');
-                //for(var name in data){
-                //    console.log(name,data[name]);
-                //}
-            }
-            
-            
-            res.render('all-ingredients', {
-                docs: documents
-            });
+    if(req.params.action == "issues") {
 
-            /*var ref = firebase.rDB.ref("ingredientIds");
-
-            ref.on("value", function(snapshot) {
-                console.log('ingredientIds', snapshot.val());
-
-                res.render('all-ingredients', {
-                    docs: documents
-                });
-
-            }, function (errorObject) {
-                console.log("Couldn't find ingredientIds");
-            });*/
+        framework.getRecipeIngredientIssues({},function(response, err){ 
+            res.render("update-issues", {
+                recipeIngredients: response.data.recipeIngredients
+            })
             
-            
-            
-
-        }).catch(err => {
-            console.log('Error getting document', err);
         });
-        return;
+
+
+
+
+    }else if(req.params.action == "issuesAll") {
+    
+        framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
+            res.render("update-issues", {
+                recipeIngredients: response.data.recipeIngredients
+            })
+            
+        });
+
+
+    }else if(req.params.action == "recipes") {
+    
+        framework.getRecipesTable({},function(response, err){ 
+            res.render("update-recipes", {
+                recipes: response.data.recipes
+            })
+            
+        });
+
+
     } else {
         
-        if( req.query.id != undefined) {
-            let ref = firebase.db.collection('recipes').doc(req.query.id);
-            ref.get().then(function(doc){
-                let data = doc.data();
-
-                res.render('update-recipe', {
-                    data: data
-                });
-
-            }).catch( function(error) {
-
-            });
-        }
-        
-        
-
+        res.send("<h1>action not found</h1>");
         
     }
     //res.send("<h1>test</h1>");    

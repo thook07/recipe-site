@@ -50,8 +50,7 @@ $(document).ready(function(){
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             return;
         } 
-        
-        console.log(recipeIngredients);
+
         
         if( recipeIngredients == null ) {
             $("#cr-recipe-ingredients").addClass("is-invalid")
@@ -62,7 +61,6 @@ $(document).ready(function(){
             return;
         } else {
             $("#cr-recipe-ingredients").removeClass("is-invalid");
-            console.log(recipeIngredients);
         }
         
         var json = {
@@ -71,26 +69,30 @@ $(document).ready(function(){
             'tags': recipeTags,
             'cookTime': recipeCookTime,
             'prepTime': recipePrepTime,
-            'ingredients': recipeIngredients,
+            'recipeIngredients': recipeIngredients,
             'instructions': recipeInstructions,
-            'notes': recipeNotes,
             'attribution': {
                 'author': recipeAuthor,
                 'link': recipeLink
             }
         }
-        recipeRef = db.collection("recipes").doc(recipeId)
-        recipeRef.set(json).then(function() {
+
+        if(recipeNotes != undefined) json['notes'] = recipeNotes;
+            
+        var data = {};
+        data['recipe'] = json;
+        
+        /* Send to API */
+        framework.post("http://3.14.147.18:1338/createRecipe",data, function(res, err) {
+            console.log(res);
             console.log("Recipe created successfully!");
             $('#toast-title').text('Success');
             $('#toast-body').text(recipeName + ' created successfully!');
             $('#generic-success-toast').toast('show');
             $('html, body').scrollTop(0);
             setTimeout(() => { location.reload(true); }, 500);
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
         });
+        
     });
 
 
@@ -120,14 +122,20 @@ function parseAndValidateIngredients(rawText) {
         if( array[i] == "" ) {
             continue;
         }
-        var ingredient = array[i].replace(new RegExp('-','g'),'|')
-        var strArray = ingredient.split('|');
+        var strArray = array[i].split('-');
         var amount = strArray[0];
-        var ingredient = strArray[1];
+        strArray.shift();
+        var ingredient = strArray.join().replace(/,/g,"-");
+
         if(amount == null || amount == undefined || ingredient == null || ingredient == undefined) {
             return null;
         }
-        jsonObj.push({ "amount": amount.trim(), "ingredient": ingredient.trim()});
+        var ri = {};
+        ri.amount = amount.trim();
+        ri.ingredientDescription = ingredient.trim();
+        ri.isRecipe = 0;
+
+        jsonObj.push(ri);
     }
     return jsonObj;
 }

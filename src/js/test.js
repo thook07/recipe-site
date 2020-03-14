@@ -44,18 +44,9 @@ $(document).ready(function(){
     $('#test-button-3').click(function(){
         console.log("test-button-3 clicked.");
 
-        db.collection("recipes-test")
-        .withConverter(recipeConverter).withConverter(recipeConverter).get().then(function(snapshot) {
-            
-            var recipes = [];
-            snapshot.forEach((doc) => {
-                recipe = doc.data();
-                console.log(recipe.toString());
-                recipes.push(recipe);
-            });
+        console.log("good_luck_buddy".split('_')[0]);
+        console.log("good_luck_buddy".split('_').slice(1).join('_'));
         
-            console.log(recipes);
-        });
     });
     
     
