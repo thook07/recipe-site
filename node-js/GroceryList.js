@@ -10,7 +10,7 @@ class GroceryList {
     addItem(id, amount, recipeId, category) {
         console.log("addItem...["+id+"] ["+amount+"] ["+recipeId+"] ["+category+"]")
         var alreadyExists = false;
-        for(i=0; i<this.items.length; i++){
+        for(var i=0; i<this.items.length; i++){
             if(this.items[i].id == id) {
                 alreadyExists = true;
                 break;

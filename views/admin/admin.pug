@@ -1,0 +1,58 @@
+extends ../recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var pageTitle = 'Update Recipe'
+  - var parentMenu = 'Account'
+  - var navbarTemplate = 'navbar-marketplace'
+  - var footerTemplate = 'footer-marketplace'
+  - var isFileUploadScript = true
+  - var showSidebar = false
+  - var showSidbar = true
+  - var includeFirebase = true
+  - var includeIsotope = false
+  - var includeAutoComplete = false
+  - var includeRecipe = false
+  - var includeRecipeSearch = false
+  - var includeCreateRecipe = false
+  - var includeGroceryList = false
+  - var includeUpdateRecipe = false
+  - var includeTest = false
+  - var includeAdmin = true
+
+//- Page Content
+block content
+
+  //- dashboard-header.pug template
+  //include partials/dashboard-header
+
+  .container.mb-5.pb-3
+    .bg-light.box-shadow-lg.rounded-lg.overflow-hidden
+      .row
+
+        // Sidebar
+        aside.col-lg-4
+          //- sidebar-dashboard.pug template
+          //include partials/sidebar-dashboard
+
+        // Content
+        section.col-lg-12.pt-lg-4.pb-4.mb-3.ml-3
+          .pt-2.px-4.pr-xl-5
+
+            // Title
+            .d-sm-flex.flex-wrap.justify-content-between.align-items-center.pb-2
+              h2.h3.py-2.mr-2.text-center.text-sm-left Administrative Functions
+            .list-group
+              a(href="/admin/createRecipe").list-group-item.list-group-item-action
+                | Create Recipe
+              a(href="/admin/updateRecipes").list-group-item.list-group-item-action
+                | Update Recipe Table
+              a(href="/admin/updateRecipeIngredients").list-group-item.list-group-item-action
+                | Update Recipe Ingredients Table
+              a(href="/admin/updateRecipeIngredientsIssues").list-group-item.list-group-item-action
+                | Update Recipe Ingredients Table (Issues Only)
+              a(href="/admin/updateTags").list-group-item.list-group-item-action
+                | Update Tags (coming soon)
+                    
+  include ../recipe-partials/toast-generic-success

@@ -163,11 +163,12 @@ app.get('/my-grocery-list', (req, res) => {
     
     firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
         var user = doc.data();
-        var recipeIds = []
-        for(i=0;i<user.groceryList.length;i++){
-            console.log("Adding: ", user.groceryList[i], " to the list");
-            recipeIds.push(user.groceryList[i]);
+        var recipeIds = [];
+        var groceryListMap = user.groceryList
+        for (var recipe in groceryListMap) {
+            recipeIds.push(recipe);
         }
+
         log.trace("recipeIds " + recipeIds);
         framework.getRecipes(recipeIds, function(response, err){
             
@@ -185,11 +186,12 @@ app.get('/my-grocery-list', (req, res) => {
             log.trace("Recipes: "+recipeGroup.recipes)
             
             var groceryList = recipeGroup.getGroceryList();
-            
+            console.log(groceryListMap);
             res.render('my-grocery-list', {
                 user: user,
                 recipes: recipeGroup.recipes,
-                list: groceryList
+                list: groceryList,
+                map: groceryListMap
             });
             
         
@@ -274,6 +276,67 @@ function buildGroceryItemsList(recipes, user, res){
     
 }
 
+app.get('/mealplan', (req, res) => {
+
+    var map = {
+        "Monday": {
+            "M1:": ["Simple Bean Burgers"],
+            "M2:": ["Oatmeal Raisin Energy Balls"],
+            "M3:": ["Sweet Potato Curry","Brown Rice"],
+            "M4:": ["Apple with Almound Butter"],
+            "M5:": ["Jalapeno Popper Mac and Cheese"]
+        },
+        "Tuesday": {
+            "M1:": ["recipe1","recipe1"],
+            "M2:": ["snack"],
+            "M3:": ["recipe1","recipe1"],
+            "M4:": ["apple"],
+            "M5:": ["recipe1"]
+        },
+        "Wednesday": {
+            "M1:": ["recipe1","recipe1","recipe1"],
+            "M2:": ["snack"],
+            "M3:": ["recipe1","recipe1"],
+            "M4:": ["apple"],
+            "M5:": ["recipe1"]
+        },
+        "Thursday": {
+            "M1:": ["recipe1"],
+            "M2:": ["snack"],
+            "M3:": ["recipe1","recipe1"],
+            "M4:": ["apple"],
+            "M5:": ["recipe1"]
+        },
+        "Friday": {
+            "M1:": ["recipe1","recipe1","recipe1"],
+            "M2:": ["snack"],
+            "M3:": ["recipe1","recipe1"],
+            "M4:": ["apple"],
+            "M5:": ["recipe1"]
+        },
+        "Saturday": {
+            "M1:": ["recipe1","recipe1","recipe1"],
+            "M2:": ["snack"],
+            "M3:": ["recipe1","recipe1"],
+            "M4:": ["apple"],
+            "M5:": ["recipe1"]
+        },
+        "Sunday": {
+            "M1:": ["recipe1"],
+            "M2:": ["snack"],
+            "M3:": ["recipe1"],
+            "M4:": ["apple"],
+            "M5:": ["recipe1"]
+        },
+        
+        
+    }
+
+    res.render("meal-plan", {
+        map: map
+    });
+
+});
 
 
 app.post('/validateToken', (req, res) => {
@@ -291,62 +354,76 @@ app.post('/validateToken', (req, res) => {
     res.send('success');
 })
 
-var meals = tags[1];
-var cats = tags[2];
-var cooks = tags[4];
 
-// -- Add New Recipe
-app.get('/add', (req, res) => {
-    res.render('add-recipe', {
-       tags: tags,
-       meals: meals,
-        cats: cats,
-        cooks: cooks
-    });
-    
+// -- Administrative Stuff
+app.get("/admin", (req, res) => {
+    res.render("admin/admin.pug", {});
     
 });
 
-// -- Update Recipe
-app.get('/update/:action', (req, res) => {
+app.get('/admin/:action', (req, res) => {
     
-    
-    console.log("REQ: ", req.params);
-    if(req.params.action == "issues") {
-
-        framework.getRecipeIngredientIssues({},function(response, err){ 
-            res.render("update-issues", {
-                recipeIngredients: response.data.recipeIngredients
-            })
-            
-        });
+    var action = req.params.action;
+    log.trace("/admin request with action ["+action+"]");
 
 
+    switch(action) {
+        case "createRecipe":
+            log.trace("building /admin/createRecipe page")
+            var meals = tags[1];
+            var cats = tags[2];
+            var cooks = tags[4];
 
+            res.render('admin/admin-create-recipe', {
+                tags: tags,
+                meals: meals,
+                 cats: cats,
+                 cooks: cooks
+             });
 
-    }else if(req.params.action == "issuesAll") {
-    
-        framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
-            res.render("update-issues", {
-                recipeIngredients: response.data.recipeIngredients
-            })
-            
-        });
+          break;
+        case "updateRecipes":
 
+            framework.getRecipesTable({},function(response, err){ 
+                if(err){
+                    res.status(500).send({err})
+                }
 
-    }else if(req.params.action == "recipes") {
-    
-        framework.getRecipesTable({},function(response, err){ 
-            res.render("update-recipes", {
-                recipes: response.data.recipes
-            })
-            
-        });
+                var recipes = response.data.recipes;
 
-
-    } else {
+                res.render("admin/admin-update-recipes", {
+                    recipes: recipes
+                })
+                
+            });
         
-        res.send("<h1>action not found</h1>");
+            return;
+        break;
+        case "updateRecipeIngredients":
+            framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
+                res.render("admin/admin-update-recipe-ingredients", {
+                    recipeIngredients: response.data.recipeIngredients
+                });
+            });
+            return;
+        
+        break;
+        case "updateRecipeIngredientsIssues":
+            framework.getRecipeIngredientIssues({},function(response, err){ 
+                res.render("admin/admin-update-recipe-ingredients", {
+                    recipeIngredients: response.data.recipeIngredients
+                });
+            });
+            return;
+        break;
+        default:
+            res.status(404);
+            res.render('404-simple.pug', {
+                tags: tags
+            });
+            return;
+    
+    
         
     }
     //res.send("<h1>test</h1>");    

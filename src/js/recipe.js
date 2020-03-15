@@ -290,9 +290,9 @@ function updateGroceryList(user){
     //need to get the recipes in the cart if they exist
     
     var recipes = [];
-    user.groceryList.forEach(function(recipe){
+    for (var recipe in user.groceryList) {
         recipes.push(ALL_RECIPES[recipe]);
-    });
+    }
     buildGroceryList(recipes);
     $('#grocery-list-badge').text(recipes.length);
     

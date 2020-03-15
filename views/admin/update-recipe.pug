@@ -1,4 +1,4 @@
-extends recipe-partials/layout-grocery
+extends ../recipe-partials/layout-grocery
 
 //- Override default config variables
 append config
@@ -58,24 +58,20 @@ block content
                     th action
                 tbody
                   each recipe in recipes
-                    tr(data-id=recipe.id)
-                      td(data-name="id").update-column #{recipe.id}
-                      td(data-name="name").update-column #{recipe.name}
-                      td(data-name="cookTime").update-column #{recipe.cookTime}
-                      td(data-name="prepTime").update-column #{recipe.prepTime}
-                      td(data-name="attAuthor").update-column #{recipe.attAuthor}
-                      td(data-name="attLink").update-column Link
-                      td(data-name="notes").update-column notes
-                      td(data-name="instrutions").update-column instructions
-                      if recipe.images
-                        td(data-name="images").update-column  [#{recipe.images.length}]
-                      else 
-                        td(data-name="images").update-column  [0]
+                    tr
+                      td #{recipe.id}
+                      td #{recipe.name}
+                      td #{recipe.cookTime}
+                      td #{recipe.prepTime}
+                      td #{recipe.attAuthor}
+                      td 
+                        a(href=recipe.attLink) Link
+                      td notes
+                      td instructions
+                      td #{recipe.images}
                       td 
                         form.form-inline.pt-2
-                          input(id=recipe.id type="text").form-control.mb-3.mr-sm-4
-                          button(ri-id=recipe.id).update-recipe-btn.btn.btn-primary.mb-3 Update
-                          - var spanid = "col-" + recipe.id
-                          span(id=spanid).ml-3 id
+                          input(type="text").form-control.mb-3.mr-sm-4
+                          button(ri-id=recipe.id).update-btn.btn.btn-primary.mb-3 Update
                     
-  include recipe-partials/toast-generic-success
+  include ../recipe-partials/toast-generic-success

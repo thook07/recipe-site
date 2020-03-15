@@ -27,8 +27,8 @@ $(document).ready(function(){
     
      $('#test-button-2').click(function(){
          
-         var data = {}
-         data.recipeId = "gravy"
+        var data = {}
+        data.recipeId = "gravy"
          
        framework.post("http://3.14.147.18:1338/getRecipe", data, function(res, err){
            if(err) {

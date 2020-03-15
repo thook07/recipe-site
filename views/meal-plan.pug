@@ -1,0 +1,86 @@
+extends recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var pageTitle = 'Update Recipe'
+  - var parentMenu = 'Account'
+  - var navbarTemplate = 'navbar-marketplace'
+  - var footerTemplate = 'footer-marketplace'
+  - var isFileUploadScript = true
+  - var showSidebar = false
+  - var showSidbar = true
+  - var includeFirebase = true
+  - var includeIsotope = false
+  - var includeAutoComplete = false
+  - var includeRecipe = false
+  - var includeRecipeSearch = false
+  - var includeCreateRecipe = false
+  - var includeGroceryList = false
+  - var includeUpdateRecipe = false
+  - var includeTest = false
+  - var includeAdmin = true
+
+//- Page Content
+block content
+
+  //- dashboard-header.pug template
+  //include partials/dashboard-header
+
+  div
+    .bg-light.box-shadow-lg.rounded-lg.overflow-hidden
+      .row
+
+        // Sidebar
+        aside.col-lg-4
+          //- sidebar-dashboard.pug template
+          //include partials/sidebar-dashboard
+
+        // Content
+        section.col-lg-12.pb-4.mb-3.ml-3
+          .pt-2.px-4.pr-xl-5
+
+            // Title
+            ul(class="nav nav-tabs", role="tablist")
+              li.nav-item
+                a(href="#home1", class="nav-link active", data-toggle="tab", role="tab")
+                  i.czi-home.mr-2
+                  | Meal Plan
+              li.nav-item
+                a(href="#profile1", class="nav-link", data-toggle="tab", role="tab")
+                  i.czi-user-circle.mr-2
+                  | List
+
+            // Tabs content
+            .tab-content
+              div(id="home1", class="tab-pane fade show active", role="tabpanel")
+                .d-sm-flex.flex-wrap.justify-content-between.align-items-center.pb-2
+                  h2.h3.py-2.mr-2.text-center.text-sm-left Meal Plan #1
+                .cz-carousel.cz-controls-static.cz-controls-outside.cz-dots-enabled
+                  .cz-carousel-inner(data-carousel-options='{"items": 2, "gutter": 16, "controls": true, "autoHeight": true, "responsive": {"0":{"items":1}, "480":{"items":2}, "720":{"items":3}, "991":{"items":2}, "1140":{"items":3}, "1300":{"items":4}, "1500":{"items":5}}}')
+                    each meals, key in map
+                      div(style="/*border: solid black 1px;*/")
+                        .card.product-card.card-static.p-3
+                          h4.h4 #{key}
+                          ul.list-group.list-group-flush
+                            each recipes, index in meals
+                              li.list-group-item 
+                                h5.h5 #{index}
+                                .list-group.list-group-flush
+                                  each recipe in recipes
+                                    .list-group-item 
+                                      a(href="#").list-group-item.list-group-item-action
+                                      | #{recipe}
+                  
+              div(id="profile1", class="tab-pane fade", role="tabpanel")
+                p.font-size-sm
+                  | test
+                  
+
+
+           
+  
+              
+
+
+  include recipe-partials/toast-generic-success

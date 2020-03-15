@@ -3,12 +3,13 @@ const log = require('./logger.js');
 const API_URL = "http://3.14.147.18:1338";
 
 exports.getToken = function(onCompletion){
-    
+    log.trace("entering /getToken")
     var data = {}
     data.userId = "thook07@gmail.com"
     data.apiKey = "e6b6cb37-183d-4c41-b42f-57e31be79d1c";
     
     axios.post(API_URL+'/authenticate', data).then(function (response) {
+        log.trace("got token!");
         onCompletion(response,null)
     }).catch(function (error) {
         log.error("/getToken catch Error Occurred:" + error);
@@ -116,8 +117,6 @@ exports.getRecipeIngredientIssues = function(data, onCompletion){
     });
 }
 
-
-
 exports.getRecipesTable = function(data, onCompletion){
 
     console.log("Calling /getRecipesTable...")
@@ -131,9 +130,11 @@ exports.getRecipesTable = function(data, onCompletion){
         console.log(data);
 
         axios.post(API_URL+'/getRecipesTable', data).then(function (response) {
+            console.log("SUCCESS")
             onCompletion(response,null)
         
         }).catch(function (error) {
+            console.log("ERROR")
             onCompletion(null,error);
         });
 

@@ -45,22 +45,27 @@ class User {
     addItemToGroceryList(recipeId){
         console.log("adding ",recipeId,' to the grocery list', this.groceryList);
         if(this.groceryList == undefined) {
-            this.groceryList = []
+            this.groceryList = {}
         }
         
         console.log('checking to see if it already exists');
-        for(var i=0;i<this.groceryList.length;i++) {
-            if(recipeId.localeCompare(this.groceryList[i]) == 0){
+        var recipeIds = [];
+        for (var recipe in groceryListMap) {
+            recipeIds.push(recipe);
+        }
+
+        for(var i=0;i<this.recipeIds.length;i++) {
+            if(recipeId.localeCompare(this.recipeIds[i]) == 0){
                 console.log("Already existed. Not adding. Returning null..");
                //already existed
                return null;
             } 
         }
         console.log("didnt exist. Will add to the list!")
-        this.groceryList.push(recipeId);
+        this.groceryList[recipeId] = 1;
         
-        console.log("Grocery List now has ", this.groceryList.length, ' recipes in it.');
-        return this.groceryList.length;
+        console.log("Grocery List now has ", Object.keys(this.groceryList).length, ' recipes in it.');
+        return Object.keys(this.groceryList).length;
     }
     
     save(fn) {
