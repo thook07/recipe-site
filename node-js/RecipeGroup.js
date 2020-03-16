@@ -24,13 +24,12 @@ class RecipeGroup {
                     log.trace("[RecipeGroup] groceryList.addItem(["+ri.ingredient+"] ["+ri.amount+"] ["+recipe.id+"]");
                     groceryList.addItem(ri.ingredient.id, ri.amount, recipe.id, ri.ingredient.category);
                 } else {
-                    log.trace("[RecipeGroup] This is a nested recipe. skipping ["+JSON.stringify(ri)+"]")
-                    groceryList.addNestedRecipeId(recipe.id, ri.recipe.id);
+                    log.trace("[RecipeGroup] This is a nested recipe. skipping ["+ri.recipe.id+"]")
+                    //groceryList.addNestedRecipeId(recipe.id, ri.recipe.id);
                 }
             }
         }
         log.trace("Returning GroceryList: ["+groceryList+"]")
-        groceryList.unnest();
         return groceryList;
     }
 

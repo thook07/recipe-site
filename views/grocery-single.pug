@@ -111,6 +111,7 @@ block content
                 .list-group
                   each recipeIngredient in recipe.recipeIngredients
                     if recipeIngredient.isRecipe == 1
+                      - console.log(recipeIngredient)
                       a(recipe-id=recipeIngredient.recipe.id).ingredient-link.list-group-item.list-group-item-action
                         //i.czi-link.mr-2
                         if recipeIngredient.amount == "na"
