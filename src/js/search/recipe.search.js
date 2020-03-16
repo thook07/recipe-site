@@ -132,7 +132,6 @@ function searchCatalog(grid){
             
             var search = $('#recipe-search-input').val();
             var searchCollapsed = $('#collapsed-search-input').val();
-            console.log("Search Collapsed: ", searchCollapsed)
             name = name.toUpperCase();
             tags = tags.toUpperCase();
             author = author.toUpperCase();
@@ -143,7 +142,6 @@ function searchCatalog(grid){
                 search = searchCollapsed;
             }
             
-            console.log("Search: ", search, author, name.includes(search) || tags.includes(search) || author.includes(search))
             return name.includes(search) || tags.includes(search) || author.includes(search)
         } 
     });

@@ -53,12 +53,11 @@ $(document).ready(function(){
         db.collection("users").doc(user.email).get().then(function(doc){
             
             var list = doc.data().groceryList;
-            console.log(list);
             
-            var index = list.indexOf(recipeId);
-            if (index !== -1) {
-                list.splice(index, 1)
-            }
+            console.log(list);
+            delete list[recipeId];
+            console.log(list);
+
             db.collection("users").doc(user.email).update({groceryList: list}).then(function(){
                 location.reload();
             }).catch(function(e){

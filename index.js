@@ -158,35 +158,50 @@ app.get('/my-favorites', (req, res) => {
 
 // -- My Grocery List
 app.get('/my-grocery-list', (req, res) => {
-    
+    log.trace("[/my-grocery-list] Entering....");
     var userEmail = req.query.email;
     
+    log.trace("[/my-grocery-list] Got userEmal ["+userEmail+"] Grabbing GroceryList")
     firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
+        log.trace("[/my-grocery-list] After Firebase call. Got user data.")
         var user = doc.data();
         var recipeIds = [];
         var groceryListMap = user.groceryList
         for (var recipe in groceryListMap) {
+            log.trace("[/my-grocery-list] adding recipeId ["+recipe+"]to the list")
             recipeIds.push(recipe);
         }
 
         log.trace("recipeIds " + recipeIds);
+        log.trace("[/my-grocery-list] using framework to get the full recipe Objects.");
         framework.getRecipes(recipeIds, function(response, err){
             
             if(err) {
-                log.error(err);
-                log.error("Error occured building grocery list.");
+                log.error("[/my-grocery-list] " + err);
+                log.error("[/my-grocery-list] Error occured building grocery list.");
                 res.status(404);
                 res.render('404-simple.pug');
                 return;
             }
             
+            log.trace("[/my-grocery-list] Creating RecipeGroup Object...")
             var recipeGroup = new RecipeGroup(response.data.recipeGroup);
-            log.debug("Showing Page for my-grocery-list")
+
+            if('nestedRecipes' in response.data) {
+                log.trace("[/my-grocery-list] Response had nested recipes. Adding to the recipeGroup")
+                for(var i=0; i<response.data.nestedRecipes.length; i++) {
+                    log.trace("[/my-grocery-list] Processing nested recipe ["+response.data.nestedRecipes[i].id+"]")
+                    recipeGroup.addNestedRecipe(response.data.nestedRecipes[i],response.data.nestedRecipes[i].parentRecipe);
+                }
+                
+            }
+            
             //log.trace("Items: "+items.length)
-            log.trace("Recipes: "+recipeGroup.recipes)
             
             var groceryList = recipeGroup.getGroceryList();
             console.log(groceryListMap);
+
+            log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
             res.render('my-grocery-list', {
                 user: user,
                 recipes: recipeGroup.recipes,
@@ -203,32 +218,6 @@ app.get('/my-grocery-list', (req, res) => {
         console.log("Error Occured:",e); 
     });
     
-    /*
-    firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
-        var user = doc.data();
-        var promises = []
-        for(i=0;i<user.groceryList.length;i++){
-            console.log("Adding: ", user.groceryList[i], " to the list");
-            const p = firebase.db.collection("recipes").doc(user.groceryList[i]).withConverter(recipeConverter).get();
-            promises.push(p);
-        }
-        Promise.all(promises).then(function(snapshots){
-            var recipes = []
-            snapshots.forEach(function(doc){
-                var recipe = doc.data();
-                console.log('recipe: ', recipe.name)
-                recipes.push(recipe);
-            });
-            console.log(recipes.length);
-            var list = buildGroceryItemsList(recipes, user, res);
-            
-        });
-        
-        
-        
-    }).catch(function(e){
-        console.log("Error Occured:",e); 
-    });*/
 });
 
 

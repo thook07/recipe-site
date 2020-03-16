@@ -36,8 +36,7 @@ class User {
             return null;
         }
         
-        var index = this.groceryList.indexOf(recipeId);
-        if (index !== -1) this.groceryList.splice(index, 1);
+        this.groceryList.remove(recipeId);
         
         return this.groceryList.length;
     }
