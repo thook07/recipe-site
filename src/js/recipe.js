@@ -2,16 +2,23 @@
 
 const ALL_RECIPES = {};
 var recipesLoaded = false;
+var recipes = [];   
 let loggedInUser = null;
+var email = null;
 $(document).ready(function(){
 
-    db.collection("recipes").withConverter(recipeConverter).get().then(function(snapshot) { 
-        snapshot.forEach(function(doc) {
-            recipe = doc.data();
+    framework.post("http://3.14.147.18:1338/getRecipes", {}, function(res, err){
+        if(err) {
+            console.log("Error:",err)
+        }
+        for(var i=0; i<res.recipeGroup.length; i++){
+            var recipe = res.recipeGroup[i];
             ALL_RECIPES[recipe.id] = recipe;
-        });
+        }
         recipesLoaded = true;
+        
     });
+
     
     //sign in button
     $("#recipe-signin-button").click(function(){
@@ -210,90 +217,64 @@ $(document).ready(function(){
     
 });
 
-$(window).on('load', function() {
-    updateNavbar();
-});
-    
+//used in single reicpe page
 function scrollToRecipe(id){
     var aTag = $("#" + id);
     $('html,body').animate({scrollTop: aTag.offset().top},'slow');
 }
-
-
 
 function isUserLoggedIn(){
     console.log("isUserLoggedIn", loggedInUser != null, loggedInUser)
     return loggedInUser != null;
 }
 
+firebase.auth().onAuthStateChanged(function(authUser) {
+    if(authUser) {
+        console.log("User is logged in");
+        email = authUser.email;
+        db.collection("users").doc(email).withConverter(userConverter).get().then(function(fbUser) {
+            user = fbUser.data();
+            loggedInUser = user;
+            updateNavbar();
+            
+            
+        }).catch(function(e) {
+            console.log(e);
+            console.log("Couldnt get user with email: ", authUser.email); 
+        });
+    } else {
+        console.log("User is not logged in.");
+        $('#navbar-sign-in').show();
+        $('#navbar-user-account').hide();
+    }
+    updateNavbar();
+});
+
 
 function updateNavbar(){
-    
     //update nav bar based on authentication status
-    firebase.auth().onAuthStateChanged(function(authUser) {
-        if (authUser) {
-            
-            firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-                
-                data = {}
-                data["token"] = idToken;
-                
-                $.ajax({
-                    url: '/validateToken',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function(response){
-                        console.log(response);
-                    }
-                });
- 
+    if(isUserLoggedIn() == false ){
+        $('#navbar-sign-in').show();
+        $('#navbar-user-account').hide();
+        return;
+    }
 
-
-
-            }).catch(function(error) {
-            // Handle error
-            });
-            
-            
-            
-            console.log("User is logged in", authUser);
-            $('#navbar-sign-in').hide();
-            $('#navbar-user-account').show();
-            $('#navbar-signed-in-user').text(authUser.email);
-            
-            db.collection("users").doc(authUser.email).withConverter(userConverter).get().then(function(fbUser) {
-                user = fbUser.data();
-                loggedInUser = user;
-                updateGroceryList(user);
-                
-                
-            }).catch(function(e) {
-                console.log(e);
-                console.log("Couldnt get user with email: ", authUser.email); 
-            });
-            
-            
-            
-            
-            
-        } else {
-            console.log("USer is not logged in.");
-            $('#navbar-sign-in').show();
-            $('#navbar-user-account').hide();
-        }
-    });
+    $('#navbar-sign-in').hide();
+    $('#navbar-user-account').show();
+    $('#navbar-signed-in-user').text(email);
+    updateGroceryList(user);
 
 }
 
 function updateGroceryList(user){
     //need to get the recipes in the cart if they exist
-    
-    var recipes = [];
+    recipes = [];
     for (var recipe in user.groceryList) {
-        recipes.push(ALL_RECIPES[recipe]);
+        recipes.push(new Recipe(ALL_RECIPES[recipe]));
     }
+    console.log(recipes.length);
     buildGroceryList(recipes);
+    console.log(recipes);
     $('#grocery-list-badge').text(recipes.length);
     
     console.log("Grocery List",recipes);
@@ -303,8 +284,7 @@ function updateGroceryList(user){
 }
 
 function buildGroceryList(recipes){
-    
-    console.log(document.readyState);
+    console.log(recipes)
     $("#grocery-list-container").find('.simplebar-content').children('div.widget-cart-item').each(function(i){
         if(this.id != "grocery-list-no-items") {
             this.remove();
@@ -323,8 +303,9 @@ function buildGroceryList(recipes){
     } 
     
     var numOfIngredients = 0;
-    recipes.forEach(function(recipe){
-        
+    for(var i=0; i<recipes.length; i++) {
+        var recipe = recipes[i];
+        console.log(recipe);
         var recipeImage = (recipe.images != undefined ? recipe.images[0] : "");
         var author = (recipe.attribution != undefined ? recipe.attribution.author : "");
         $("#grocery-list-container").find('.simplebar-content').append(`
@@ -351,7 +332,7 @@ function buildGroceryList(recipes){
             </div>           
         `);    
         numOfIngredients = numOfIngredients + recipe.getNumberOfIngredients();
-    });
+    }
     
     console.log("num of ingreds",numOfIngredients);
     $('#grocery-list-items').text(numOfIngredients);

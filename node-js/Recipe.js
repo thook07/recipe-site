@@ -3,7 +3,7 @@ class Recipe {
     constructor(data) {
         this.id = ('id' in data ? data.id : undefined);
         this.name = ('name' in data ? data.name : undefined);
-        this.ingredients = ('ingredients' in data ? data.ingredients : undefined);
+        this.recipeIngredients = ('recipeIngredients' in data ? data.recipeIngredients : undefined);
         this.instructions = ('instructions' in data ? data.instructions : undefined);
         this.notes = ('notes' in data ? data.notes : undefined);
         this.tags = ('tags' in data ? data.tags : undefined);

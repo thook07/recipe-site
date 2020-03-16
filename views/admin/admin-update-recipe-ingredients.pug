@@ -54,17 +54,19 @@ block content
                     th action
                 tbody
                   each ri in recipeIngredients
-                    tr
-                      td #{ri.id}
-                      td #{ri.ingredientDescription}
-                      td #{ri.ingredientId}
-                      td #{ri.recipeId}
-                      td #{ri.amount}
-                      td #{ri.isRecipe}
+                    tr(data-id=ri.id)
+                      td(data-name="id").update-column #{ri.id}
+                      td(data-name="ingredient").update-column #{ri.ingredientDescription}
+                      td(data-name="ingredientId").update-column #{ri.ingredientId}
+                      td(data-name="recipeId").update-column #{ri.recipeId}
+                      td(data-name="amount").update-column #{ri.amount}
+                      td(data-name="isRecipe").update-column #{ri.isRecipe}
                       td 
                         form.form-inline.pt-2
                           input(type="text", id=ri.id, placeholder=ri.ingredientId).form-control.mb-3.mr-sm-4
-                          button(ri-id=ri.id).update-btn.btn.btn-primary.mb-3 Update
+                          button(ri-id=ri.id).update-recipe-ing-btn.btn.btn-primary.mb-3 Update
+                          - var spanid = "col-" + ri.id
+                          span(id=spanid).ml-3 id
                       
 
 

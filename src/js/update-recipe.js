@@ -111,6 +111,55 @@ $(document).ready(function(){
         });
     });
 
+    $(".update-recipe-ing-btn").click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var id = $(this).attr("ri-id");
+        var column = $("#col-"+id).html();
+        var value = $("#"+id).val();
+
+        console.log("id",id);
+        console.log("column",column);
+        console.log("value",value);
+
+        var data = {};
+        data["id"] = id;
+
+        if(column == "id") {
+            data["id"] = value;
+            return;
+        }
+
+        if(column == "ingredient") {
+            data["ingredient"] = value;
+        }
+
+        if(column == "ingredientId") {
+            data["ingredientId"] = value;
+        }
+
+        if(column == "recipeId") {
+            data["recipeId"] = value;
+        }
+
+        if(column == "amount") {
+            data["amount"] = value;
+        }
+
+        if(column == "isRecipe") {
+            data["isRecipe"] = value;
+        }
+    
+        framework.post("http://3.14.147.18:1338/updateRecipeIngredient", data, function(res, err){
+            if(err) {
+                console.log("Error:",err)
+            }
+            console.log(res);   
+        });
+    });
+
+
+
 
 });
    
