@@ -159,6 +159,62 @@ $(document).ready(function(){
     });
 
 
+    $("#delete-recipe-ingredient-btn").click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+
+        if( $.isNumeric($("#delete-input-id").val()) == true && $("#delete-input-id").val()  != "") {
+            $("#confirm-delete-recipe-ingredient-btn").toggleClass("d-none");
+        }
+
+    });
+
+    $("#confirm-delete-recipe-ingredient-btn").click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+
+        var recipeIngId = $("#delete-input-id").val();
+
+        var data = {};
+        data["id"] = recipeIngId;
+        
+        framework.post("http://3.14.147.18:1338/deleteRecipeIngredient", data, function(res, err){
+            if(err) {
+                console.log("Error:",err)
+            }
+            console.log(res);   
+        });
+
+
+    });
+
+    $("#create-recipe-ingredient-btn").click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        console.log("click")
+
+        var amount = $("#create-input-amount").val();
+        var ingredient = $("#create-input-ingredient").val();
+        var recipeId = $("#create-input-recipeId").val();
+        var ingredientId = $("#create-input-ingredientId").val();
+        var isRecipe = $("#create-input-isRecipe").val();
+
+        var data = {};
+        data["amount"] = amount;
+        data["ingredient"] = ingredient;
+        data["recipeId"] = recipeId;
+        data["ingredientId"] = ingredientId;
+        data["isRecipe"] = isRecipe;
+        
+        
+        framework.post("http://3.14.147.18:1338/createRecipeIngredient", data, function(res, err){
+            if(err) {
+                console.log("Error:",err)
+            }
+            console.log(res);   
+        });
+
+    });
 
 
 });

@@ -38,36 +38,103 @@ block content
         section.col-lg-12.pt-lg-4.pb-4.mb-3.ml-3
           .pt-2.px-4.pr-xl-5
 
-            // Title
-            .d-sm-flex.flex-wrap.justify-content-between.align-items-center.pb-2
-              h2.h3.py-2.mr-2.text-center.text-sm-left Update Ingredients
-            .table-responsive
-              table.table.table-striped
-                thead
-                  tr
-                    th id
-                    th ingredientDescription
-                    th ingredientId
-                    th recipeId
-                    th amount
-                    th isRecipe
-                    th action
-                tbody
-                  each ri in recipeIngredients
-                    tr(data-id=ri.id)
-                      td(data-name="id").update-column #{ri.id}
-                      td(data-name="ingredient").update-column #{ri.ingredientDescription}
-                      td(data-name="ingredientId").update-column #{ri.ingredientId}
-                      td(data-name="recipeId").update-column #{ri.recipeId}
-                      td(data-name="amount").update-column #{ri.amount}
-                      td(data-name="isRecipe").update-column #{ri.isRecipe}
-                      td 
-                        form.form-inline.pt-2
-                          input(type="text", id=ri.id, placeholder=ri.ingredientId).form-control.mb-3.mr-sm-4
-                          button(ri-id=ri.id).update-recipe-ing-btn.btn.btn-primary.mb-3 Update
-                          - var spanid = "col-" + ri.id
-                          span(id=spanid).ml-3 id
-                      
+
+            // Nav tabs
+            ul(class="nav nav-tabs", role="tablist")
+              li.nav-item
+                a(href="#updateIngredients", class="nav-link active", data-toggle="tab", role="tab")
+                  i.czi-edit.mr-2
+                  | Update Ingredients
+              li.nav-item
+                a(href="#deleteIngredient", class="nav-link", data-toggle="tab", role="tab")
+                  i.czi-trash.mr-2
+                  | Delete Ingredient
+              li.nav-item
+                a(href="#addIngredient", class="nav-link", data-toggle="tab", role="tab")
+                  i.czi-add-circle.mr-2
+                  | Add Ingredient
+              
+
+            // Tabs content
+            .tab-content
+              div(id="updateIngredients", class="tab-pane fade show active", role="tabpanel")
+                .d-sm-flex.flex-wrap.justify-content-between.align-items-center.pb-2
+                  h2.h3.py-2.mr-2.text-center.text-sm-left Update Ingredients
+                .table-responsive
+                  table.table.table-striped
+                    thead
+                      tr
+                        th id
+                        th ingredientDescription
+                        th ingredientId
+                        th recipeId
+                        th amount
+                        th isRecipe
+                        th action
+                    tbody
+                      each ri in recipeIngredients
+                        tr(data-id=ri.id)
+                          td(data-name="id").update-column #{ri.id}
+                          td(data-name="ingredient").update-column #{ri.ingredientDescription}
+                          td(data-name="ingredientId").update-column #{ri.ingredientId}
+                          td(data-name="recipeId").update-column #{ri.recipeId}
+                          td(data-name="amount").update-column #{ri.amount}
+                          td(data-name="isRecipe").update-column #{ri.isRecipe}
+                          td 
+                            form.form-inline.pt-2
+                              input(type="text", id=ri.id, placeholder=ri.ingredientId).form-control.mb-3.mr-sm-4
+                              button(ri-id=ri.id).update-recipe-ing-btn.btn.btn-primary.mb-3 Update
+                              - var spanid = "col-" + ri.id
+                              span(id=spanid).ml-3 id  
+                
+              div(id="deleteIngredient", class="tab-pane fade", role="tabpanel")
+                form.form-inline.pt-2
+                  
+                  button.btn.btn-warning.mb-3.mr-3.d-none#confirm-delete-recipe-ingredient-btn
+                    i.czi-smile.mr-2
+                    | Are you sure?
+                  label.sr-only(for="delete-input-id") ID
+                  input(type="text", id="delete-input-id", placeholder="id").form-control.mb-3.mr-sm-4
+                  button.btn.btn-danger.mb-3#delete-recipe-ingredient-btn
+                    i.czi-trash.mr-2
+                    | Delete
+        
+              div(id="addIngredient", class="tab-pane fade", role="tabpanel")
+                form
+                  .row
+                    .col-md-4.form-group
+                      label(for="create-input-recipeId") RecipeId*
+                      input(type="text", id="create-input-recipeId", placeholder="nourish-bowls" required).form-control
+                      .valid-feedback
+                        | Looks good!
+                    .col-md-4.form-group
+                      label(for="create-input-ingredientId") IngredientId
+                      input(type="text", id="create-input-ingredientId", placeholder="vegetable-broth").form-control
+                      .valid-feedback
+                        | Looks good!
+                    .col-md-4.form-group
+                      label(for="create-input-isRecipe") isRecipe?*
+                      input(type="text", id="create-input-isRecipe", placeholder="0" required).form-control
+                      .valid-feedback
+                        | Looks good!
+                  .row
+                    .col-md-3.form-group
+                      label(for="create-input-amount") Amount*
+                      input(type="text", id="create-input-amount", placeholder="2" required).form-control
+                      .valid-feedback
+                        | Looks good!
+                    .col-md-9.form-group
+                      label(for="create-input-ingredient") Ingredient Description*
+                      input(type="text", id="create-input-ingredient", placeholder="15oz can(s) of chickpeas, drained and rinsed." required).form-control
+                      .valid-feedback
+                        | Looks good!
+                  .row
+                    .col-md-12
+                      button.btn.btn-primary.mb-3.ml-3.float-right#create-recipe-ingredient-btn
+                        i.czi-add-circle.mr-2
+                        | Create Ingredient
+                        
+                          
 
 
                     

@@ -131,30 +131,29 @@ html(lang="en")
                 #categories.sidebar-nav.tab-pane.fade.show.active(role='tabpanel')
                   .widget.widget-categories
                     #shop-categories.accordion
-                      each level1 in tags
+                      each tags, category in newTags
+                        - var catId = category.trim().replace(new RegExp(' ', 'g'),"-");
+                        - catId = catId.replace(/[^a-zA-Z0-9-_]/g, ''); //remove anything that wont be put in a url
+    
                         // level1.name
                         .card.border-bottom
                           .card-header
                             h3.accordion-heading.font-size-base.px-grid-gutter
-                              a(href="#"+level1.id role='button' data-toggle='collapse' aria-expanded='false' aria-controls=level1.id).collapsed.py-3
+                              a(href="#"+catId role='button' data-toggle='collapse' aria-expanded='false' aria-controls=catId).collapsed.py-3
                                 span.d-flex.align-items-center
-                                  i(class=level1.icon).font-size-lg.opacity-60.mt-n1.mr-2
-                                  | #{level1.name}
+                                  i(class=category).font-size-lg.opacity-60.mt-n1.mr-2
+                                  | #{category}
                                 span.accordion-indicator
-                          div(id=level1.id data-parent='#shop-categories').collapse
+                          div(id=catId data-parent='#shop-categories').collapse
                             .card-body.px-grid-gutter.pb-4
                               .widget.widget-links
                                 ul.widget-list
                                   li.widget-list-item
                                     a(href='#').tag-filter.tag-view-all.widget-list-link View All
-                                  each level2 in level1.tags
+                                  each tag in tags
                                     li.widget-list-item
-                                      a(id=level2.id href='#').tag-filter.widget-list-link #{level2.name}
-                                      if level2.tags
-                                        ul.widget-list.pt-1
-                                          each level3 in level2.tags
-                                            li.widget-list-item
-                                              a(href='#').widget-list-link #{level3.name}
+                                      a(id=tag.id href='#').tag-filter.widget-list-link #{tag.name}
+                                      
 
 
 

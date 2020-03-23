@@ -44,6 +44,11 @@ head
   
   //Javascript
   script(src="https://code.jquery.com/jquery-3.4.1.min.js")
+
+  if select2
+    link(href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" )
+    script(src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer)
+
   //FIREBASE
   if includeFirebase
     //Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -68,6 +73,8 @@ head
     script(src='/js/groceryList.js')
   if includeUpdateRecipe
     script(src='/js/update-recipe.js')
+  if includeUpdateTags
+    script(src='/js/update-tags.js')
   if includeTest
     script(src='/js/test.js')
   if includeTest2

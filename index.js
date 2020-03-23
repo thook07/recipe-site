@@ -33,20 +33,39 @@ const server = app.listen(3000, () => {
 
 // -- Home Page
 app.get('/', (req, res) => {
-    log.trace("entering app.get(\'/\'):")
+    log.trace("[/] entering app.get(\'/\'):")
     
     framework.getRecipes(undefined, function(response, error) {
         if(error){
-            log.error("Error Occurred:" + error);
+            log.error("[/] Error Occurred:" + error);
             res.send("<h1>Error Occurred: "+error+"</h1>")
             return;
         }
-        
-        res.render('index', {
-            recipes: response.data.recipeGroup,
-            tags: tags,
-            user: null
+        log.trace("[/] Successfully got recipes. Grabbing Tags now..")
+        framework.getTags({}, function(tagResponse, tagError){
+            var tags = tagResponse.data.tags;
+
+            categoryMap = {};
+            for(i=0; i<tags.length; i++) {
+                if( tags[i].category in categoryMap) {
+                    //do nothing
+                    categoryMap[tags[i].category].push(tags[i]);
+                } else {
+                    categoryMap[tags[i].category] = [tags[i]];
+                }
+            }
+
+            console.log(categoryMap)
+
+            res.render('index', {
+                recipes: response.data.recipeGroup,
+                tags: tags,
+                user: null,
+                newTags: categoryMap
+            });
         });
+        
+        
         
     });
     
@@ -173,6 +192,17 @@ app.get('/my-grocery-list', (req, res) => {
         }
 
         log.trace("recipeIds " + recipeIds);
+        if( recipeIds.length <= 0 ) {
+            log.trace("No recipes in the grocery list!");
+            res.render('my-grocery-list', {
+                user: null,
+                recipes: null,
+                list: null,
+                map: null
+            });
+        }
+
+
         log.trace("[/my-grocery-list] using framework to get the full recipe Objects.");
         framework.getRecipes(recipeIds, function(response, err){
             
@@ -405,6 +435,55 @@ app.get('/admin/:action', (req, res) => {
             });
             return;
         break;
+        case "updateTags":
+            framework.getRecipes(undefined,function(response, err){ 
+                if(err){
+                    res.status(500).send({err})
+                }
+
+                framework.getTagTable({}, function(tagResponse, e){
+                    if(e){
+                        res.status(500).send({e})
+                    }
+
+                    var recipes = response.data.recipeGroup;
+                    var tags = tagResponse.data.tags;
+                    var tagMap = {} //break the tags into 4 columns
+                    var tagsPerColumn = Math.round(tags.length / 4);
+                    var tags1 = [];
+                    var tags2 = [];
+                    var tags3 = [];
+                    var tags4 = [];
+
+                    console.log('tpc', tagsPerColumn, "taglength", tags.length);
+                    for(i=0; i<tagsPerColumn; i++){
+                        tags1.push(tags[i]);
+                        tags2.push(tags[i+tagsPerColumn])
+                        tags3.push(tags[i+(tagsPerColumn*2)])
+                        console.log("i + tagsPerColumn x 3 =",i+(tagsPerColumn*3))
+                        if(i+(tagsPerColumn*3) < tags.length) {
+                            tags4.push(tags[i+(tagsPerColumn*3)])
+                        }
+                    }
+                    tagMap[1] = tags1
+                    tagMap[2] = tags2
+                    tagMap[3] = tags3
+                    tagMap[4] = tags4
+                    
+                    console.log(tagMap);
+
+                    res.render("admin/admin-update-tags", {
+                        recipes: recipes,
+                        tags: tagMap
+                    })
+
+                })
+
+                
+                
+            });
+        break;
+
         default:
             res.status(404);
             res.render('404-simple.pug', {
