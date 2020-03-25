@@ -22,7 +22,11 @@ class RecipeGroup {
                 log.trace("[RecipeGroup] in for loop. Getting recipeIngredient. And adding ingredient to list.");
                 if(ri.isRecipe == 0) {
                     log.trace("[RecipeGroup] groceryList.addItem(["+ri.ingredient+"] ["+ri.amount+"] ["+recipe.id+"]");
-                    groceryList.addItem(ri.ingredient.id, ri.amount, recipe.id, ri.ingredient.category);
+                    if(ri.ingredient.id === 'salt' || ri.ingredient.id === 'water') {
+                        log.trace("[RecipeGroup] salt or water. Removing from list.");
+                    } else {
+                        groceryList.addItem(ri.ingredient.id, ri.amount, recipe.id, ri.ingredient.category);
+                    }
                 } else {
                     log.trace("[RecipeGroup] This is a nested recipe. skipping ["+ri.recipe.id+"]")
                     //groceryList.addNestedRecipeId(recipe.id, ri.recipe.id);

@@ -80,19 +80,19 @@ block content
           each items, cat in list.getItemsByCategory()
             a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
             each item in items
-              - var check = "icon-"+ item.id;
-              a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
-                span(id=check).d-none
-                  i.czi-check.mr-2
-                span(id=item.id)
-                  | #{item.id}
-                each amt, recipeId in item.amountMap
-                  - var cName = 'amt-'+recipeId + " " + recipeId
-                  span(class=cName data-amount=amt).badge.badge-accent.ml-2.amount-badge
-                    if map[recipeId] == 1
-                      | #{amt}
-                    else
-                      | #{amt} x#{map[recipeId]}
-                each recipeId in item.recipes
-                  span(class=recipeId).badge.badge-secondary.ml-2.float-right.d-none.d-md-block.recipe-badge
-                    | #{recipeId}
+                - var check = "icon-"+ item.id;
+                a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
+                  span(id=check).d-none
+                    i.czi-check.mr-2
+                  span(id=item.id)
+                    | #{item.id}
+                  each amt, recipeId in item.amountMap
+                    - var cName = 'amt-'+recipeId + " " + recipeId
+                    span(class=cName data-amount=amt).badge.badge-accent.ml-2.amount-badge
+                      if map[recipeId] == 1
+                        | #{amt}
+                      else
+                        | #{amt} x#{map[recipeId]}
+                  each recipeId in item.recipes
+                    span(class=recipeId).badge.badge-secondary.ml-2.float-right.d-none.d-md-block.recipe-badge
+                      | #{recipeId}
