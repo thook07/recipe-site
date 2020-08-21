@@ -108,18 +108,9 @@ $(document).ready(function(){
     
     //sign out (from dropdown)
     $('#sign-out-button').click(function () {
-        console.log("Signing Out..");
-        firebase.auth().signOut().then(function() {
-            $('#toast-title').text('Success');
-            $('#toast-body').text('Sign out successful.');
-            $('#generic-success-toast').toast('show');
-            loggedInUser = null;
-            updateNavbar();
-        }).catch(function(error) {
-            // An error happened.
-            console.log("An Error has occured", error);
-            updateNavbar();
-        });
+        /*$('#toast-title').text('Success');
+        $('#toast-body').text('Sign out successful.');
+        $('#generic-success-toast').toast('show');*/
     });
     
     $("#wishlist-button").click(function() {
