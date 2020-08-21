@@ -56,8 +56,8 @@ html(lang="en")
                   a(href='/user-settings').navbar-tool-icon-box.border.dropdown-toggle
                     +image('/img/marketplace/account/avatar-sm.png', 'Createx Studio')(width='32')
                   a(id="navbar-sign-in-link" href='/user-settings').navbar-tool-text.ml-n1
-                    small#navbar-signed-in-user User
-                    span#navbar-signed-in-user-description newbie
+                    small#navbar-signed-in-user Welcome,
+                    span#navbar-signed-in-user-description #{user.username}
                   .dropdown-menu.dropdown-menu-right(style='min-width: 14rem;')
                     h6.dropdown-header Account
                     a(href='/user-settings').dropdown-item.d-flex.align-items-center
