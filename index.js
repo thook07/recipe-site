@@ -47,6 +47,7 @@ app.use(passport.session());
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
+  log.trace("[Passport Local] Entering local auth")
   function(username, password, cb) {
     db.users.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }
@@ -65,10 +66,12 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function(user, cb) {
+  log.trace("[Passport seralizeUser] Entering serializeUser")
   cb(null, user.id);
 });
 
 passport.deserializeUser(function(id, cb) {
+  log.trace("[Passport deseralizeUser] Entering deserializeUser")
   db.users.findById(id, function (err, user) {
     if (err) { return cb(err); }
     cb(null, user);
