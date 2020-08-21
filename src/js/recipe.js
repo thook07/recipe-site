@@ -108,9 +108,9 @@ $(document).ready(function(){
     
     //sign out (from dropdown)
     $('#sign-out-button').click(function () {
-        /*$('#toast-title').text('Success');
+        $('#toast-title').text('Success');
         $('#toast-body').text('Sign out successful.');
-        $('#generic-success-toast').toast('show');*/
+        $('#generic-success-toast').toast('show');
     });
     
     $("#wishlist-button").click(function() {
