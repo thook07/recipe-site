@@ -589,10 +589,8 @@ app.post('/login',
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    log.trace("GET [/profile] User Loggedin! User:")
-    console.log(req.user)
     res.render('account-profile', {
-       user: req.user
+       user: req.user,
        tags: tags
     });
   });
