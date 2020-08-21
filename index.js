@@ -1,30 +1,81 @@
+//web app
 const express = require('express');
 var Promise = require('promise');
 const app = express();
 var bodyParser = require('body-parser')
+
+//authentication and sessions
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var db = require('./db');
+
+//misc
 var firebase = require('./firebase.js');
 var log = require('./logger.js');
 //const recipes = require('./recipes.json');
 const recipe1 = require('./recipe1.json');
 const recipe2 = require('./recipe2.json');
 const tags = require('./tags.json');
+const request = require('request');
+var framework = require('./framework.js')
+
+//objects
 var Recipe = require('./node-js/Recipe.js');
 var RecipeGroup = require('./node-js/RecipeGroup.js');
 var GroceryList = require('./node-js/GroceryList.js');
 var GroceryListItem = require('./node-js/GroceryListItem.js');
 var User = require('./node-js/User.js');
 var Ingredient = require('./node-js/Ingredient.js');
-const request = require('request');
-var framework = require('./framework.js')
+
 let INGREDIENTS_CACHE = {};
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(require('morgan')('combined'));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/src'))
+
+//initialize passport session
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Configure the local strategy for use by Passport.
+//
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new Strategy(
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
+    });
+  }));
+
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+
 
 const server = app.listen(3000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
@@ -519,8 +570,23 @@ app.get('/test2', (req, res) => {
    res.render('test2');
 });
 
+// -- Session Testing
+app.get('/login',
+  function(req, res){
+    res.render('account-signin.pug');
+  });
+  
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/profile');
+  });
 
-
+app.get('/profile',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render('profile', { user: req.user });
+  });
 
 // Handle 404
 app.use(function(req, res) {
