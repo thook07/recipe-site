@@ -123,7 +123,7 @@ html(lang="en")
               li.nav-item
                 a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Categories
               - if( req.user ) {
-              -   if( req.user.role == "Admin")
+              -   if( req.user.role == "Admin") {
                     li.nav-item
                       a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Admin
               -   }
