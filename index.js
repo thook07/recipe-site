@@ -581,7 +581,7 @@ app.get('/login',
   });
   
 app.post('/login', (req, res) => {
-  log.trace(req.body)
+  console.log(req.body)
 });
   
          
