@@ -228,6 +228,7 @@ function isUserLoggedIn(){
     return loggedInUser != null;
 }
 
+/*
 firebase.auth().onAuthStateChanged(function(authUser) {
     if(authUser) {
         console.log("User is logged in");
@@ -249,10 +250,12 @@ firebase.auth().onAuthStateChanged(function(authUser) {
     }
     updateNavbar();
 });
+*/
 
 
 function updateNavbar(){
     //update nav bar based on authentication status
+    /*
     if(isUserLoggedIn() == false ){
         $('#navbar-sign-in').show();
         $('#navbar-user-account').hide();
@@ -261,7 +264,7 @@ function updateNavbar(){
 
     $('#navbar-sign-in').hide();
     $('#navbar-user-account').show();
-    $('#navbar-signed-in-user').text(email);
+    $('#navbar-signed-in-user').text(email);*/
     updateGroceryList(user);
 
 }
