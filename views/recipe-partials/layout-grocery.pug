@@ -1,3 +1,4 @@
+
 //- Include config.pug file that holds all variables
 block config
   include ../helpers/config
@@ -122,8 +123,8 @@ html(lang="en")
             ul(role='tablist' style='min-height: 3rem;').nav.nav-tabs.nav-justified.mt-2.mt-lg-4.mb-0
               li.nav-item
                 a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Categories
-              - if( req.user ) {
-              -   if( req.user.role == "Admin") {
+              - if( user ) {
+              -   if( user.role == "Admin") {
                     li.nav-item
                       a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Admin
               -   }
