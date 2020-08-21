@@ -581,12 +581,14 @@ app.get('/login',
   });
   
 app.post('/login', (req, res) => {
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    function(req, res) {
-      res.redirect('/profile');
-    });
-})
-
+  log.trace(req.body)
+});
+  
+         
+  /*passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/profile');
+  });*/
 
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
