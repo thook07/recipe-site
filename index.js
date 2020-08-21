@@ -589,7 +589,11 @@ app.post('/login',
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    res.render('profile', { user: req.user });
+    log.trace("GET [/profile] User Loggedin! User:")
+    console.log(req.user)
+    res.render('account-profile', {
+       tags: tags
+    });
   });
 
 // Handle 404
