@@ -88,6 +88,13 @@ const server = app.listen(3000, () => {
 // -- Home Page
 app.get('/', (req, res) => {
     log.trace("[/] entering app.get(\'/\'):")
+    if(req.user) {
+      log.trace('[/] User: ' + req.user.username)
+      log.trace('[/] User Role: ' + req.user.role)
+    } else{
+      log.trace("Anonyomous User")
+    }
+    
     
     framework.getRecipes(undefined, function(response, error) {
         if(error){
@@ -111,6 +118,7 @@ app.get('/', (req, res) => {
 
             console.log(categoryMap)
 
+            
             res.render('index', {
                 recipes: response.data.recipeGroup,
                 tags: tags,
