@@ -29,7 +29,7 @@ var Ingredient = require('./node-js/Ingredient.js');
 
 let INGREDIENTS_CACHE = {};
 
-app.use(require('morgan')('combined'));
+//app.use(require('morgan')('combined'));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -576,6 +576,7 @@ app.get('/test2', (req, res) => {
 // -- Session Testing
 app.get('/login',
   function(req, res){
+    log.trace("GET [/login] Entering login. Showing login page")
     res.render('account-signin.pug');
   });
   
