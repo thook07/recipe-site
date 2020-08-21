@@ -592,9 +592,18 @@ app.get('/profile',
     log.trace("GET [/profile] User Loggedin! User:")
     console.log(req.user)
     res.render('account-profile', {
+       user: req.user
        tags: tags
     });
   });
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+  
+});
+
+// - End Session Testing
 
 // Handle 404
 app.use(function(req, res) {
