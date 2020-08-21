@@ -47,8 +47,8 @@ app.use(passport.session());
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
-  log.trace("[Passport Local] Entering local auth")
   function(username, password, cb) {
+    log.trace("[Passport Local] Entering local auth")
     db.users.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
