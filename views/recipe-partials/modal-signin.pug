@@ -15,15 +15,15 @@
         button(type='button' class='close' data-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body.tab-content.py-4
-        form(autocomplete='off' novalidate)#signin-tab.needs-validation.tab-pane.fade.show.active
+        form(autocomplete='off' action='/login' method='post')#signin-tab.needs-validation.tab-pane.fade.show.active
           .form-group
-            label(for='si-email') Email address
-            input(type='email' id='si-email' placeholder='johndoe@example.com' required).form-control
+            label(for='username') Email address
+            input(name='username' type='email' id='si-email' placeholder='johndoe@example.com' required).form-control
             .invalid-feedback Please provide a valid email address.
           .form-group
             label(for='si-password') Password
             .password-toggle
-              input(type='password' id='si-password' required).form-control
+              input(type='password' name='password' id='si-password' required).form-control
               label.password-toggle-btn
                 input(type='checkbox').custom-control-input
                 i.czi-eye.password-toggle-indicator

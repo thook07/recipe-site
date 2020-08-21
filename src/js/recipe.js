@@ -23,8 +23,6 @@ $(document).ready(function(){
     //sign in button
     $("#recipe-signin-button").click(function(){
         console.log("Signin button clicked!");
-
-
     });
     
     //sign up tab submit
@@ -77,7 +75,7 @@ $(document).ready(function(){
     });
     
     //sign in tab submit
-    $("#signin-tab").on("submit", function(e){
+    /*$("#signin-tab").on("submit", function(e){
         console.log("Signing in...", $('#signin-tab')[0].checkValidity());
         e.preventDefault()
             
@@ -106,7 +104,7 @@ $(document).ready(function(){
             $("#si-password").addClass("is-invalid")
         });
         
-    });
+    });*/
     
     //sign out (from dropdown)
     $('#sign-out-button').click(function () {
@@ -124,15 +122,12 @@ $(document).ready(function(){
         });
     });
     
-    /*$("#wishlist-button").click(function() {
-        // - wishlist heart clicked.
-        var user = firebase.auth().currentUser;
-        console.log("User: ", user);
-        console.log("toating..");
+    $("#wishlist-button").click(function() {
+        if( $(this).hasClass("notLoggedIn") ){
         
-        $grid.isotope({ filter: '.metal' });
+        }
         
-    });*/
+    });
     
     $('#grocery-list-show-button').click(function(){
         
