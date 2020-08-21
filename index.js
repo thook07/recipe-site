@@ -92,7 +92,8 @@ app.get('/', (req, res) => {
       log.trace('[/] User: ' + req.user.username)
       log.trace('[/] User Role: ' + req.user.role)
     } else{
-      log.trace("Anonyomous User")
+      log.trace("[/] User: Anonyomous")
+      log.trace('[/] User Role: undefined')
     }
     
     

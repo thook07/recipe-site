@@ -124,6 +124,9 @@ html(lang="en")
               li.nav-item
                 a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Categories
               - if( user ) {
+              -   console.log(user.role)
+              -   console.log(user.role == "Admin")
+              -   console.log(user.role === "Admin")
               -   if( user.role == "Admin") {
                     li.nav-item
                       a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Admin
