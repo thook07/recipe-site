@@ -36,7 +36,7 @@ html(lang="en")
                i.czi-search
           
           // Toolbar
-          if( !user ) { var class = "notLoggedIn" }
+          - if( !user ) { var class = "notLoggedIn" }
           .navbar-toolbar.d-flex.flex-shrink-0.align-items-center.ml-xl-2
             a(href='#sideNav' data-toggle='sidebar').navbar-toggler
               span.navbar-toggler-icon
