@@ -43,7 +43,7 @@ html(lang="en")
             a(href='#searchBox' data-toggle='collapse' role='button' aria-expanded='false', aria-controls='searchBox').navbar-tool.d-flex.d-lg-none
               span.navbar-tool-tooltip Search
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-search
-            a(id="wishlist-button" href='/my-favorites' class="#{class}").navbar-tool.d-none.d-lg-flex
+            a(id="wishlist-button" href='/my-favorites' class=class).navbar-tool.d-none.d-lg-flex
               span.navbar-tool-tooltip Wishlist
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
             - if( !user ) {
