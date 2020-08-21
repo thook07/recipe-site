@@ -36,14 +36,14 @@ html(lang="en")
                i.czi-search
           
           // Toolbar
-          - if( !user ) { var class = "notLoggedIn" }
+          - if( !user ) { var loggedIn = "notLoggedIn" }
           .navbar-toolbar.d-flex.flex-shrink-0.align-items-center.ml-xl-2
             a(href='#sideNav' data-toggle='sidebar').navbar-toggler
               span.navbar-toggler-icon
             a(href='#searchBox' data-toggle='collapse' role='button' aria-expanded='false', aria-controls='searchBox').navbar-tool.d-flex.d-lg-none
               span.navbar-tool-tooltip Search
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-search
-            a(id="wishlist-button" href='/my-favorites' class=class).navbar-tool.d-none.d-lg-flex
+            a(id="wishlist-button" href='/my-favorites' class=loggedIn).navbar-tool.d-none.d-lg-flex
               span.navbar-tool-tooltip Wishlist
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
             - if( !user ) {
