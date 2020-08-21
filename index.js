@@ -49,7 +49,7 @@ app.use(passport.session());
 passport.use(new Strategy(
   function(username, password, cb) {
     log.trace("[Passport Local] Entering local auth")
-    db.users.fdByUsername(username, function(err, user) {
+    db.users.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
@@ -580,11 +580,13 @@ app.get('/login',
     res.render('account-signin.pug');
   });
   
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/profile');
-  });
+app.post('/login', (req, res) => {
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/profile');
+    });
+})
+
 
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
