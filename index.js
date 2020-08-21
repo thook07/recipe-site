@@ -87,6 +87,8 @@ const server = app.listen(3000, () => {
 
 // -- Home Page
 app.get('/', (req, res) => {
+    require('connect-ensure-login').ensureLoggedIn(),
+  
     log.trace("[/] entering app.get(\'/\'):")
     if(req.user) {
       log.trace('[/] User: ' + req.user.username)
@@ -592,7 +594,7 @@ app.get('/login',
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/profile');
+    res.redirect('/');
   });
 
 app.get('/profile',
