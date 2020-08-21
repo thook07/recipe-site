@@ -49,7 +49,7 @@ app.use(passport.session());
 passport.use(new Strategy(
   function(username, password, cb) {
     log.trace("[Passport Local] Entering local auth")
-    db.users.findByUsername(username, function(err, user) {
+    db.users.fdByUsername(username, function(err, user) {
       if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
@@ -581,7 +581,7 @@ app.get('/login',
   });
   
 app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login', failureFlash: 'Invalid username or password.' }),
+  passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/profile');
   });
