@@ -114,7 +114,7 @@ app.get('/', (req, res) => {
             res.render('index', {
                 recipes: response.data.recipeGroup,
                 tags: tags,
-                user: null,
+                user: req.user,
                 newTags: categoryMap
             });
         });
