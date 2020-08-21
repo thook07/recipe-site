@@ -581,7 +581,7 @@ app.get('/login',
   });
   
 app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', { failureRedirect: '/login', failureFlash: 'Invalid username or password.' }),
   function(req, res) {
     res.redirect('/profile');
   });
