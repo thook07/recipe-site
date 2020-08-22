@@ -7,7 +7,14 @@ var bodyParser = require('body-parser')
 //authentication and sessions
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
-var db = require('./db');
+
+//storage
+var db = require('./db'); //rigiht now used as poor mans user store
+const db2 = require('./config/database')
+//Test db
+db2.authenticate()
+    .then(() => console.log('Database Connected...'))
+    .catch(err => console.log("error: " + err))
 
 //misc
 var firebase = require('./firebase.js');
@@ -20,7 +27,9 @@ const request = require('request');
 var framework = require('./framework.js')
 
 //objects
-var Recipe = require('./node-js/Recipe.js');
+var Recipe = require('./models/Recipe.js')
+var Tag = require('./models/Tag.js')
+//var Recipe = require('./node-js/Recipe.js');
 var RecipeGroup = require('./node-js/RecipeGroup.js');
 var GroceryList = require('./node-js/GroceryList.js');
 var GroceryListItem = require('./node-js/GroceryListItem.js');
@@ -86,9 +95,9 @@ const server = app.listen(3000, () => {
 
 
 // -- Home Page
-app.get('/', (req, res) => {
-    require('connect-ensure-login').ensureLoggedIn(),
-  
+app.get('/', async (req, res) => {
+    let q = req.query.q || ''
+
     log.trace("[/] entering app.get(\'/\'):")
     if(req.user) {
       log.trace('[/] User: ' + req.user.username)
@@ -97,43 +106,40 @@ app.get('/', (req, res) => {
       log.trace("[/] User: Anonyomous")
       log.trace('[/] User Role: undefined')
     }
-    
-    
-    framework.getRecipes(undefined, function(response, error) {
-        if(error){
-            log.error("[/] Error Occurred:" + error);
-            res.send("<h1>Error Occurred: "+error+"</h1>")
-            return;
+
+    const { Op } = require('sequelize')
+    const recipes = await Recipe.findAll({
+        where: {
+            [Op.and]: [
+                {  
+                    name: {
+                        [Op.like]: '%'+q+'%' 
+                    }
+                },
+                { approved: 1 }
+            ]
         }
-        log.trace("[/] Successfully got recipes. Grabbing Tags now..")
-        framework.getTags({}, function(tagResponse, tagError){
-            var tags = tagResponse.data.tags;
+    })
+    log.trace("[/] Got recipes. Grabbing Tags now..")
+    const tags = await Tag.findAll();
+    var categoryMap = {};
+    console.log(tags.length)
+    for(i=0; i<tags.length; i++){
+        if(tags[i].category in categoryMap) {
+            categoryMap[tags[i].category].push(tags[i]);
+        } else {
+            categoryMap[tags[i].category] = [tags[i]];
+        }
+    }
+    console.log(categoryMap)
 
-            categoryMap = {};
-            for(i=0; i<tags.length; i++) {
-                if( tags[i].category in categoryMap) {
-                    //do nothing
-                    categoryMap[tags[i].category].push(tags[i]);
-                } else {
-                    categoryMap[tags[i].category] = [tags[i]];
-                }
-            }
-
-            console.log(categoryMap)
-
-            
-            res.render('index', {
-                recipes: response.data.recipeGroup,
-                tags: tags,
-                user: req.user,
-                newTags: categoryMap
-            });
-        });
-        
-        
-        
+    res.render('index', {
+        recipes: recipes,
+        tags: tags,
+        user: req.user,
+        newTags: categoryMap
     });
-    
+        
     /*firebase.db.collection("recipes")
         .withConverter(recipeConverter).get().then(function(docs) {
             
@@ -582,6 +588,22 @@ app.get('/test2', (req, res) => {
    log.info("/test2 requested....")
     
    res.render('test2');
+});
+
+// -- Model Testing
+app.get('/model', async (req, res) => {
+    const { Op } = require('sequelize')
+    const recipes = await Recipe.findAll({
+        attributes: ['id', 'name'],
+        where: {
+            name: {
+                [Op.like]: 'A%'
+            }
+        }
+    })
+    
+    console.log(recipes);
+    res.send(recipes)
 });
 
 // -- Session Testing

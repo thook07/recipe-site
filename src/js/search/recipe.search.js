@@ -24,19 +24,21 @@ $('#recipe-container').on('load', function() {
 
 $(document).ready(function(){
     //create the isotope grid
-    var $grid = $('#recipe-container').isotope({
-        // options
-        itemSelector: '.recipe-card',
-        percentPosition: true,
-        masonry: {
-            columnWidth: '.grid-sizer'
-        },
-        getSortData: {
-            name: '[recipe-name]', // value of attribute
-            tags: '[recipe-tags]', // value of attribute
-            description: '[recipe-description]', // value of attribute
-           
-        }
+    var $grid = $('#recipe-container').imagesLoaded( function() {
+        $grid.isotope({
+            // options
+            itemSelector: '.recipe-card',
+            percentPosition: true,
+            masonry: {
+                columnWidth: '.grid-sizer'
+            },
+            getSortData: {
+                name: '[recipe-name]', // value of attribute
+                tags: '[recipe-tags]', // value of attribute
+                description: '[recipe-description]', // value of attribute
+            
+            }
+        });
     });
     
     $("#nav-bar-search-button").click(function(){
