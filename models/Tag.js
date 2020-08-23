@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database')
+const Recipe = require('./Recipe');
+const RecipeTag = require('./RecipeTag');
 
-const Recipe = db.define('tags', {
+const Tag = db.define('tag', {
     id: {
         type: Sequelize.STRING,
         primaryKey: true
@@ -15,4 +17,4 @@ const Recipe = db.define('tags', {
 
 });
 
-module.exports = Recipe;
+module.exports = Tag;

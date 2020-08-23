@@ -9,16 +9,15 @@ var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
 //storage
-var db = require('./db'); //rigiht now used as poor mans user store
-const db2 = require('./config/database')
+const db = require('./config/database')
 //Test db
-db2.authenticate()
+db.authenticate()
     .then(() => console.log('Database Connected...'))
     .catch(err => console.log("error: " + err))
 
 //misc
 var firebase = require('./firebase.js');
-var log = require('./logger.js');
+var log = require('./config/logger.js');
 //const recipes = require('./recipes.json');
 const recipe1 = require('./recipe1.json');
 const recipe2 = require('./recipe2.json');
@@ -27,13 +26,14 @@ const request = require('request');
 var framework = require('./framework.js')
 
 //objects
-var Recipe = require('./models/Recipe.js')
-var Tag = require('./models/Tag.js')
+var Recipe = require('./models/Recipe.js');
+var Tag = require('./models/Tag.js');
+var User = require('./models/User')
 //var Recipe = require('./node-js/Recipe.js');
 var RecipeGroup = require('./node-js/RecipeGroup.js');
 var GroceryList = require('./node-js/GroceryList.js');
 var GroceryListItem = require('./node-js/GroceryListItem.js');
-var User = require('./node-js/User.js');
+//var User = require('./node-js/User.js');
 var Ingredient = require('./node-js/Ingredient.js');
 
 let INGREDIENTS_CACHE = {};
@@ -48,46 +48,7 @@ app.use(express.static(__dirname + '/src'))
 //initialize passport session
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Configure the local strategy for use by Passport.
-//
-// The local strategy require a `verify` function which receives the credentials
-// (`username` and `password`) submitted by the user.  The function must verify
-// that the password is correct and then invoke `cb` with a user object, which
-// will be set at `req.user` in route handlers after authentication.
-passport.use(new Strategy(
-  function(username, password, cb) {
-    log.trace("[Passport Local] Entering local auth")
-    db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false); }
-      return cb(null, user);
-    });
-  }));
-
-
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
-passport.serializeUser(function(user, cb) {
-  log.trace("[Passport seralizeUser] Entering serializeUser")
-  cb(null, user.id);
-});
-
-passport.deserializeUser(function(id, cb) {
-  log.trace("[Passport deseralizeUser] Entering deserializeUser")
-  db.users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-    cb(null, user);
-  });
-});
-
-
+require('./config/passport')(passport, Strategy);
 
 const server = app.listen(3000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
@@ -100,7 +61,7 @@ app.get('/', async (req, res) => {
 
     log.trace("[/] entering app.get(\'/\'):")
     if(req.user) {
-      log.trace('[/] User: ' + req.user.username)
+      log.trace('[/] User: ' + req.user.email)
       log.trace('[/] User Role: ' + req.user.role)
     } else{
       log.trace("[/] User: Anonyomous")
@@ -123,7 +84,6 @@ app.get('/', async (req, res) => {
     log.trace("[/] Got recipes. Grabbing Tags now..")
     const tags = await Tag.findAll();
     var categoryMap = {};
-    console.log(tags.length)
     for(i=0; i<tags.length; i++){
         if(tags[i].category in categoryMap) {
             categoryMap[tags[i].category].push(tags[i]);
@@ -131,7 +91,12 @@ app.get('/', async (req, res) => {
             categoryMap[tags[i].category] = [tags[i]];
         }
     }
-    console.log(categoryMap)
+
+    //for now i'll just call the getTags async func and apply that to the recipe obj
+    //I imagine there is a better way to just do this on recipe load.
+    for(const recipe of recipes) {  
+        recipe.tags = await recipe.getTags()
+    }
 
     res.render('index', {
         recipes: recipes,
@@ -139,44 +104,40 @@ app.get('/', async (req, res) => {
         user: req.user,
         newTags: categoryMap
     });
-        
-    /*firebase.db.collection("recipes")
-        .withConverter(recipeConverter).get().then(function(docs) {
-            
-            var recipes = [];
-            docs.forEach((doc) => {
-                recipe = doc.data();
-                recipes.push(recipe);
-            });
-        
-        //showing home page..
-        console.log("Found " + recipes.length + " recipes")
-        firebase.firebase.auth().onAuthStateChanged(function(user) {
-            console.log("user", user);
-            console.log("Showing home page...");
-            res.render('index', {
-                recipes: recipes,
-                tags: tags,
-                user: user
-            });
-        });
-        
-        
-    }).catch((err) => {
-        console.log('Error getting documents', err);
-        res.send("<h1>Error Occurred</h1>");
-    });*/
     
 });
 
+// -- Recipe Routes
+app.use('/recipes', require('./routes/recipes'));
+
 // -- Recipe Page
-app.get('/recipe/:recipe', (req, res) => {
+app.get('/recipe/:recipe', async (req, res) => {
     log.trace("loading /recipe/{recipe} page...");
     
     var recipeId = req.params.recipe;
     log.trace("Grabbing Recipe: " + recipeId);
+
+    const recipe = await Recipe.byId(recipeId);
+    recipe.tags = await recipe.getTags();
+    recipe.recipeIngredients = await recipe.getRecipeIngredients();
+    const nested = await recipe.getNestedRecipes();
+    var totalRecipes = [recipe];
+    if(nested.length > 0 ) {
+        for(const r of nested) {  
+            r.tags = await r.getTags()
+            r.recipeIngredients = await r.getRecipeIngredients();
+            totalRecipes.push(r);
+        }
+    }
+
+    res.render('grocery-single', {
+        recipe: recipe,
+        nestedRecipes: totalRecipes, 
+        tags: tags
+    });
+
     
-    framework.getRecipes([recipeId], function(response, err){
+    /*framework.getRecipes([recipeId], function(response, err){
         if(err) {
             log.error("No Recipe found for ["+recipeId+"]");
             res.status(404);
@@ -195,7 +156,7 @@ app.get('/recipe/:recipe', (req, res) => {
         
         
         
-    })
+    })*/
     
     /*let recipeRef = firebase.db.collection('recipes').doc(recipeId);
     let getDoc = recipeRef.get().then(doc => {
@@ -219,14 +180,14 @@ app.get('/recipe/:recipe', (req, res) => {
 });
 
 
-// -- User Settings Page
-app.get('/user-settings', (req, res) => {
-    res.render('account-profile', {
-       tags: tags
-    });
-    
-    
-});
+// -- Account Routes
+app.use('/account', require('./routes/account'));
+
+// -- Administrative Routes
+app.use('/admin', require('./routes/admin'));
+
+// -- API Routes
+app.use('/api', require('./routes/api'))
 
 // -- My Recipes
 app.get('/my-recipes', (req, res) => {
@@ -445,130 +406,6 @@ app.post('/validateToken', (req, res) => {
 })
 
 
-// -- Administrative Stuff
-app.get("/admin", (req, res) => {
-    res.render("admin/admin.pug", {});
-    
-});
-
-app.get('/admin/:action', (req, res) => {
-    
-    var action = req.params.action;
-    log.trace("/admin request with action ["+action+"]");
-
-
-    switch(action) {
-        case "createRecipe":
-            log.trace("building /admin/createRecipe page")
-            var meals = tags[1];
-            var cats = tags[2];
-            var cooks = tags[4];
-
-            res.render('admin/admin-create-recipe', {
-                tags: tags,
-                meals: meals,
-                 cats: cats,
-                 cooks: cooks
-             });
-
-          break;
-        case "updateRecipes":
-
-            framework.getRecipesTable({},function(response, err){ 
-                if(err){
-                    res.status(500).send({err})
-                }
-
-                var recipes = response.data.recipes;
-
-                res.render("admin/admin-update-recipes", {
-                    recipes: recipes
-                })
-                
-            });
-        
-            return;
-        break;
-        case "updateRecipeIngredients":
-            framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
-                res.render("admin/admin-update-recipe-ingredients", {
-                    recipeIngredients: response.data.recipeIngredients
-                });
-            });
-            return;
-        
-        break;
-        case "updateRecipeIngredientsIssues":
-            framework.getRecipeIngredientIssues({},function(response, err){ 
-                res.render("admin/admin-update-recipe-ingredients", {
-                    recipeIngredients: response.data.recipeIngredients
-                });
-            });
-            return;
-        break;
-        case "updateTags":
-            framework.getRecipes(undefined,function(response, err){ 
-                if(err){
-                    res.status(500).send({err})
-                }
-
-                framework.getTagTable({}, function(tagResponse, e){
-                    if(e){
-                        res.status(500).send({e})
-                    }
-
-                    var recipes = response.data.recipeGroup;
-                    var tags = tagResponse.data.tags;
-                    var tagMap = {} //break the tags into 4 columns
-                    var tagsPerColumn = Math.round(tags.length / 4);
-                    var tags1 = [];
-                    var tags2 = [];
-                    var tags3 = [];
-                    var tags4 = [];
-
-                    console.log('tpc', tagsPerColumn, "taglength", tags.length);
-                    for(i=0; i<tagsPerColumn; i++){
-                        tags1.push(tags[i]);
-                        tags2.push(tags[i+tagsPerColumn])
-                        tags3.push(tags[i+(tagsPerColumn*2)])
-                        console.log("i + tagsPerColumn x 3 =",i+(tagsPerColumn*3))
-                        if(i+(tagsPerColumn*3) < tags.length) {
-                            tags4.push(tags[i+(tagsPerColumn*3)])
-                        }
-                    }
-                    tagMap[1] = tags1
-                    tagMap[2] = tags2
-                    tagMap[3] = tags3
-                    tagMap[4] = tags4
-                    
-                    console.log(tagMap);
-
-                    res.render("admin/admin-update-tags", {
-                        recipes: recipes,
-                        tags: tagMap
-                    })
-
-                })
-
-                
-                
-            });
-        break;
-
-        default:
-            res.status(404);
-            res.render('404-simple.pug', {
-                tags: tags
-            });
-            return;
-    
-    
-        
-    }
-    //res.send("<h1>test</h1>");    
-    
-});
-
 
 // -- Used for Testing
 app.get('/test', (req, res) => {
@@ -593,18 +430,17 @@ app.get('/test2', (req, res) => {
 // -- Model Testing
 app.get('/model', async (req, res) => {
     const { Op } = require('sequelize')
-    const recipes = await Recipe.findAll({
-        attributes: ['id', 'name'],
-        where: {
-            name: {
-                [Op.like]: 'A%'
-            }
-        }
-    })
-    
-    console.log(recipes);
-    res.send(recipes)
+    const jack = User.build({ email: "jill@gmail.com" });
+    jack.role = 'User';
+    jack.password = 'Pa$$w0rd';
+    console.log(jack instanceof User); // true
+    console.log(jack); 
+    await jack.save();
+    console.log('Jack was saved to the database!');
+    res.send('<h1>'+JSON.stringify(jack)+'</h1>')
 });
+
+
 
 // -- Session Testing
 app.get('/login',

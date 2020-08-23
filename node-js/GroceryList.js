@@ -1,6 +1,6 @@
 var GroceryListItem = require("./GroceryListItem");
 var Ingredient = require("./Ingredient");
-var log = require('../logger.js');
+var log = require('../config/logger.js');
 
 class GroceryList {
     

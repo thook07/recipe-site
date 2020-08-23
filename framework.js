@@ -1,5 +1,5 @@
 const axios = require('axios');
-const log = require('./logger.js');
+const log = require('./config/logger.js');
 const API_URL = "http://3.14.147.18:1338";
 
 exports.getToken = function(onCompletion){

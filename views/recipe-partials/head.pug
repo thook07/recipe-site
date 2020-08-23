@@ -43,7 +43,8 @@ head
   script(src='/js/objects/User.js')
   
   //Javascript
-  script(src="https://code.jquery.com/jquery-3.4.1.min.js")
+  //script(src="https://code.jquery.com/jquery-3.4.1.min.js"
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
   script(src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js")
 
   if select2
@@ -68,8 +69,6 @@ head
     script(src='/js/recipe.js')
   if includeRecipeSearch
     script(src='/js/search/recipe.search.js')
-  if includeCreateRecipe
-    script(src='/js/create-recipe.js')
   if includeGroceryList
     script(src='/js/groceryList.js')
   if includeUpdateRecipe
@@ -82,4 +81,4 @@ head
     script(src='/js/test2.js')
 
   
-  
+  block scripts

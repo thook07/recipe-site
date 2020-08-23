@@ -1,7 +1,7 @@
 var GroceryListItem = require("../node-js/GroceryListItem");
 var Ingredient = require("../node-js/Ingredient");
 var GroceryList = require("../node-js/GroceryList");
-var log = require('../logger.js');
+var log = require('../config/logger.js');
 
 class RecipeGroup {
     

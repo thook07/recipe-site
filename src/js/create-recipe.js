@@ -1,35 +1,16 @@
-/*
-   cr-recipe-name
-   cr-recipe-url
-   cr-recipe-ingredients
-   cr-recipe-instructions
-   cr-recipe-notes
-   cr-recipe-prepTime
-   cr-recipe-cookTime
-   tag-switches
-   cr-recipe-author
-   cr-recipe-link-description
-   cr-recipe-link
-   cr-create-recipe-button
 
-
-
-
-
-
-
-
-*/
 var recipeId = "";
+let recipeIds = [];
 $(document).ready(function(){
-   
-    $('#cr-recipe-name').keyup(function() {
-        console.log(recipeId)
-    })
+
+    $.get( '/api/recipes/id', function( data ) {
+        recipeIds = data;
+    });
     
     $( "#cr-form" ).on( "submit", function(e) {
         e.preventDefault();
         
+        var recipeId = $('#cr-recipe-id').val();
         var recipeName = $('#cr-recipe-name').val();
         var recipeIngredients = $('#cr-recipe-ingredients').val();
         var recipeInstructions = $('#cr-recipe-instructions').val();
@@ -71,10 +52,9 @@ $(document).ready(function(){
             'prepTime': recipePrepTime,
             'recipeIngredients': recipeIngredients,
             'instructions': recipeInstructions,
-            'attribution': {
-                'author': recipeAuthor,
-                'link': recipeLink
-            }
+            'attAuthor' : recipeAuthor,
+            'attLink' : recipeLink
+            
         }
 
         if(recipeNotes != undefined) json['notes'] = recipeNotes;
@@ -83,22 +63,22 @@ $(document).ready(function(){
         data['recipe'] = json;
         
         /* Send to API */
-        framework.post("http://3.14.147.18:1338/createRecipe",data, function(res, err) {
-            console.log(res);
-            console.log("Recipe created successfully!");
+        $.post( '/api/recipes/add', data, res => {
             $('#toast-title').text('Success');
             $('#toast-body').text(recipeName + ' created successfully!');
             $('#generic-success-toast').toast('show');
             $('html, body').scrollTop(0);
             setTimeout(() => { location.reload(true); }, 500);
-        });
-        
+        }).fail(err => {
+            console.log(err.responseText)
+        });        
     });
 
 
     $('#cr-recipe-name').on('change', function(e){
         var recipeName = $('#cr-recipe-name').val();
-        validateAndCreateRecipeId(recipeName,1)
+        var id = validateAndCreateRecipeId(recipeName,1);
+        $('#cr-recipe-id').val(id);
     });
     
 });
@@ -149,8 +129,17 @@ function validateAndCreateRecipeId(name, index){
     } else {
         id = generateRecipeId(name + "-" + index.toString()); 
     }
+
+    console.log(recipeIds[0])
+    if( recipeIds.includes(id) ) {
+        console.log(id + ' already existed. Retrying.')
+        validateAndCreateRecipeId(name, index + 1);
+    } else {
+        console.log("Success. Found Available RecipeId: " + id)
+        return id;
+    }
     
-    var recipeRef = db.collection('recipes').doc(id);
+    /*var recipeRef = db.collection('recipes').doc(id);
     
     recipeRef.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
@@ -160,10 +149,9 @@ function validateAndCreateRecipeId(name, index){
             console.log('Found Unique Recipe Id:' + id);
             recipeId = id;
         }
-    });
+    });*/
     
 }
-
 
 function generateRecipeId(name) {  
     var nameStr = "";

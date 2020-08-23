@@ -1,5 +1,5 @@
 
-var log = require('../logger.js');
+var log = require('../config/logger.js');
 
 class GroceryListItem {
     

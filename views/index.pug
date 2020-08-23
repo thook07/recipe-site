@@ -46,19 +46,16 @@ block content
       - } else {
       -    for (var i = 0; i < recipe.tags.length; ++i) {
       -       if(i < 1) {
-      -         myTags = "tag-" + recipe.tags[i];
-      -         myTagList = recipe.tags[i];
+      -         myTags = "tag-" + recipe.tags[i].id;
+      -         myTagList = recipe.tags[i].id;
       -       } else {
-      -         myTags = myTags + " " + "tag-"+recipe.tags[i];
-      -         myTagList = myTagList + " " + recipe.tags[i];
+      -         myTags = myTags + " " + "tag-"+recipe.tags[i].id;
+      -         myTagList = myTagList + " " + recipe.tags[i].id;
       -       }
       -    }
       - }
-      - var author = ""
-      - if(recipe.attribution != undefined) {
-      -     author = recipe.attribution.author
-      - }
-        div(class=myTags recipe-author=author recipe-tags=myTagList recipe-name=recipe.name recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
+
+        div(class=myTags recipe-author=recipe.author recipe-tags=myTagList recipe-name=recipe.name recipe-description=recipe.description).col-xl-3.col-lg-6.col-md-4.col-sm-6.px-2.mb-3.recipe-card
           .card.product-card.card-static.pb-3
             button(type='button' data-toggle='tooltip' data-placement='left' title='Coming Soon!').btn-wishlist.btn-sm
               i.czi-heart
@@ -73,8 +70,8 @@ block content
                 a(href="recipe/"+recipe.id) #{recipe.name}
               .product-price
                 //span.text-accent $2.<small>99</small>
-                if recipe.attribution
-                  span.text-accent #{recipe.attribution.author}
+                if recipe.author
+                  span.text-accent #{recipe.author}
             .product-floating-btn
               // -- add to cart button that shows on hover, check toast-shop.pug for details on this window -- 
               button(type='button' recipe-id=recipe.id data-toggle='toast').grocery-item-add-btn.btn.btn-primary.btn-shadow.btn-sm

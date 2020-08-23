@@ -26,7 +26,7 @@ block content
         .h-100.bg-light.rounded-lg.py-5.px-4.px-sm-5
           a(href='#').product-meta.d-block.font-size-sm.pb-2 
             each tag in recipe.tags
-              span.mr-2 #{tag}
+              span.mr-2 #{tag.name}
           h1.h2 #{recipe.name}
           
           .col-xl-12.px-2.mb-3
@@ -110,25 +110,24 @@ block content
                 // Basic list group
                 .list-group
                   each recipeIngredient in recipe.recipeIngredients
-                    if recipeIngredient.isRecipe == 1
-                      - console.log(recipeIngredient)
-                      a(recipe-id=recipeIngredient.recipe.id).ingredient-link.list-group-item.list-group-item-action
+                    if recipeIngredient.isRecipe
+                      a(recipe-id=recipeIngredient.ingredientId).ingredient-link.list-group-item.list-group-item-action
                         //i.czi-link.mr-2
                         if recipeIngredient.amount == "na"
-                          | #{recipeIngredient.ingredientDescription} 
+                          | #{recipeIngredient.ingredient} 
                           span.float-right
                             i.czi-basket-alt
                         else
-                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
+                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredient}
                           span.float-right
                             i.czi-basket-alt
 
                     else
                       .list-group-item
                         if recipeIngredient.amount == "na"
-                          | #{recipeIngredient.ingredientDescription} 
+                          | #{recipeIngredient.ingredient} 
                         else
-                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
+                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredient}
             if recipe.instructions
               div(id="instructions", class="tab-pane fade", role="tabpanel")
                 p.font-size-sm

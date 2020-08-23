@@ -3,7 +3,7 @@
 var firebase = require("firebase/app");
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-var log = require('./logger.js');
+var log = require('./config/logger.js');
 
 
 // Add the Firebase products that you want to use
