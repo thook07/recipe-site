@@ -12,9 +12,13 @@ append config
   - var showSidbar = true
 append scripts
   link(rel="stylesheet" media="screen" id="main-styles" href="/js/dropzone/dist/dropzone.css")
+  link(href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet")
+  script(src="https://code.jquery.com/ui/1.10.4/jquery-ui.js")
+  script(src="https://code.jquery.com/ui/1.10.4/jquery-ui.js")
+      
   script(src='/js/dropzone/dist/dropzone.js')
   script(src='/js/upload-recipe-images.js')
-
+  
 
 //- Page Content
 block content
@@ -45,19 +49,27 @@ block content
                       option(value=recipe.id) #{recipe.name}
               .row  
                 .col-md-12.form-group
-                  // Multiple button addons
-                  each image in recipes[3].images
-                    .input-group
-                      .input-group-prepend
-                        span.input-group-text.font-weight-semibold #{image}
-                      .input-group-append
-                        button(type="button").btn.bg-white.border.btn-icon
-                          i.czi-trash.text-danger
+                  // Textual addon
+                  ul.list-group.list-group-flush#sortable
+                    each image in recipes[3].images
+                      li.list-group-item.d-flex.justify-content-between.align-items-center
+                        span
+                          i.czi-menu.mr-5
+                          img(src=image style='max-height:75px').img-thumnail.rounded.mr-3
+                          | #{image}
+
 
               
 
+            button(type="button" id='test').btn.btn-primary
+              | Primary
             form.dropzone#upload-widget
-
+            div(style="display:none !important")#img-template
+              li.template-li.list-group-item.d-flex.justify-content-between.align-items-center
+                  span
+                    i.czi-menu.mr-5
+                    img(src=image style='max-height:75px').img-thumnail.rounded.mr-3.imagesrc
+                    span.imagespan #{image}
 
             
 

@@ -36,35 +36,37 @@ head
   link(rel="stylesheet", media="screen", id="main-styles")&attributes(isNestedFile ? {'href': '../css/theme.min.css'} : {'href': '/css/theme.min.css'})
   link(rel="stylesheet", media="screen", id="main-styles")&attributes(isNestedFile ? {'href': '../css/theme.min.css'} : {'href': '/css/recipe.search.css'})
   
-  
+  script(src='/js/vendor.min.js')
+  script(src='/js/theme.min.js')
+  script(src='/js/search/isotope.pkgd.min.js')
   // JavaScript libraries, plugins and custom scripts
   //Load Classes
   script(src='/js/objects/Recipe.js')
   script(src='/js/objects/User.js')
   
   //Javascript
-  //script(src="https://code.jquery.com/jquery-3.4.1.min.js"
-  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
   script(src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js")
 
   if select2
     link(href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" )
     script(src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer)
 
+
+
   //FIREBASE
   if includeFirebase
     //Firebase App (the core Firebase SDK) is always required and must be listed first
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js")
+    //script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js")
     //script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js")
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js")
-    script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
-    script(src='/js/recipe.firebase.js')
+    //script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js")
+    //script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
+    //script(src='/js/recipe.firebase.js')
     
-  script(src='/js/recipe.framework.js')
+  //script(src='/js/recipe.framework.js')
 
   //Searching JS
   if includeAutoComplete
-    script(src='/js/search/jquery.autocomplete.min.js')
+    //script(src='/js/search/jquery.autocomplete.min.js')
   if includeRecipe
     script(src='/js/recipe.js')
   if includeRecipeSearch

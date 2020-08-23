@@ -25,6 +25,18 @@ router.get('/recipes/id', async (req, res) => {
     res.send( await Recipe.getIds() );
 });
 
+router.get('/recipes/:recipe/images', async (req, res) => {
+    log.trace('[api/recipes/recipe:/images] Entering: ' + req.params.recipe)
+    var recipeId = req.params.recipe;
+    recipe = await Recipe.byId(recipeId)
+    if(recipe) {
+        res.status(200).send( recipe.images);
+    } else {
+        res.status(404).send('Recipe with id '+recipeId+' not found')
+    }
+    
+});
+
 router.post('/recipes/add', async (req, res) => {
     const data = req.body.recipe;
     try {

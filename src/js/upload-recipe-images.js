@@ -1,13 +1,31 @@
 
 var recipeId = '';
 var imageCount = 0;
+
 $(document).ready(function(){
 
+
+    $( "#sortable" ).sortable();
+    
     $('#recipeSelect').on('change', function(e) {
         console.log($(this).val())
         recipeId = $(this).val();
     });
 
+    $('#test').on('click', function(e){
+        var src = '/recipe-images/baked-vegan-buffalo-cauliflower-dip-04.jpg';
+
+        var li = $('#img-template').clone()
+        var ul = $('#sortable');
+        console.log( li.find('span').find('img').html() );
+        var img = li.find('.imagesrc');
+        img.attr('src', src)
+        img.removeClass('imagesrc');
+        
+        li.find('span .imagespan').html(Math.random())
+        ul.append(li.html());
+        $('#sortable').sortable ('refresh');
+    });
 
 
 });
