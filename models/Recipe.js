@@ -67,6 +67,20 @@ Recipe.byId = async function byId(id) {
     return await Recipe.findByPk(id);
 };
 
+Recipe.getIds = async function getIds() {
+    const recipes = await Recipe.findAll({ attributes: ['id'] });
+
+    recipeIds = [];
+    recipes.forEach(recipe => { recipeIds.push(recipe.id) })
+
+    return recipeIds;
+}
+
+Recipe.getAllAttributes = async function getAllAttributes(atts) {
+    const recipes = await Recipe.findAll({ attributes: atts });
+    return recipes;
+}
+
 Recipe.prototype.getTags = async function getTags() {
     const joins = await RecipeTag.findAll({
         where: {

@@ -3,6 +3,7 @@ const router = express.Router();
 const log = require('../config/logger')
 const tags = require('../tags.json');
 const framework = require('../framework')
+const Recipe = require('../models/Recipe')
 
 // -- Administrative Stuff
 router.get("/", (req, res) => {
@@ -25,6 +26,23 @@ router.get('/add-recipe', (req, res) => {
         cats: cats,
         cooks: cooks
     });
+});
+
+router.get('/add-recipe-images', async (req, res) => {
+    log.trace("[/admin/add-recipe-images] building add recipe images page")
+    
+    const recipes = await Recipe.getAllAttributes(['id','name', 'images']);
+
+    console.log(recipes[3].images)
+
+    res.render("admin/admin-upload-images", {
+        recipes: recipes
+    });
+});
+
+
+
+router.get('/upload-images', (req, res) => {
 });
 
 router.get('/update-recipe', (req, res) => {

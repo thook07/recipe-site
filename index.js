@@ -1,5 +1,6 @@
 //web app
 const express = require('express');
+const fileUpload = require('express-fileupload');
 var Promise = require('promise');
 const app = express();
 var bodyParser = require('body-parser')
@@ -44,6 +45,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/src'))
+app.use(fileUpload({
+    createParentPath: true,
+    limits: { 
+        fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
+    },
+}));
 
 //initialize passport session
 app.use(passport.initialize());

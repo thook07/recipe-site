@@ -1,7 +1,10 @@
 const express = require('express');
+const log = require('../config/logger');
+const fs = require('fs')
 const router = express.Router();
 const Recipe = require('../models/Recipe');
 const Tag = require('../models/Tag');
+const File = require('../models/File')
 
 /*
 res.sendStatus(200) // equivalent to res.status(200).send('OK')
@@ -19,12 +22,7 @@ router.get('/recipes', async (req, res) => {
 });
 
 router.get('/recipes/id', async (req, res) => {
-    const recipes = await Recipe.findAll({ attributes: ['id'] })
-
-    recipeIds = []
-    recipes.forEach(recipe => { recipeIds.push(recipe.id) })
-
-    res.send(recipeIds)
+    res.send( await Recipe.getIds() );
 });
 
 router.post('/recipes/add', async (req, res) => {
@@ -46,6 +44,60 @@ router.post('/recipes/add', async (req, res) => {
         res.send(err.errors[0].message);
     }
     
+});
+
+router.post('/upload/recipe-images', async (req, res) => {
+    try {
+        if(!req.files) {
+            res.send({
+                status: false,
+                message: 'No file uploaded'
+            });
+        } else {
+            let file = req.files.file;
+            userId = 1;
+            if( req.user) {
+                userId = req.user.id;
+            }
+            
+            //Use the mv() method to place the file in upload directory (i.e. "uploads")
+            const uploadPath = './uploads/recipe-images/' + file.name 
+            if (fs.existsSync(uploadPath)) {
+                log.error('[/admin/upload/recipe-images] Error Uploading File: File Name already exists. Try renaming the file.');
+                res.status(500).send('File Name already exists. Try renaming the file.');
+                return
+            }
+
+            file.mv(uploadPath);
+            var fileData = {
+                name: file.name,
+                size: file.size,
+                type: file.mimetype,
+                path: uploadPath,
+                userId: userId
+            }
+
+            const fileObj = await File.build( fileData )
+            console.log(fileObj);
+            await fileObj.save();
+
+            //send response
+            log.trace('/admin/upload/recipe-images] File ['+file.name+'] Successfully upload!')
+            res.send({
+                status: true,
+                message: 'File is uploaded',
+                data: {
+                    name: file.name,
+                    mimetype: file.mimetype,
+                    size: file.size
+                }
+            });
+        }
+    } catch (err) {
+        log.error('/admin/upload/recipe-images] File Upload Error:');
+        console.log(err);
+        res.status(500).send(err);
+    }
 });
 
 router.get('/tags/', async (req, res) => {

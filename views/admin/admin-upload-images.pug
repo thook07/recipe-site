@@ -1,0 +1,64 @@
+extends ../recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var pageTitle = 'Update Recipe'
+  - var parentMenu = 'Account'
+  - var navbarTemplate = 'navbar-marketplace'
+  - var footerTemplate = 'footer-marketplace'
+  - var isFileUploadScript = true
+  - var showSidebar = false
+  - var showSidbar = true
+append scripts
+  link(rel="stylesheet" media="screen" id="main-styles" href="/js/dropzone/dist/dropzone.css")
+  script(src='/js/dropzone/dist/dropzone.js')
+  script(src='/js/upload-recipe-images.js')
+
+
+//- Page Content
+block content
+
+  //- dashboard-header.pug template
+  //include partials/dashboard-header
+
+  .container.mb-5.pb-3
+    .bg-light.box-shadow-lg.rounded-lg.overflow-hidden
+      .row
+
+        // Sidebar
+        aside.col-lg-4
+          //- sidebar-dashboard.pug template
+          //include partials/sidebar-dashboard
+
+        // Content
+        section.col-lg-12.pt-lg-4.pb-4.mb-3.ml-3
+          .pt-2.px-4.pr-xl-5
+
+            form(novalidate).needs-validation
+              .row
+                .col-md-12.form-group
+                  label(for="recipeSelect") Recipe
+                  select(id="recipeSelect" required).form-control.custom-select
+                    option(value="") Choose Recipe
+                    each recipe in recipes
+                      option(value=recipe.id) #{recipe.name}
+              .row  
+                .col-md-12.form-group
+                  // Multiple button addons
+                  each image in recipes[3].images
+                    .input-group
+                      .input-group-prepend
+                        span.input-group-text.font-weight-semibold #{image}
+                      .input-group-append
+                        button(type="button").btn.bg-white.border.btn-icon
+                          i.czi-trash.text-danger
+
+              
+
+            form.dropzone#upload-widget
+
+
+            
+
+  include ../recipe-partials/toast-generic-success
