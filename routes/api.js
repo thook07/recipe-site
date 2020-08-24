@@ -26,7 +26,7 @@ router.get('/recipes/id', async (req, res) => {
 });
 
 router.get('/recipes/:recipe/images', async (req, res) => {
-    log.trace('[api/recipes/recipe:/images] Entering: ' + req.params.recipe)
+    log.trace('GET [api/recipes/recipe:/images] Entering: ' + req.params.recipe)
     var recipeId = req.params.recipe;
     recipe = await Recipe.byId(recipeId)
     if(recipe) {
@@ -58,6 +58,31 @@ router.post('/recipes/add', async (req, res) => {
     
 });
 
+router.post('/recipes/:recipe/update', async (req, res) => {
+    log.trace('POST [api/recipes/recipe:/update] Entering: ' + req.params.recipe)
+    var recipeId = req.params.recipe;
+    console.log(req.body);
+    var attMap = req.body.attributes;
+    log.trace('Searching for ' + recipeId);
+    recipe = await Recipe.byId(recipeId)
+    if(recipe) {
+        log.trace('Found ['+recipeId+']. Update attributes.');
+        log.trace(JSON.stringify(attMap));
+        for(var key in attMap){
+            recipe[key] = attMap[key];
+        }
+        log.debug('Updating Recipe ['+recipeId+']!')
+        try {
+            await recipe.save();
+            res.status(200).send('Successfully updated '+recipeId);
+        } catch(err) {
+            res.status(500).send(err)
+        }
+    } else {
+        res.status(404).send('Recipe with id '+recipeId+' not found')
+    }
+});
+
 router.post('/upload/recipe-images', async (req, res) => {
     try {
         if(!req.files) {
@@ -72,25 +97,33 @@ router.post('/upload/recipe-images', async (req, res) => {
                 userId = req.user.id;
             }
             
-            //Use the mv() method to place the file in upload directory (i.e. "uploads")
-            const uploadPath = './uploads/recipe-images/' + file.name 
-            if (fs.existsSync(uploadPath)) {
+            const uploadPath = './uploads/recipe-images/' + file.name
+            /*if (fs.existsSync(uploadPath)) {
                 log.error('[/admin/upload/recipe-images] Error Uploading File: File Name already exists. Try renaming the file.');
                 res.status(500).send('File Name already exists. Try renaming the file.');
                 return
-            }
+            }*/
+
+
 
             file.mv(uploadPath);
+            log.trace('Stored @ ' + uploadPath);
+            //remove the uploads folder from the path
+            publicUrl = uploadPath.substring(9, uploadPath.length)
+            log.trace('New URL: ' + publicUrl)
+
             var fileData = {
                 name: file.name,
                 size: file.size,
                 type: file.mimetype,
-                path: uploadPath,
+                path: publicUrl,
                 userId: userId
             }
 
+            
+
+
             const fileObj = await File.build( fileData )
-            console.log(fileObj);
             await fileObj.save();
 
             //send response
@@ -101,7 +134,8 @@ router.post('/upload/recipe-images', async (req, res) => {
                 data: {
                     name: file.name,
                     mimetype: file.mimetype,
-                    size: file.size
+                    size: file.size,
+                    path: publicUrl
                 }
             });
         }

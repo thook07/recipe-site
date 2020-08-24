@@ -1,35 +1,83 @@
 
+//used to name the image being uploaded.
 var recipeId = '';
 var imageCount = 0;
 
 $(document).ready(function(){
 
-
+    //enable the sorting of the images
     $( "#sortable" ).sortable();
     
-    $('#recipeSelect').on('change', function(e) {
+    //whenever the recipe gets selected
+    $('#recipeSelect').on('change', async function(e) {
         console.log($(this).val())
         recipeId = $(this).val();
-    });
-
-    $('#test').on('click', function(e){
-        var src = '/recipe-images/baked-vegan-buffalo-cauliflower-dip-04.jpg';
-
-        var li = $('#img-template').clone()
-        var ul = $('#sortable');
-        console.log( li.find('span').find('img').html() );
-        var img = li.find('.imagesrc');
-        img.attr('src', src)
-        img.removeClass('imagesrc');
+        var images = await $.get( '/api/recipes/'+recipeId+'/images');
         
-        li.find('span .imagespan').html(Math.random())
-        ul.append(li.html());
-        $('#sortable').sortable ('refresh');
+        $( '#sortable' ).empty();
+        if(images.length > 0) {
+            imageCount = images.length
+            images.forEach(image => {
+                $('#sortable').append(buildListItem(image));
+            });
+        } else {
+            $('#sortable').append('<li class="list-group-item d-flex justify-content-between align-items-center">No Images Available!</li>')
+        }
+        $('#upload-widget').removeClass('d-none')
+        $('#sortable').sortable( 'refresh');
+        
+
     });
 
+    //post the update TODO: disable until ready. 
+    $('#update-recipe-images-btn').on('click', function(e) {
+        imagePaths = [];
+        $('#sortable').children().each(function() {
+            console.log($(this))
+            imagePaths.push($(this).find('span .imagespan').html());
+        });
+
+        var data = {
+            attributes: {
+                images: imagePaths
+            }
+        }
+        console.log(data);
+
+        $.post( '/api/recipes/'+recipeId+'/update', data, res => {
+            console.log('Success!');
+            //$('#toast-title').text('Success');
+            //$('#toast-body').text(recipeName + ' created successfully!');
+            //$('#generic-success-toast').toast('show');
+            //$('html, body').scrollTop(0);
+            //setTimeout(() => { location.reload(true); }, 500);
+        }).fail(err => {
+            console.log(err.responseText)
+        });        
+
+    });
 
 });
 
+//placed on the hidden template LI (stored on the DIV)
+function removeButtonClicked(btn) {
+   $(btn).parent().remove();
+}
+
+//builds the list item and appends it to the list
+function buildListItem(imgPath) {
+    var li = $('#img-template').clone()
+    var ul = $('#sortable');
+    console.log( li.find('span').find('img').html() );
+    var img = li.find('.imagesrc');
+    img.attr('src', imgPath)
+    img.removeClass('imagesrc');
+    
+    li.find('span .imagespan').html(imgPath)
+    return li.html();
+}
+
+//initializes the dropzone for uploading of images
 Dropzone.options.uploadWidget = {
     url: '/api/upload/recipe-images',
     paramName: "file", // The name that will be used to transfer the file
@@ -37,12 +85,23 @@ Dropzone.options.uploadWidget = {
     addRemoveLinks: true,
     removedfile: function(file) {
         console.log(file, ' was removed');
+        //TODO: remove the file.
+    },
+    renameFile: function (file) {
+        fileName = file.name
+        var suffix = fileName.substring(fileName.indexOf("."),fileName.length);
+        let newName = recipeId + '-' + (imageCount+1) + suffix;
+        imageCount += 1;
+        return newName;
     },
     init: function() {
         this.on('success', function(file, resp){
             console.log(file);
             console.log(resp);
-            imageCount += 1;
+            var path = resp.data.path;
+            console.log(path);
+            $('#sortable').append(buildListItem(path));
+            $('#sortable').sortable( 'refresh');
         });
         this.on('thumbnail', function(file) {
            if (file.accepted !== false) {
@@ -53,12 +112,6 @@ Dropzone.options.uploadWidget = {
                     file.acceptDimensions();
                 }
             }
-        });
-        this.on('sending', function(file) {
-
-            file.recipeName = recipeId + "-" + (imageCount+1);
-            console.log(file.recipeName);
-
         });
       },
     accept: function(file, done) {
