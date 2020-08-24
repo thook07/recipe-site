@@ -1,0 +1,14 @@
+.table-responsive
+    .table-responsive
+    table.table.table-hover
+        thead
+        tr
+            th id
+            th name
+            th category
+        tbody
+        each i in ingredients
+            tr
+                th(scope="row") #{i.id}
+                td #{i.name}
+                td #{i.category}

@@ -40,11 +40,6 @@ router.get('/add-recipe-images', async (req, res) => {
     });
 });
 
-
-
-router.get('/upload-images', (req, res) => {
-});
-
 router.get('/update-recipe', (req, res) => {
     log.trace('[/admin/update-recipe] Start.')
     framework.getRecipesTable({},function(response, err){ 
@@ -120,6 +115,9 @@ router.get('/update-tags', (req, res) => {
     });
 });
 
+router.get('/update-ingredients', (req, res) => {
+    res.render("admin/admin-ingredients");
+});
 
 
 

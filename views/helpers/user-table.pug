@@ -1,0 +1,20 @@
+.table-responsive
+    .table-responsive
+    table.table.table-hover
+        thead
+        tr
+            th id
+            th email
+            th role
+            th menu
+        tbody
+        each user in users
+            tr
+                th(scope="row") #{user.id}
+                td #{user.email}
+                td #{user.role}
+                td
+                  button(type="button").mr-2.btn.btn-outline-primary
+                    i.czi-menu
+
+            

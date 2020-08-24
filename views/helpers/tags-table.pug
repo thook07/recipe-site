@@ -1,0 +1,16 @@
+.table-responsive
+    .table-responsive
+    table.table.table-hover
+        thead
+        tr
+            th id
+            th name
+            th category
+        tbody
+        each tag in tags
+            tr
+                th(scope="row") #{tag.id}
+                td #{tag.name}
+                td #{tag.category}
+
+            

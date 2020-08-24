@@ -2,8 +2,6 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 const Recipe = require('./Recipe');
 
-`amount`, `id`, `ingredient`, `ingredientId`, `isRecipe`, `recipeId`
-
 const RecipeIngredient = db.define('recipeIngredient', {
     id: {
         type: Sequelize.INTEGER,

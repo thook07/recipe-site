@@ -1,0 +1,28 @@
+.table-responsive
+    .table-responsive
+    table.table.table-hover
+        thead
+        tr
+            th id
+            th recipeId
+            th amount
+            th ingredientId
+            th ingredient
+            th isRecipe
+            th options
+        tbody
+        each ri in recipeIngredients
+            tr
+                th(scope="row") #{ri.id}
+                td #{ri.recipeId}
+                td #{ri.amount}
+                td #{ri.ingredientId}
+                td #{ri.ingredient}
+                td #{ri.isRecipe}
+                td
+                  btn-group.btn-group-sm(role="group")
+                    button(type="button").btn.btn-outline-primary
+                      i.czi-edit
+                    button(type="button").btn.btn-outline-primary
+                      i.czi-trash
+                        

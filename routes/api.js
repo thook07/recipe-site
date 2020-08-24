@@ -2,7 +2,10 @@ const express = require('express');
 const log = require('../config/logger');
 const fs = require('fs')
 const router = express.Router();
+const User = require('../models/User');
 const Recipe = require('../models/Recipe');
+const RecipeIngredient = require('../models/RecipeIngredient');
+const Ingredient = require('../models/Ingredient');
 const Tag = require('../models/Tag');
 const File = require('../models/File')
 
@@ -15,6 +18,14 @@ res.sendStatus(500) // equivalent to res.status(500).send('Internal Server Error
 
 router.get('/', (req, res) => {
     res.send('API HOME');
+});
+
+router.get('/users', async (req, res) => {
+    const users = await User.findAll();
+    // Compile the source code
+    res.render('helpers/user-table', {
+        users: users
+    });
 });
 
 router.get('/recipes', async (req, res) => {
@@ -146,8 +157,30 @@ router.post('/upload/recipe-images', async (req, res) => {
     }
 });
 
+router.get('/recipe-ingredients', async (req, res) => {
+    const recipeIngs = await RecipeIngredient.findAll();
+    // Compile the source code
+    res.render('helpers/recipeIngredients-table', {
+        recipeIngredients: recipeIngs
+    });
+});
+
+router.get('/ingredients', async (req, res) => {
+    const ingredients = await Ingredient.findAll();
+    // Compile the source code
+    res.render('helpers/ingredients-table', {
+        ingredients: ingredients
+    });
+});
+
+
+
 router.get('/tags/', async (req, res) => {
-    res.send( await Tag.findAll())
+    const tags = await Tag.findAll();
+    // Compile the source code
+    res.render('helpers/tags-table', {
+        tags: tags
+    });
 });
 
 
