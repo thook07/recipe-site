@@ -1,0 +1,15 @@
+
+//step 1 - backup database
+mysql -u root -p recipes < backup.mysql 
+//step 2 copy backup to aws
+scp -i "keys/new-recipes.pem" backup.mysql ec2-user@ec2-3-14-147-18.us-east-2.compute.amazonaws.com:~/2020.08.23.backup.mysql
+//step 3 login to aws
+ssh -i "keys/new-recipes.pem" ec2-user@ec2-3-14-147-18.us-east-2.compute.amazonaws.com
+//step 4 restore database in prod
+mysql -u root -p recipes < 2020.08.23.backup.mysql
+//step 5 navigate to site directory
+cd /var/www/html
+//step 6 pull latest and greatest code
+sudo git pull
+//step 7 restart server
+pm2 restart index
