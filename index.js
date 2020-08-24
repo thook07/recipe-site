@@ -115,6 +115,38 @@ app.get('/', async (req, res) => {
     
 });
 
+app.get('/catalog', async (req, res) => {
+    const { Op } = require('sequelize')
+    const recipes = await Recipe.findAll({
+        where: {
+            approved: 1
+        }
+    })
+    log.trace("[/] Got recipes. Grabbing Tags now..")
+    const tags = await Tag.findAll();
+    var categoryMap = {};
+    for(i=0; i<tags.length; i++){
+        if(tags[i].category in categoryMap) {
+            categoryMap[tags[i].category].push(tags[i]);
+        } else {
+            categoryMap[tags[i].category] = [tags[i]];
+        }
+    }
+
+    //for now i'll just call the getTags async func and apply that to the recipe obj
+    //I imagine there is a better way to just do this on recipe load.
+    for(const recipe of recipes) {  
+        recipe.tags = await recipe.getTags()
+    }
+
+    res.render('index-new', {
+        recipes: recipes,
+        tags: tags,
+        user: req.user,
+        newTags: categoryMap
+    });
+        
+});
 // -- Recipe Routes
 app.use('/recipes', require('./routes/recipes'));
 

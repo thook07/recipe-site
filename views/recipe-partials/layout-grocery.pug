@@ -350,6 +350,8 @@ html(lang="en")
               +image('/img/cards-alt.png', 'Payment methods')(width='187').d-block.mx-auto.mx-sm-left
 
   include toast-generic-success
+  if isModalQuickView
+    include modal-quick-view
   
     // Back To Top Button
     a(href='#top' data-scroll).btn-scroll-top

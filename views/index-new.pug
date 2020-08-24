@@ -1,0 +1,102 @@
+extends recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var pageTitle = 'Vegan Recipes'
+  - var parentMenu = 'Home'
+  - var breadcrumbs = [{'title': 'Catalog'}]
+  - var showSidebar = true
+  - var isModalQuickView = true
+  - var includeFirebase = true
+  - var includeIsotope = true
+  - var includeAutoComplete = true
+  - var includeRecipe = true
+  - var includeRecipeSearch = true
+  - var includeCreateRecipe = false
+  - var includeGroceryList = false
+  - var includeUpdateRecipe = false
+  - var includeTest = false
+  
+//- Page Content
+block content
+
+  // Sorting
+  section.d-md-flex.justify-content-between.align-items-center.mb-4.pb-2
+    h1.h2.mb-3.mb-md-0.mr-3 Product catalog
+    .d-flex.align-items-center
+      .d-none.d-sm-block.py-2.font-size-sm.text-muted.text-nowrap.mr-2 Sort by:
+      ul.nav.nav-tabs.font-size-sm.mb-0
+        li.nav-item
+          a(id='sort-1' href='#').nav-link.active Name (A-Z)
+        li.nav-item
+          a(id='sort-2' href='#').nav-link Name (Z-A)
+        li.nav-item
+          a(id='sort-3' href='#').nav-link Random
+  
+
+  // Product grid
+  .row.mx-n2
+    each recipe in recipes
+      // Product
+      .col-md-3.col-sm-6.col-xs-2.px-2.mb-4
+        .card.product-card
+          //span.badge.badge-danger.badge-shadow Sale
+          button(type='button' data-toggle='tooltip' data-placement='left' title='Add to wishlist').btn-wishlist.btn-sm
+            i.czi-heart
+          a(href='recipe/'+recipe.id).card-img-top.d-block.overflow-hidden
+            if recipe.images
+              img(src=recipe.images[0] alt='Product')
+            else
+              img(src="recipe-images/default.jpg" alt='Product')
+          .card-body.py-2
+            if recipe.author
+              a(href='recipe/'+recipe.id).product-meta.d-block.font-size-xs.pb-1 #{recipe.author}
+            else
+              a(href='recipe/'+recipe.id).product-meta.d-block.font-size-xs.pb-1 Brother Nature
+            h3.product-title.font-size-sm
+              a(href='recipe/'+recipe.id) #{recipe.name}
+            //.d-flex.justify-content-between
+              .product-price
+                span.text-accent test
+              +star-rating(4)
+          .card-body.card-body-hidden
+            .text-center.pb-2
+              .custom-control.custom-option.custom-control-inline.mb-2
+                input(type='radio', name=quantity+'-'+recipe.id, id='s-1x' checked).custom-control-input
+                label.custom-option-label(for='s-1x') 1x
+              .custom-control.custom-option.custom-control-inline.mb-2
+                input(type='radio', name='recipeQuantity', id='s-2x').custom-control-input
+                label.custom-option-label(for='s-2x') 2x
+              .custom-control.custom-option.custom-control-inline.mb-2
+                input(type='radio', name='recipeQuantity', id='s-3x').custom-control-input
+                label.custom-option-label(for='s-3x') 3x
+              .custom-control.custom-option.custom-control-inline.mb-2
+                input(type='radio', name='recipeQuantity', id='s-4x').custom-control-input
+                label.custom-option-label(for='s-4x') 4x
+            button(type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-sm.btn-block.mb-2
+              i.czi-cart.font-size-sm.mr-1
+              | Add to Grocery List
+            .text-center
+              a(href='#quick-view' data-toggle='modal').nav-link-style.font-size-ms
+                i.czi-eye.align-middle.mr-1
+                | Quick view
+        hr.d-sm-none
+
+
+  // Center aligned
+  div(style="display:none")#no-results-div.card.text-center
+    .card-body
+      h5.card-title
+        | No Results Found!
+      p.card-text.font-size-sm.text-muted
+        | Try adjusting your search criteria
+  .pt-4.pb-5.mb-4
+    //- pagination.pug template
+    //include recipe-partials/pagination
+
+  //- toast-shop.pug template
+  include recipe-partials/toast-shop
+  include recipe-partials/toast-signed-in
+  include recipe-partials/toast-signed-out
+  
+  

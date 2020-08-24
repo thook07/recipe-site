@@ -104,7 +104,7 @@ Dropzone.options.uploadWidget = {
         });
         this.on('thumbnail', function(file) {
            if (file.accepted !== false) {
-                if (file.width < 160 || file.height < 120) {
+                if (file.width < 518 || file.height < 484) {
                     file.rejectDimensions();
                 }
                 else {
@@ -116,7 +116,7 @@ Dropzone.options.uploadWidget = {
     accept: function(file, done) {
         file.acceptDimensions = done;
         file.rejectDimensions = function() {
-            done('The image must be at least 160px x 120px')
+            done('The image must be 518px x 484px')
         };
       }
 };
