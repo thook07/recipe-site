@@ -21,7 +21,7 @@ $(document).ready(function(){
                 $('#sortable').append(buildListItem(image));
             });
         } else {
-            $('#sortable').append('<li class="list-group-item d-flex justify-content-between align-items-center">No Images Available!</li>')
+            console.log("No Images Available");
         }
         $('#upload-widget').removeClass('d-none')
         $('#sortable').sortable( 'refresh');
@@ -46,11 +46,9 @@ $(document).ready(function(){
 
         $.post( '/api/recipes/'+recipeId+'/update', data, res => {
             console.log('Success!');
-            //$('#toast-title').text('Success');
-            //$('#toast-body').text(recipeName + ' created successfully!');
-            //$('#generic-success-toast').toast('show');
-            //$('html, body').scrollTop(0);
-            //setTimeout(() => { location.reload(true); }, 500);
+            $('#toast-title').text('Success');
+            $('#toast-body').text(recipeId + ' updated successfully!');
+            $('#generic-success-toast').toast('show');
         }).fail(err => {
             console.log(err.responseText)
         });        
@@ -78,6 +76,7 @@ function buildListItem(imgPath) {
 }
 
 //initializes the dropzone for uploading of images
+//TODO: remove and delete images
 Dropzone.options.uploadWidget = {
     url: '/api/upload/recipe-images',
     paramName: "file", // The name that will be used to transfer the file

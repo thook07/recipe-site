@@ -35,7 +35,10 @@ head
   // Main Theme Styles + Bootstrap
   link(rel="stylesheet", media="screen", id="main-styles")&attributes(isNestedFile ? {'href': '../css/theme.min.css'} : {'href': '/css/theme.min.css'})
   link(rel="stylesheet", media="screen", id="main-styles")&attributes(isNestedFile ? {'href': '../css/theme.min.css'} : {'href': '/css/recipe.search.css'})
+
+  // JavaScript libraries, plugins and custom scripts
   
+  script(src="https://code.jquery.com/jquery-3.4.1.min.js")
   script(src='/js/vendor.min.js')
   script(src='/js/theme.min.js')
   script(src='/js/search/isotope.pkgd.min.js')
@@ -43,9 +46,7 @@ head
   //Load Classes
   script(src='/js/objects/Recipe.js')
   script(src='/js/objects/User.js')
-  
-  //Javascript
-  script(src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js")
+
 
   if select2
     link(href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" )
