@@ -78,20 +78,25 @@ block content
           .card-body.card-body-hidden
             .text-center.pb-2
               .custom-control.custom-option.custom-control-inline.mb-2
-                input(type='radio', name=quantityBtnsName, id=x1).custom-control-input
+                input(type='radio', name=quantityBtnsName, data-value='1', id=x1 checked).custom-control-input
                 label.custom-option-label(for=x1) 1x
               .custom-control.custom-option.custom-control-inline.mb-2
-                input(type='radio', name=quantityBtnsName, id=x2).custom-control-input
+                input(type='radio', name=quantityBtnsName, data-value='2', id=x2).custom-control-input
                 label.custom-option-label(for=x2) 2x
               .custom-control.custom-option.custom-control-inline.mb-2
-                input(type='radio', name=quantityBtnsName, id=x3).custom-control-input
+                input(type='radio', name=quantityBtnsName, data-value='3', id=x3).custom-control-input
                 label.custom-option-label(for=x3) 3x
               .custom-control.custom-option.custom-control-inline.mb-2
-                input(type='radio', name=quantityBtnsName, id=x4).custom-control-input
+                input(type='radio', name=quantityBtnsName, data-value='4', id=x4).custom-control-input
                 label.custom-option-label(for=x4) 4x
-            button(data-recipe-id=recipe.id type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-sm.btn-block.mb-2.addToGroceryBtn
-              i.czi-cart.font-size-sm.mr-1
-              | Add to Grocery List
+            if user
+              button(data-recipe-id=recipe.id data-user-id=user.id type='button' data-toggle='toast' data-target='#cart-toast').btn.btn-primary.btn-sm.btn-block.mb-2.addToGroceryBtn
+                i.czi-cart.font-size-sm.mr-1
+                | Add to Grocery List
+            else
+              button(href='#signin-modal' data-toggle='modal' data-recipe-id=recipe.id type='button').btn.btn-primary.btn-sm.btn-block.mb-2.addToGroceryBtn.notLoggedIn
+                i.czi-cart.font-size-sm.mr-1
+                | Add to Grocery List
             .text-center
               a(href='#quick-view' data-toggle='modal').nav-link-style.font-size-ms
                 i.czi-eye.align-middle.mr-1

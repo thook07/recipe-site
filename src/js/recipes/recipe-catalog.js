@@ -47,5 +47,31 @@ $(document).ready(function(){
         
     });
 
+    //-- Add to Grocery List Button clicked
+    $('.addToGroceryBtn').on('click', function(e){
+        $(this).attr('test','value')
+        var recipeId = $(this).attr('data-recipe-id');
+        var userId = $(this).attr('data-user-id');
+        var selector = "input[type='radio'][name='quantity-"+recipeId+"']:checked";
+        var radioId;
+        $(selector).each(function(){
+            radioId = $(this).attr('data-value');
+        });
+        var quantity = parseInt(radioId);
+        console.log('Adding ' + recipeId + '('+radioId+'x) to grocerylist')
+        $.post( '/api/groceryList/add', {
+            recipeId: recipeId,
+            userId: userId,
+            quantity: quantity
+        }, res => {
+            $('#toast-title').text('Success');
+            $('#toast-body').text('Added to List!');
+            $('#generic-success-toast').toast('show');
+            console.log('Recipe: ' + recipeId + ' added to list');
+        }).fail(err => {
+            console.log(err.responseText)
+        });    
+    });
+
 });
 

@@ -4,6 +4,7 @@ const fs = require('fs')
 const router = express.Router();
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
+const GroceryList = require('../models/GroceryList');
 const Favorite = require('../models/Favorite');
 const RecipeIngredient = require('../models/RecipeIngredient');
 const Ingredient = require('../models/Ingredient');
@@ -63,6 +64,46 @@ router.post('/favorite/remove', async (req, res) => {
         const favorite = await Favorite.getByIds(userId, recipeId);
         console.log(favorite);
         await favorite.destroy();
+        res.status(200)
+        res.send("Successfully added favorite for " + userId);
+    } catch(err) {
+        console.log(err);
+        res.status(400);
+        res.send(err);
+    }
+});
+
+router.post('/groceryList/add', async (req, res) => {
+    log.trace('[/api/groceryList/add] Starting...');
+    const userId = req.body.userId;
+    const recipeId = req.body.recipeId;
+    const quantity = req.body.quantity
+    log.trace('[/api/groceryList/add] UserID: ' + userId);
+    log.trace('[/api/groceryList/add] RecipeID: ' + recipeId);
+    log.trace('[/api/groceryList/add] Quantity: ' + quantity);
+
+    try {
+        var list = await GroceryList.findOne({
+            where: {
+                userId: userId,
+                recipeId: recipeId
+            }
+        })
+        if(list) {
+            //recipe already in list. Increaing Quantity
+            await list.increment({
+                quantity: quantity
+            })
+        } else {
+            //recipe not in list. Adding it with quantity
+            list = GroceryList.build({
+                userId: userId,
+                recipeId: recipeId,
+                quantity: quantity 
+             });
+        }
+        console.log(list);
+        await list.save();
         res.status(200)
         res.send("Successfully added favorite for " + userId);
     } catch(err) {

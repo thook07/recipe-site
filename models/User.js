@@ -79,6 +79,17 @@ User.prototype.getFavoriteRecipes = async function(){
     return recipes;
 }
 
+User.prototype.getGroceryList = async function() {
+    const listItems = await GroceryList.findAll({
+        where: {
+            userId: this.id
+        }
+    });
+    var ids = [];
+    listItems.forEach(listItem => ids.push(listItem.recipeId))
+    return ids;
+}
+
 User.prototype.correctPassword = function(enteredPassword) {
     return User.encryptPassword(enteredPassword, this.salt()) === this.password()
 }
