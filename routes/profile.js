@@ -29,9 +29,14 @@ router.get('/my-recipes', (req, res) => {
     });
 });
 
-router.get('/my-favorites', (req, res) => {
+router.get('/my-favorites', async (req, res) => {
+
+    const user = await User.byId(1);
+    user.favorites = await user.getFavoriteRecipes();
+    console.log(user.favorites)
+
     res.render('my-favorites', {
-        user: req.user
+        user: user
     });
 });
 

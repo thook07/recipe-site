@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const crypto = require('crypto')
 const db = require('../config/database')
+const Recipe = require('../models/Recipe');
 const Favorite = require('../models/Favorite');
 
 const User = db.define('user', {
@@ -38,6 +39,10 @@ User.encryptPassword = function(plainText, salt) {
         .digest('hex')
 }
 
+User.byId = async function(id) {
+    return await User.findByPk(id);
+}
+
 User.byEmail = async function(email) {
     return await User.findOne({
         where: {
@@ -55,6 +60,23 @@ User.prototype.getFavorites = async function(){
     var ids = [];
     favorites.forEach(favorite => ids.push(favorite.recipeId))
     return ids;
+}
+
+User.prototype.getFavoriteRecipes = async function(){
+    const favorites = await Favorite.findAll({
+        where: {
+            userId: this.id
+        }
+    });
+    var recipes = [];
+    for (const favorite of favorites) {  
+        const recipe = await Recipe.byId(favorite.recipeId);
+        recipe.favoredDate = favorite.createdAt
+        recipe.tags = recipe.tags = await recipe.getTags();
+        recipes.push(recipe);
+        console.log(recipes);
+    }
+    return recipes;
 }
 
 User.prototype.correctPassword = function(enteredPassword) {

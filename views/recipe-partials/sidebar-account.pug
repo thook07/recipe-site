@@ -6,8 +6,12 @@
         span(data-toggle='tooltip' title='Reward points').badge.badge-warning 384
         img(src='/img/shop/account/avatar.jpg' alt='Susan Gardner').rounded-circle
       .media-body.pl-3
-        h3.font-size-base.mb-0 Susan Gardner
-        span.text-accent.font-size-sm s.gardner@example.com
+        if user
+          h3.font-size-base.mb-0 
+          span.text-accent.font-size-sm #{user.email}
+        else 
+          h3.font-size-base.mb-0 Susan Gardner
+          span.text-accent.font-size-sm #{user.email}
   .bg-secondary.px-4.py-3
     h3.font-size-sm.mb-0.text-muted Dashboard
   ul.list-unstyled.mb-0

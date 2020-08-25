@@ -24,61 +24,32 @@ block content
       section.col-lg-8
 
         // Toolbar
-        .d-none.d-lg-flex.justify-content-between.align-items-center.pt-lg-3.pb-4.pb-lg-5.mb-lg-3
-          h6.font-size-base.text-light.mb-0 Update your profile details below:
-          a(href='account-signin.html').btn.btn-primary.btn-sm
-            i.czi-sign-out.mr-2
-            | Sign out
+
+
         
-        // Profile form
-        form
-          .bg-secondary.rounded-lg.p-4.mb-4
-            .media.align-items-center
-              img(src='/img/shop/account/avatar.jpg' width='90' alt='Susan Gardner')
-              .media-body.pl-3
-                button(type='button').btn.btn-light.btn-shadow.btn-sm.mb-2
-                  i.czi-loading.mr-2
-                  | Change avatar
-                .p.mb-0.font-size-ms.text-muted Upload JPG, GIF or PNG image. 300 x 300 required.
-          .row
-            .col-sm-6
-              .form-group
-                label(for='account-fn') First Name
-                input(type='text' id='account-fn' value='Susan').form-control
-            .col-sm-6
-              .form-group
-                label(for='account-ln') Last Name
-                input(type='text' id='account-ln' value='Gardner').form-control
-            .col-sm-6
-              .form-group
-                label(for='account-email') Email Address
-                input(type='email' id='account-email' value='s.gardner@example.com' disabled).form-control
-            .col-sm-6
-              .form-group
-                label(for='account-phone') Phone Number
-                input(type='text' id='account-phone' value='+7 (805) 348 95 72' required).form-control
-            .col-sm-6
-              .form-group
-                label(for='account-pass') New Password
-                .password-toggle
-                  input(type='password' id='account-pass').form-control
-                  label.password-toggle-btn
-                    input(type="checkbox").custom-control-input
-                    i.czi-eye.password-toggle-indicator
-                    span.sr-only Show password
-            .col-sm-6
-              .form-group
-                label(for='account-confirm-pass') Confirm Password
-                .password-toggle
-                  input(type='password' id='account-confirm-pass').form-control
-                  label.password-toggle-btn
-                    input(type="checkbox").custom-control-input
-                    i.czi-eye.password-toggle-indicator
-                    span.sr-only Show password
-            .col-12
-              hr.mt-2.mb-3
-              .d-flex.flex-wrap.justify-content-between.align-items-center
-                .custom-control.custom-checkbox.d-block
-                  input(type='checkbox' id='subscribe_me' checked).custom-control-input
-                  label(for='subscribe_me').custom-control-label Subscribe me to Newsletter
-                button(type='button' class='btn btn-primary mt-3 mt-sm-0') Update profile
+        // Favorites - product cards list view
+        if user
+          each recipe in user.favorites
+            if recipe.name
+              .card.product-card.product-list
+                //span.badge.badge-danger.badge-shadow #{recipe.favoredDate}
+                button(type="button" data-toggle="tooltip" data-placement="left" title="Remove from Favorites").btn-wishlist.btn-sm.btn-primary.active
+                  i.czi-trash
+                .d-sm-flex.align-items-center
+                  a(href="#" style="width:10rem").product-list-thumb
+                    img(src=recipe.images[0], alt="Product")
+                  .card-body.py-2
+                    a(href="/recipe/"+recipe.id).product-meta.d-block.font-size-xs.pb-1
+                      | #{recipe.author}
+                    h3.product-title.font-size-base
+                      a(href="#") #{recipe.name}
+                    .d-flex.justify-content-between
+                      button(type="button").btn.btn-primary.btn-sm.mb-2.mt-1
+                        i.czi-cart.font-size-sm.mr-1
+                        | Add to Grocery List
+                      +star-rating(4)
+                        //a(href="#").nav-link-style.font-size-ms
+                          i.czi-eye.align-middle.mr-1
+                          | Quick view
+              hr.pt-3.mt-3
+              
