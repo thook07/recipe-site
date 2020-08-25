@@ -1,0 +1,147 @@
+//- Include config.pug file that holds all variables
+block config
+  include ../helpers/config
+
+//- Mixins - reusable code snippets
+include ../helpers/mixins
+
+doctype html
+html(lang="en")
+
+  //- head.pug template
+  include head 
+  
+  // Body
+  body()&attributes(isToolbar ? {'class': 'toolbar-enabled'} : '')
+      
+    //- modal-signin.pug template
+    include modal-signin
+      
+    //- modal-quick-view.pug template
+    if isModalQuickView
+      if (navbarTemplate === 'navbar-electro-store')
+        include modal-quick-view-electro
+      else
+        include modal-quick-view
+      
+    //- modal-sizes.pug template
+    if isModalSizes
+      include modal-sizes
+      
+    //- modal-order.pug template
+    if isModalOrder
+      include modal-order
+      
+    //- modal-payment.pug template
+    if isModalPayment
+      include modal-payment
+      
+    //- modal-address.pug template
+    if isModalAddress
+      include modal-address
+      
+    //- modal-ticket.pug template
+    if isModalTicket
+      include modal-ticket
+
+    //- navbar-{name}.pug template
+    if isNavbar
+      if (navbarTemplate === 'navbar-1-level-light')
+        include navbar-1-level-light
+      else if (navbarTemplate === 'navbar-1-level-dark')
+        include navbar-1-level-dark
+      else if (navbarTemplate === 'navbar-2-level-light')
+        include navbar-2-level-light
+      else if (navbarTemplate === 'navbar-2-level-dark')
+        include navbar-2-level-dark
+      else if (navbarTemplate === 'navbar-3-level-dark')
+        include navbar-3-level-dark
+      else if (navbarTemplate === 'navbar-electro-store')
+        include navbar-electro-store
+      else if (navbarTemplate === 'navbar-marketplace')
+        include navbar-marketplace
+      else
+        include navbar-3-level-light
+
+    //- page-title-{version}.pug template
+    if isPageTitle
+      if (pageTitleTemplate === 'page-title-dark')
+        include page-title-dark
+      else if (pageTitleTemplate === 'page-title-shop')
+        include page-title-shop
+      else if (pageTitleTemplate === 'page-title-shop-alt')
+        include page-title-shop-alt
+      else
+        include page-title-light
+
+    // Page Content
+    block content
+
+    //- footer-{version}.pug template
+    if isFooter
+      if (footerTemplate === 'footer-light')
+        include footer-light
+      else if (footerTemplate === 'footer-marketplace')
+        include footer-marketplace
+      else
+        include footer-dark
+
+    // Toolbar for handheld devices
+    if isToolbar
+      .cz-handheld-toolbar
+        .d-table.table-fixed.w-100
+          if isOffcanvasSidebar === 'shop'
+            a(href='#shop-sidebar' data-toggle='sidebar').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-filter-alt
+              span.cz-handheld-toolbar-label Filters
+          if isOffcanvasSidebar === 'blog'
+            a(href='#blog-sidebar' data-toggle='sidebar').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-sign-in
+              span.cz-handheld-toolbar-label Sidebar
+          if isOffcanvasSidebar === 'help'
+            a(href='#help-sidebar' data-toggle='sidebar').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-sign-in
+              span.cz-handheld-toolbar-label Sidebar
+          if pageTitle === 'Single Product / Brand Store'
+            a(href='#signin-modal' data-toggle='modal').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-user
+              span.cz-handheld-toolbar-label Account
+            a(href='#navbarCollapse' data-toggle='collapse' onclick='window.scrollTo(0, 0)').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-menu
+              span.cz-handheld-toolbar-label Menu
+            a(href='#').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon
+                i.czi-cart
+              span.cz-handheld-toolbar-label $0.00
+          else
+            a(href='account-wishlist.html').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-heart
+              span.cz-handheld-toolbar-label Wishlist
+            a(href='#navbarCollapse' data-toggle='collapse' onclick='window.scrollTo(0, 0)').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon: i.czi-menu
+              span.cz-handheld-toolbar-label Menu
+            a(href='shop-cart.html').d-table-cell.cz-handheld-toolbar-item
+              span.cz-handheld-toolbar-icon
+                i.czi-cart
+                span.badge.badge-primary.badge-pill.ml-1 4
+              span.cz-handheld-toolbar-label $265.00
+
+    // Back To Top Button
+    a(href='#top' data-scroll).btn-scroll-top
+      span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top
+      i.btn-scroll-top-icon.czi-arrow-up    
+    
+    // JavaScript libraries, plugins and custom scripts
+    script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': 'js/vendor.min.js'})
+    if isCardScript
+      script()&attributes(isNestedFile ? {'src': '../js/card.min.js'} : {'src': 'js/card.min.js'})
+      script.
+        new Card({
+            form: document.querySelector('.interactive-credit-card'),
+            container: '.card-wrapper'
+        });
+    if isChartScript
+      script()&attributes(isNestedFile ? {'src': '../js/chartist.min.js'} : {'src': 'js/chartist.min.js'})
+    if isCodeHighlighting
+      script()&attributes(isNestedFile ? {'src': '../js/prism.min.js'} : {'src': 'js/prism.min.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': 'js/theme.min.js'})

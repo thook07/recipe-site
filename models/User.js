@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const crypto = require('crypto')
 const db = require('../config/database')
+const Favorite = require('../models/Favorite');
 
 const User = db.define('user', {
     email: {
@@ -43,6 +44,17 @@ User.byEmail = async function(email) {
           email: email
         }
     });
+}
+
+User.prototype.getFavorites = async function(){
+    const favorites = await Favorite.findAll({
+        where: {
+            userId: this.id
+        }
+    });
+    var ids = [];
+    favorites.forEach(favorite => ids.push(favorite.recipeId))
+    return ids;
 }
 
 User.prototype.correctPassword = function(enteredPassword) {

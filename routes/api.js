@@ -4,6 +4,7 @@ const fs = require('fs')
 const router = express.Router();
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
+const Favorite = require('../models/Favorite');
 const RecipeIngredient = require('../models/RecipeIngredient');
 const Ingredient = require('../models/Ingredient');
 const Tag = require('../models/Tag');
@@ -26,6 +27,49 @@ router.get('/users', async (req, res) => {
     res.render('helpers/user-table', {
         users: users
     });
+});
+
+router.post('/favorite/add', async (req, res) => {
+    log.trace('[/api/favorite/add] Starting...');
+    const userId = req.body.userId;
+    const recipeId = req.body.recipeId;
+    log.trace('[/api/favorite/add] UserID: ' + userId);
+    log.trace('[/api/favorite/add] RecipeID: ' + recipeId);
+
+    try {
+        const favorite = Favorite.build({
+           userId: userId,
+           recipeId: recipeId 
+        });
+        console.log(favorite);
+        await favorite.save();
+        res.status(200)
+        res.send("Successfully added favorite for " + userId);
+    } catch(err) {
+        console.log(err);
+        res.status(400);
+        res.send(err);
+    }
+});
+
+router.post('/favorite/remove', async (req, res) => {
+    log.trace('[/api/favorite/remove] Starting...');
+    const userId = req.body.userId;
+    const recipeId = req.body.recipeId;
+    log.trace('[/api/favorite/remove] UserID: ' + userId);
+    log.trace('[/api/favorite/remove] RecipeID: ' + recipeId);
+
+    try {
+        const favorite = await Favorite.getByIds(userId, recipeId);
+        console.log(favorite);
+        await favorite.destroy();
+        res.status(200)
+        res.send("Successfully added favorite for " + userId);
+    } catch(err) {
+        console.log(err);
+        res.status(400);
+        res.send(err);
+    }
 });
 
 router.get('/recipes', async (req, res) => {

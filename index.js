@@ -116,10 +116,34 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/catalog', async (req, res) => {
+    log.trace("[/] entering app.get(\'/\'):")
+    var userId = undefined
+    var user;
+    if(req.user) {
+        log.trace('[/] User: ' + req.user.email)
+        log.trace('[/] User Role: ' + req.user.role)
+        user = req.user;
+        userId = user.id
+        user.favorites = await user.getFavorites();
+    } else{
+        log.trace("[/] User: Anonyomous")
+        log.trace('[/] User Role: undefined')
+    }
+
+
+    let q = req.query.q || '';
+
     const { Op } = require('sequelize')
     const recipes = await Recipe.findAll({
         where: {
-            approved: 1
+            [Op.and]: [
+                {  
+                    name: {
+                        [Op.like]: '%'+q+'%' 
+                    }
+                },
+                { approved: true }
+            ]
         }
     })
     log.trace("[/] Got recipes. Grabbing Tags now..")
@@ -139,10 +163,12 @@ app.get('/catalog', async (req, res) => {
         recipe.tags = await recipe.getTags()
     }
 
+
     res.render('index-new', {
         recipes: recipes,
         tags: tags,
-        user: req.user,
+        user: user,
+        userId: userId,
         newTags: categoryMap
     });
         
@@ -227,7 +253,10 @@ app.use('/account', require('./routes/account'));
 app.use('/admin', require('./routes/admin'));
 
 // -- API Routes
-app.use('/api', require('./routes/api'))
+app.use('/api', require('./routes/api'));
+
+// -- Profile Routes
+app.use('/profile', require('./routes/profile'));
 
 // -- My Recipes
 app.get('/my-recipes', (req, res) => {
@@ -492,17 +521,10 @@ app.get('/login',
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/catalog');
   });
 
-app.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render('account-profile', {
-       user: req.user,
-       tags: tags
-    });
-  });
+
 
 app.get('/logout', (req, res) => {
     req.logout();

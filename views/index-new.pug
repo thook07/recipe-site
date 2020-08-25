@@ -16,6 +16,8 @@ append config
   - var includeGroceryList = false
   - var includeUpdateRecipe = false
   - var includeTest = false
+append scripts
+  script(src='/js/recipes/recipe-catalog.js')
   
 //- Page Content
 block content
@@ -41,8 +43,16 @@ block content
       .col-md-3.col-sm-6.col-xs-2.px-2.mb-4
         .card.product-card
           //span.badge.badge-danger.badge-shadow Sale
-          button(type='button' data-toggle='tooltip' data-placement='left' title='Add to wishlist').btn-wishlist.btn-sm
-            i.czi-heart
+          if user
+            if user.favorites.includes(recipe.id)
+              button(type='button' data-user-id=user.id data-recipe-id=recipe.id).btn-wishlist.btn-sm.btn-primary.active
+                i.czi-heart
+            else
+              button(type='button' data-user-id=user.id data-recipe-id=recipe.id).btn-wishlist.btn-sm
+                i.czi-heart
+          else 
+            button(type='button' href='#signin-modal' data-toggle='modal' user-id=userId data-recipe-id=recipe.id).btn-wishlist.btn-sm.notLoggedIn
+              i.czi-heart
           a(href='recipe/'+recipe.id).card-img-top.d-block.overflow-hidden
             if recipe.images
               img(src=recipe.images[0] alt='Product')

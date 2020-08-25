@@ -11,6 +11,8 @@ html(lang="en")
 
   //- head.pug template
   include head 
+  append scripts
+    script(src='/js/recipes/recipe-search.js')
   
   // Body
   body.bg-secondary
@@ -20,7 +22,8 @@ html(lang="en")
 
 
     // Navbar
-    header.bg-light.box-shadow-sm.fixed-top
+    include navbar-3-level-light
+    //header.bg-light.box-shadow-sm.fixed-top
       .navbar.navbar-expand-lg.navbar-light
         .container-fluid
           a(href='/' style='min-width: 7rem;').navbar-brand.d-none.d-sm-block.mr-3.mr-xl-4.flex-shrink-0
@@ -45,7 +48,7 @@ html(lang="en")
             - if( !user ) {
                 a(id="wishlist-button" href='#signin-modal'  data-toggle='modal').navbar-tool.d-none.d-lg-flex
                   span.navbar-tool-tooltip Wishlist
-                  .span.navbar-tool-label 0
+                  //.span.navbar-tool-label 0
                   .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
                 a(href='#signin-modal' id='navbar-sign-in'  data-toggle='modal').navbar-tool.ml-1.ml-lg-0.mr-n1.mr-lg-2
                   .navbar-tool-icon-box: i.navbar-tool-icon.czi-user
@@ -73,7 +76,10 @@ html(lang="en")
                     a(href='/my-favorites').dropdown-item.d-flex.align-items-center
                       i.czi-heart.opacity-60.mr-2
                       | Favorites
-                      span.font-size-xs.text-muted.ml-auto 4 
+                      if user.favorites
+                        span.font-size-xs.text-muted.ml-auto #{user.favorites.length} 
+                      else
+                        span.font-size-xs.text-muted.ml-auto 0
                     .dropdown-divider
                     a(href="/logout")#sign-out-button.dropdown-item.d-flex.align-items-center
                       i.czi-sign-out.opacity-60.mr-2
