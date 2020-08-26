@@ -48,7 +48,7 @@ $(document).ready(function(){
     });
 
     //-- Add to Grocery List Button clicked
-    $('.addToGroceryBtn').on('click', function(e){
+    $('.addToGroceryBtn').on('click', async function(e){
         $(this).attr('test','value')
         var recipeId = $(this).attr('data-recipe-id');
         var userId = $(this).attr('data-user-id');
@@ -59,7 +59,7 @@ $(document).ready(function(){
         });
         var quantity = parseInt(radioId);
         console.log('Adding ' + recipeId + '('+radioId+'x) to grocerylist')
-        $.post( '/api/groceryList/add', {
+        res = await $.post( '/api/groceryList/add', {
             recipeId: recipeId,
             userId: userId,
             quantity: quantity
@@ -68,10 +68,20 @@ $(document).ready(function(){
             $('#toast-body').text('Added to List!');
             $('#generic-success-toast').toast('show');
             console.log('Recipe: ' + recipeId + ' added to list');
+            updateCart();
+
         }).fail(err => {
             console.log(err.responseText)
         });    
     });
 
 });
+
+function updateCart(){
+    $.get( '/api/grocery-cart/', function( data ) {
+        console.log(data);
+        $('#cart-hidden').empty();
+        $('#cart-hidden').append(data);
+    });
+}
 

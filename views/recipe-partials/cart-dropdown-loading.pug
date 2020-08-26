@@ -1,0 +1,10 @@
+// Cart dropdown
+.dropdown-menu.dropdown-menu-right(style='width: 20rem;')#cart-hidden
+  .widget.widget-cart.px-3.pt-2.pb-3
+    .d-flex.justify-content-center
+      div(style="width: 3rem; height: 3rem;", role="status").spinner-border
+        span.sr-only
+          | Loading..
+    a(href='checkout-details.html').btn.btn-primary.btn-sm.btn-block.mt-3
+      i.czi-card.mr-2.font-size-base.align-middle
+      | Checkout

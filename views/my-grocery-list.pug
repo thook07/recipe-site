@@ -1,5 +1,4 @@
-extends recipe-partials/layout-grocery
-
+extends recipe-partials/layout-profile
 //- Override default config variables
 append config
   - var pageTitle = 'Grocery List'
@@ -18,49 +17,34 @@ append config
 //- Page Content
 block content
 
-  //your recipes
-  section.pb-5
-    if recipes
-      h2.h3.pb-2.mb-grid-gutter.text-center Here are the recipes in your grocery list
-      .cz-carousel.cz-controls-static.cz-controls-outside.cz-dots-enabled
-        .cz-carousel-inner(data-carousel-options='{"items": 2, "gutter": 16, "controls": true, "autoHeight": true, "responsive": {"0":{"items":1}, "480":{"items":2}, "720":{"items":3}, "991":{"items":2}, "1140":{"items":3}, "1300":{"items":4}, "1500":{"items":5}}}')
-
-          // Product
-          each recipe in recipes
-            div
-              div(id=recipe.id).card.h-100.product-card.card-static.p-3
-                button(data-recipe=recipe.id type='button' data-toggle='tooltip' data-placement='left' title='Remove From List').btn-wishlist.btn-sm
-                  i.czi-trash
-                - var imageUrl = ( recipe.images != undefined ? recipe.images[0] : "/recipe-images/default.jpg")
-                - var recipeUrl = "/recipe/" + recipe.id
-                a(href=recipeUrl).card-img-top.d-block.overflow-hidden.text-center
-                  img(src=imageUrl alt='Product' style="height:150px;")
-                .card-body.py-2
-                  a(href=recipeUrl).product-meta.d-block.font-size-xs.pb-1 -------
-                  h3.product-title.font-size-sm
-                    a(href=recipeUrl) #{recipe.name}
-                  .product-price
-                    if recipe.attribution.author
-                      span.text-accent #{recipe.attribution.author}
-                    else
-                      span.text-accent No Author
-                .btn-group(role="group")
-                  button(recipe-id=recipe.id type="button").btn.btn-outline-primary.remove-serving-btn
-                    i.czi-arrow-left-circle
-                  - var cName = "label-"+recipe.id
-                  button(class=cName).btn.btn-primary #{map[recipe.id]}
-                  button(recipe-id=recipe.id type="button").btn.btn-outline-primary.add-serving-btn
-                    i.czi-arrow-right-circle
-    else
-      .card.text-center.ml-5.mr-5.mb-10.pb-5
-        .card-header Uh Oh!
-        .card-body
-          h5.card-title
-            | You have no recipes in your grocery list!
-          p.card-text
-            | Go back to the recipe catalog and add recipes.
-          a.btn.btn-lg.btn-primary(href="/") Go Now!
-          
+  .container.pb-5.mb-2.mb-md-3
+    .row
+      section.col-lg-12
+        // One item + Static controls + Dots inside + No loop
+        // Related products carousel
+        .cz-carousel.cz-controls-static.cz-controls-outside
+          .cz-carousel-inner(data-carousel-options='{"items": 2, "controls": true, "nav": false, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}')
+            if user
+              if user.groceryListItems
+                each item in user.groceryListItems
+                  div
+                    .card.product-card.card-static
+                      button(type="button", data-toggle="tooltip", data-placement="left", title="Add to wishlist").btn-wishlist.btn-sm
+                        i.czi-heart
+                      a(href="#").card-img-top.d-block.overflow-hidden
+                        if item.images
+                          img(src=item.images[0], alt="Product")
+                        else
+                          img(src='/recipe-images/default.jpg', alt="Product")
+                      .card-body.py-2
+                        a(href="#").product-meta.d-block.font-size-xs.pb-1
+                          | #{item.author}
+                        h3.product-title.font-size-sm
+                          a(href="#") #{item.name}
+                        .d-flex.justify-content-between
+                          .product-price
+                            span.text-accent $58.99
+                          +star-rating(4)
                 
   if list
     section.pb-5.mb-2.mb-xl-4 
@@ -77,7 +61,7 @@ block content
               i.czi-check.ml-2
       ul.list-group.mt-4
         .list-group.d-flex.justify-content-between.align-items-center
-          each items, cat in list.getItemsByCategory()
+          //each items, cat in list.getItemsByCategory()
             a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
             each item in items
                 - var check = "icon-"+ item.id;

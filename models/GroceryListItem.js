@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database')
 
-const GroceryList = db.define('groceryList', {
+const GroceryListItem = db.define('groceryListItem', {
     recipeId: {
         type: Sequelize.STRING
     },
@@ -14,8 +14,8 @@ const GroceryList = db.define('groceryList', {
     }
 });
 
-GroceryList.getByIds = async function(userId, recipeId) {
-    return await GroceryList.findOne({
+GroceryListItem.getByIds = async function(userId, recipeId) {
+    return await GroceryListItem.findOne({
         where: {
             userId: userId,
             recipeId: recipeId
@@ -24,4 +24,4 @@ GroceryList.getByIds = async function(userId, recipeId) {
 }
 
 
-module.exports = GroceryList;
+module.exports = GroceryListItem

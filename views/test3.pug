@@ -1,0 +1,21 @@
+extends recipe-partials/layout-grocery
+
+
+//- Page Content
+block content
+
+  .container.pb-5.mb-2.mb-md-3
+    .row
+
+      // Sidebar
+      aside.col-lg-4.pt-4.pt-lg-0
+        //- sidebar-account.pug template
+        include recipe-partials/sidebar-account
+
+      // Content  
+      section.col-lg-8
+        .cz-carousel.cz-controls-static.cz-dots-enabled.cz-dots-light.cz-dots-inside
+          .cz-carousel-inner(data-carousel-options='{"loop": false}')
+            +image("/img/components/carousel/01.jpg", "Alt text")
+            +image("/img/components/carousel/02.jpg", "Alt text")
+            +image("/img/components/carousel/04.jpg", "Alt text")

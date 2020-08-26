@@ -63,16 +63,29 @@ header(class=className)
               .navbar-tool-text.ml-n3
                 small Hello, Sign in
                 | My Account
-          .navbar-tool.dropdown.ml-3
-            a(href='/shop-cart.html').navbar-tool-icon-box.bg-secondary.dropdown-toggle
-              span.navbar-tool-label 4
-              i.navbar-tool-icon.czi-cart
-            a(href='/shop-cart.html').navbar-tool-text
-              small My Cart
-              | $265.00
+          if user
+            if user.groceryListItems
+              .navbar-tool.dropdown.ml-3#cart-link
+                a(href='/shop-cart.html').navbar-tool-icon-box.bg-secondary.dropdown-toggle
+                  //span.navbar-tool-label #{user.groceryListItems.length}
+                  i.navbar-tool-icon.czi-basket
+                a(href='/shop-cart.html').navbar-tool-text
+                  small My List
+                  | #{user.groceryListItems.length} recipes
+
+                //- cart-dropdown.pug template
+                include cart-dropdown
+          else
+            .navbar-tool.dropdown.ml-3#cart-link
+              a(href='#signin-modal' data-toggle='modal').navbar-tool-icon-box.bg-secondary.dropdown-toggle
+                span.navbar-tool-label 0
+                i.navbar-tool-icon.czi-basket
+              a(href='#signin-modal' data-toggle='modal').navbar-tool-text
+                small My List
+                | 0 recipes
               
-            //- cart-dropdown.pug template
-            include cart-dropdown
+              //- cart-dropdown.pug template
+              include cart-dropdown
 
     .navbar.navbar-expand-lg.navbar-light.navbar-stuck-menu.mt-n2.pt-0.pb-2
       .container

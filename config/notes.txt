@@ -1,0 +1,12 @@
+GroceryList
+ - getItems()
+ - getItemsByCategory()
+
+ GroceryListItem
+ - recipeId
+ - category
+ - ingredientId
+ - amount
+ - quantity
+
+Gro

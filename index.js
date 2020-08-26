@@ -125,6 +125,7 @@ app.get('/catalog', async (req, res) => {
         user = req.user;
         userId = user.id
         user.favorites = await user.getFavorites();
+        user.groceryListItems = await user.getGroceryListRecipes();
     } else{
         log.trace("[/] User: Anonyomous")
         log.trace('[/] User Role: undefined')
@@ -258,30 +259,24 @@ app.use('/api', require('./routes/api'));
 // -- Profile Routes
 app.use('/profile', require('./routes/profile'));
 
-// -- My Recipes
-app.get('/my-recipes', (req, res) => {
-    res.render('dashboard-products', {
-       tags: tags
-    });
-    
-    
-});
-
-// -- My Favorite Recipes
-app.get('/my-favorites', (req, res) => {
-    res.render('dashboard-favorites', {
-       tags: tags
-    });
-    
-    
-});
-
 // -- My Grocery List
-app.get('/my-grocery-list', (req, res) => {
+app.get('/my-grocery-list', async (req, res) => {
     log.trace("[/my-grocery-list] Entering....");
-    var userEmail = req.query.email;
+
+    var user = req.user || await User.byId(1);
+    console.log(user);
+    user.groceryListItems = await user.getGroceryListRecipes();
+    console.log(user);
+
+    log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
+    res.render('my-grocery-list', {
+        user: user
+    });
+
+
+    /*var userEmail = req.query.email;
     
-    log.trace("[/my-grocery-list] Got userEmal ["+userEmail+"] Grabbing GroceryList")
+    log.trace("[/my-grocery-list] Got userEmail ["+userEmail+"] Grabbing GroceryList")
     firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
         log.trace("[/my-grocery-list] After Firebase call. Got user data.")
         var user = doc.data();
@@ -347,7 +342,7 @@ app.get('/my-grocery-list', (req, res) => {
       
     }).catch(function(e){
         console.log("Error Occured:",e); 
-    });
+    });*/
     
 });
 

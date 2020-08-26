@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const crypto = require('crypto')
 const db = require('../config/database')
 const Recipe = require('../models/Recipe');
+const GroceryList = require('../models/GroceryList');
 const Favorite = require('../models/Favorite');
 
 const User = db.define('user', {
@@ -80,14 +81,53 @@ User.prototype.getFavoriteRecipes = async function(){
 }
 
 User.prototype.getGroceryList = async function() {
+    // -- This ones interesting.
+    const groceryList = {};
+    groceryList.items = []; //array of ingredients (includes ingredientId, amount, recipeId, quantity)
+    groceryList.recipes = []; //array of recipes (inclues quantity);
+    groceryList.itemCategoryMap = {}; //map of items based on category
+
+    // - First: Get the recipeIds
     const listItems = await GroceryList.findAll({
         where: {
             userId: this.id
         }
     });
-    var ids = [];
-    listItems.forEach(listItem => ids.push(listItem.recipeId))
-    return ids;
+    // - Second: Build the full Recipe. Add quantity to the recipe
+    var recipes = [];
+    for (const listItem of listItems) {  
+        const recipe = await Recipe.byId(listItem.recipeId);
+        //recipe.favoredDate = favorite.createdAt
+        recipe.recipeIngredients = await recipe.getRecipeIngredients();
+        recipe.quantity = listItem.quantity;
+        recipes.push(recipe);
+    }
+    groceryList.recipes = recipes;
+    // - Third: Build Array of Ingredients
+    for(const recipe of recipes) {
+        recipe.
+    }
+
+
+    return groceryList;
+}
+
+User.prototype.getGroceryListRecipes = async function() {
+    const listItems = await GroceryList.findAll({
+        where: {
+            userId: this.id
+        }
+    });
+    var recipes = [];
+    for (const listItem of listItems) {  
+        const recipe = await Recipe.byId(listItem.recipeId);
+        //recipe.favoredDate = favorite.createdAt
+        recipe.tags = await recipe.getTags();
+        recipe.recipeIngredients = await recipe.getRecipeIngredients();
+        recipe.quantity = listItem.quantity;
+        recipes.push(recipe);
+    }
+    return recipes;
 }
 
 User.prototype.correctPassword = function(enteredPassword) {

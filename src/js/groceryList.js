@@ -130,7 +130,7 @@ $(document).ready(function(){
 
 });
 
-firebase.auth().onAuthStateChanged(function(authUser) {
+/*firebase.auth().onAuthStateChanged(function(authUser) {
     if(authUser) {
         console.log("User is logged in", authUser.email);
         user = authUser;
@@ -157,7 +157,7 @@ firebase.auth().onAuthStateChanged(function(authUser) {
                 }
                 
             });
-            */
+            
         });
 
 
@@ -168,7 +168,7 @@ firebase.auth().onAuthStateChanged(function(authUser) {
     }   
     
 });
-
+*/
 function updateRecipeServings(amount, servings) {
     //first check for space
     if(servings == 1) {

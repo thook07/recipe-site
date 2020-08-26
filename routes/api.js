@@ -258,8 +258,6 @@ router.get('/ingredients', async (req, res) => {
     });
 });
 
-
-
 router.get('/tags/', async (req, res) => {
     const tags = await Tag.findAll();
     // Compile the source code
@@ -268,6 +266,10 @@ router.get('/tags/', async (req, res) => {
     });
 });
 
+router.get('/grocery-cart', async (req, res) => {
+    res.status(200)
+    res.render('recipe-partials/cart-dropdown');
+});
 
 
 
