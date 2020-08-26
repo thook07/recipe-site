@@ -23,11 +23,11 @@ header(class=className)
         .navbar-toolbar.d-flex.flex-shrink-0.align-items-center
           button(type='button' data-toggle='collapse' data-target='#navbarCollapse').navbar-toggler
             span.navbar-toggler-icon
-          a(href='#').navbar-tool.navbar-stuck-toggler
+          a(href='/catalog').navbar-tool.navbar-stuck-toggler
             span.navbar-tool-tooltip Expand menu
             .navbar-tool-icon-box: i.navbar-tool-icon.czi-menu
           if user
-            a(id="wishlist-button" href='profile/my-favorites').navbar-tool.d-none.d-lg-flex
+            a(id="wishlist-button" href='/profile/my-favorites').navbar-tool.d-none.d-lg-flex
               span.navbar-tool-tooltip Wishlist
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
             div(id="navbar-user-account").navbar-tool.dropdown.ml-2
@@ -67,10 +67,10 @@ header(class=className)
           if user
             if user.groceryListItems
               .navbar-tool.dropdown.ml-3#cart-link
-                a(href='/shop-cart.html').navbar-tool-icon-box.bg-secondary.dropdown-toggle
+                a(href='/profile/my-grocery-list').navbar-tool-icon-box.bg-secondary.dropdown-toggle
                   //span.navbar-tool-label #{user.groceryListItems.length}
                   i.navbar-tool-icon.czi-basket
-                a(href='/shop-cart.html').navbar-tool-text
+                a(href='/profile/my-grocery-list').navbar-tool-text
                   small My List
                   | #{user.groceryListItems.length} recipes
 
