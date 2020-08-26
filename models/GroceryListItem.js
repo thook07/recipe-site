@@ -1,27 +1,23 @@
-const Sequelize = require('sequelize');
-const db = require('../config/database')
 
-const GroceryListItem = db.define('groceryListItem', {
-    recipeId: {
-        type: Sequelize.STRING
-    },
-    userId: {
-        type: Sequelize.INTEGER
-    },
-    quantity: {
-        type: Sequelize.INTEGER,
-        defaultValue: 1
-    }
-});
+const log = require('../config/logger');
 
-GroceryListItem.getByIds = async function(userId, recipeId) {
-    return await GroceryListItem.findOne({
-        where: {
-            userId: userId,
-            recipeId: recipeId
-        }
-    });
+function GroceryListItem(ingredientId, amount, recipeId, category) {
+    log.trace("[GroceryListItem] constructor: ["+ingredientId+"] ["+amount+"] ["+recipeId+"] ["+category+"]")
+    this.id = ingredientId;
+    this.amount = [];
+    this.amount.push(amount);
+    this.recipes = [];
+    this.recipes.push(recipeId);
+    this.amountMap = {};
+    this.amountMap[recipeId] = amount
+    this.category = category;
 }
 
+GroceryListItem.prototype.addIngredient = function(amount, recipeId) {
+    log.trace("[GroceryListItem] addIngredient: ["+amount+"] ["+recipeId+"]")
+    this.amount.push(amount);
+    this.recipes.push(recipeId)
+    this.amountMap[recipeId] = amount
+}
 
 module.exports = GroceryListItem

@@ -43,11 +43,6 @@ head
   script(src='/js/theme.js')
   script(src='/js/search/isotope.pkgd.min.js')
   // JavaScript libraries, plugins and custom scripts
-  //Load Classes
-  script(src='/js/objects/Recipe.js')
-  script(src='/js/objects/User.js')
-
-
   if select2
     link(href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" )
     script(src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer)
@@ -63,7 +58,7 @@ head
     //script(src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js")
     //script(src='/js/recipe.firebase.js')
     
-  script(src='/js/recipe.framework.js')
+  //script(src='/js/recipe.framework.js')
 
   //Searching JS
   if includeAutoComplete
@@ -71,9 +66,7 @@ head
   if includeRecipe
     script(src='/js/recipe.js')
   if includeRecipeSearch
-    script(src='/js/search/recipe.search.js')
-  if includeGroceryList
-    script(src='/js/groceryList.js')
+    //script(src='/js/search/recipe.search.js')
   if includeUpdateRecipe
     script(src='/js/update-recipe.js')
   if includeUpdateTags

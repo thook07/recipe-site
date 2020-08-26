@@ -3,7 +3,8 @@ extends recipe-partials/layout-profile
 append config
   - var pageTitle = 'Grocery List'
   - var parentMenu = 'Home'
-  - var breadcrumbs = [{'title': 'Grocery List'}]
+  - var removeOverlap = true
+  - var breadcrumbs = [{'title': 'Profile', 'link': '/profile'}, {'title': 'Grocery List'}]
   - var includeFirebase = true
   - var includeIsotope = true
   - var includeAutoComplete = true
@@ -13,70 +14,76 @@ append config
   - var includeGroceryList = true
   - var includeUpdateRecipe = false
   - var includeTest = false
+append scripts
+  script(src='/js/groceryList.js')
   
 //- Page Content
 block content
 
-  .container.pb-5.mb-2.mb-md-3
+  .my-4.mb-md-3
     .row
-      section.col-lg-12
+      if user
+        if user.groceryList
+          section.col-lg-10.pb-5.mb-2.mb-xl-4.pl-5
+            .row
+              .col
+                h2.h5.pt-2 Shopping List
+              .col
+                .btn-group(role="group", aria-label="Outline button group").float-right
+                  button(type="button").btn.btn-primary#show-checked
+                    | Show
+                    i.czi-check.ml-2
+                  button(type="button").btn.btn-outline-primary#hide-checked
+                    | Hide 
+                    i.czi-check.ml-2
+            ul.list-group.mt-4
+              .list-group.d-flex.justify-content-between.align-items-center
+                each items, cat in user.groceryList.getItemsByCategory()
+                  a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
+                  each item in items
+                      - var check = "icon-"+ item.id;
+                      a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
+                        span(id=check).d-none
+                          i.czi-check.mr-2
+                        span(id=item.id)
+                          | #{item.id}
+                        each amt, recipeId in item.amountMap
+                          - var cName = 'amt-'+recipeId + " " + recipeId
+                          span(class=cName data-amount=amt).badge.badge-accent.ml-2.amount-badge
+                            if user.groceryList.recipeQuantityMap[recipeId] == 1
+                              | #{amt}
+                            else
+                              | #{amt} x#{user.groceryList.recipeQuantityMap[recipeId]}
+                        each recipeId in item.recipes
+                          span(class=recipeId).badge.badge-secondary.ml-2.float-right.d-none.d-md-block.recipe-badge
+                            | #{recipeId}
+      section.col-lg-2.px-4
         // One item + Static controls + Dots inside + No loop
         // Related products carousel
-        .cz-carousel.cz-controls-static.cz-controls-outside
-          .cz-carousel-inner(data-carousel-options='{"items": 2, "controls": true, "nav": false, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}')
-            if user
-              if user.groceryListItems
-                each item in user.groceryListItems
-                  div
-                    .card.product-card.card-static
-                      button(type="button", data-toggle="tooltip", data-placement="left", title="Add to wishlist").btn-wishlist.btn-sm
-                        i.czi-heart
-                      a(href="#").card-img-top.d-block.overflow-hidden
-                        if item.images
-                          img(src=item.images[0], alt="Product")
-                        else
-                          img(src='/recipe-images/default.jpg', alt="Product")
-                      .card-body.py-2
-                        a(href="#").product-meta.d-block.font-size-xs.pb-1
-                          | #{item.author}
-                        h3.product-title.font-size-sm
-                          a(href="#") #{item.name}
-                        .d-flex.justify-content-between
-                          .product-price
-                            span.text-accent $58.99
-                          +star-rating(4)
+        .row
+          .col
+            h2.h5.px-5 Recipes
+          .col
+            .cz-carousel.cz-controls-static.cz-controls-outside.cz-controls-sm
+              .cz-carousel-inner(data-carousel-options='{"items": 2, "axis":"vertical","speed":1000, "autoplayTimeout": 3000, "autoplay": true, "controls": true, "nav": true, "autoHeight": false, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":2, "gutter": 20}, "1100":{"items":3, "gutter": 30}}}')
+                if user
+                  if user.groceryList
+                    each recipe in user.groceryList.recipes
+                      div
+                        div(id=recipe.id).card.product-card.card-static
+                          button(data-recipe=recipe.id type="button", data-toggle="tooltip", data-placement="left", title="Remove from list").btn-wishlist.btn-sm
+                            i.czi-trash
+                          - var imageUrl = ( recipe.images != undefined ? recipe.images[0] : "/recipe-images/default.jpg")
+                          - var recipeUrl = "/recipe/" + recipe.id
+                          a(href=recipeUrl).card-img-top.d-block.overflow-hidden
+                            img(src=imageUrl, alt="Product")
+                          .card-body.py-2
+                            a(href=recipeUrl).product-meta.d-block.font-size-xs.pb-1
+                              | #{recipe.author}
+                            h3.product-title.font-size-sm
+                              a(href=recipeUrl) #{recipe.name}
+                            .d-flex.justify-content-between
+                              .product-price
+                                span.text-primary Quantity: #{user.groceryList.recipeQuantityMap[recipe.id]}
                 
-  if list
-    section.pb-5.mb-2.mb-xl-4 
-      .row
-        .col
-          h2.h5.pt-2 Shopping List
-        .col
-          .btn-group(role="group", aria-label="Outline button group").float-right
-            button(type="button").btn.btn-primary#show-checked
-              | Show
-              i.czi-check.ml-2
-            button(type="button").btn.btn-outline-primary#hide-checked
-              | Hide 
-              i.czi-check.ml-2
-      ul.list-group.mt-4
-        .list-group.d-flex.justify-content-between.align-items-center
-          //each items, cat in list.getItemsByCategory()
-            a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
-            each item in items
-                - var check = "icon-"+ item.id;
-                a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
-                  span(id=check).d-none
-                    i.czi-check.mr-2
-                  span(id=item.id)
-                    | #{item.id}
-                  each amt, recipeId in item.amountMap
-                    - var cName = 'amt-'+recipeId + " " + recipeId
-                    span(class=cName data-amount=amt).badge.badge-accent.ml-2.amount-badge
-                      if map[recipeId] == 1
-                        | #{amt}
-                      else
-                        | #{amt} x#{map[recipeId]}
-                  each recipeId in item.recipes
-                    span(class=recipeId).badge.badge-secondary.ml-2.float-right.d-none.d-md-block.recipe-badge
-                      | #{recipeId}
+        

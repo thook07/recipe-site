@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-
+    
     //-- Add to wishlist button clicked
     $('.btn-wishlist').on('click', function(e){
         //TODO: 

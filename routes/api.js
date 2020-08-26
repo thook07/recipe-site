@@ -4,7 +4,7 @@ const fs = require('fs')
 const router = express.Router();
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
-const GroceryList = require('../models/GroceryList');
+const GroceryListRecipe = require('../models/GroceryListRecipe');
 const Favorite = require('../models/Favorite');
 const RecipeIngredient = require('../models/RecipeIngredient');
 const Ingredient = require('../models/Ingredient');
@@ -83,7 +83,7 @@ router.post('/groceryList/add', async (req, res) => {
     log.trace('[/api/groceryList/add] Quantity: ' + quantity);
 
     try {
-        var list = await GroceryList.findOne({
+        var list = await GroceryListRecipe.findOne({
             where: {
                 userId: userId,
                 recipeId: recipeId
@@ -96,7 +96,7 @@ router.post('/groceryList/add', async (req, res) => {
             })
         } else {
             //recipe not in list. Adding it with quantity
-            list = GroceryList.build({
+            list = GroceryListRecipe.build({
                 userId: userId,
                 recipeId: recipeId,
                 quantity: quantity 
@@ -267,8 +267,25 @@ router.get('/tags/', async (req, res) => {
 });
 
 router.get('/grocery-cart', async (req, res) => {
-    res.status(200)
-    res.render('recipe-partials/cart-dropdown');
+    var user = req.user //|| await User.byId(1);
+    if(user) {
+        //log.trace('[/] User: ' + req.user.email)
+        //log.trace('[/] User Role: ' + req.user.role)
+        userId = user.id
+        user.groceryListItems = await user.getGroceryListRecipes();
+        res.status(200)
+        res.render('recipe-partials/cart-dropdown-return', {
+            user: user
+        });
+    } else{
+       log.error('[api/grocery-cart] No User Logged in! Cant send groceryList');
+       res.status(400).send('No User Logged in! Cant send groceryList')
+
+    }
+
+
+
+    
 });
 
 

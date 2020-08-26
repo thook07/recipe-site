@@ -15,7 +15,10 @@ const db = require('./config/database')
 db.authenticate()
     .then(() => console.log('Database Connected...'))
     .catch(err => console.log("error: " + err))
-
+//models
+const User = require('./models/User')
+const Recipe = require('./models/Recipe')
+const Tag = require('./models/Tag')
 //misc
 var firebase = require('./firebase.js');
 var log = require('./config/logger.js');
@@ -25,17 +28,6 @@ const recipe2 = require('./recipe2.json');
 const tags = require('./tags.json');
 const request = require('request');
 var framework = require('./framework.js')
-
-//objects
-var Recipe = require('./models/Recipe.js');
-var Tag = require('./models/Tag.js');
-var User = require('./models/User')
-//var Recipe = require('./node-js/Recipe.js');
-var RecipeGroup = require('./node-js/RecipeGroup.js');
-var GroceryList = require('./node-js/GroceryList.js');
-var GroceryListItem = require('./node-js/GroceryListItem.js');
-//var User = require('./node-js/User.js');
-var Ingredient = require('./node-js/Ingredient.js');
 
 let INGREDIENTS_CACHE = {};
 
@@ -118,11 +110,10 @@ app.get('/', async (req, res) => {
 app.get('/catalog', async (req, res) => {
     log.trace("[/] entering app.get(\'/\'):")
     var userId = undefined
-    var user;
-    if(req.user) {
-        log.trace('[/] User: ' + req.user.email)
-        log.trace('[/] User Role: ' + req.user.role)
-        user = req.user;
+    var user = req.user //|| await User.byId(1);
+    if(user) {
+        //log.trace('[/] User: ' + req.user.email)
+        //log.trace('[/] User Role: ' + req.user.role)
         userId = user.id
         user.favorites = await user.getFavorites();
         user.groceryListItems = await user.getGroceryListRecipes();
@@ -130,6 +121,8 @@ app.get('/catalog', async (req, res) => {
         log.trace("[/] User: Anonyomous")
         log.trace('[/] User Role: undefined')
     }
+
+
 
 
     let q = req.query.q || '';
@@ -164,6 +157,7 @@ app.get('/catalog', async (req, res) => {
         recipe.tags = await recipe.getTags()
     }
 
+    log.trace('[/catalog] Showing Catalog Page ['+recipes.length+']');
 
     res.render('index-new', {
         recipes: recipes,
@@ -246,7 +240,6 @@ app.get('/recipe/:recipe', async (req, res) => {
     
 });
 
-
 // -- Account Routes
 app.use('/account', require('./routes/account'));
 
@@ -258,93 +251,6 @@ app.use('/api', require('./routes/api'));
 
 // -- Profile Routes
 app.use('/profile', require('./routes/profile'));
-
-// -- My Grocery List
-app.get('/my-grocery-list', async (req, res) => {
-    log.trace("[/my-grocery-list] Entering....");
-
-    var user = req.user || await User.byId(1);
-    console.log(user);
-    user.groceryListItems = await user.getGroceryListRecipes();
-    console.log(user);
-
-    log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
-    res.render('my-grocery-list', {
-        user: user
-    });
-
-
-    /*var userEmail = req.query.email;
-    
-    log.trace("[/my-grocery-list] Got userEmail ["+userEmail+"] Grabbing GroceryList")
-    firebase.db.collection("users").doc(userEmail).withConverter(userConverter).get().then(function(doc) {
-        log.trace("[/my-grocery-list] After Firebase call. Got user data.")
-        var user = doc.data();
-        var recipeIds = [];
-        var groceryListMap = user.groceryList
-        for (var recipe in groceryListMap) {
-            log.trace("[/my-grocery-list] adding recipeId ["+recipe+"]to the list")
-            recipeIds.push(recipe);
-        }
-
-        log.trace("recipeIds " + recipeIds);
-        if( recipeIds.length <= 0 ) {
-            log.trace("No recipes in the grocery list!");
-            res.render('my-grocery-list', {
-                user: null,
-                recipes: null,
-                list: null,
-                map: null
-            });
-        }
-
-
-        log.trace("[/my-grocery-list] using framework to get the full recipe Objects.");
-        framework.getRecipes(recipeIds, function(response, err){
-            
-            if(err) {
-                log.error("[/my-grocery-list] " + err);
-                log.error("[/my-grocery-list] Error occured building grocery list.");
-                res.status(404);
-                res.render('404-simple.pug');
-                return;
-            }
-            
-            log.trace("[/my-grocery-list] Creating RecipeGroup Object...")
-            var recipeGroup = new RecipeGroup(response.data.recipeGroup);
-
-            if('nestedRecipes' in response.data) {
-                log.trace("[/my-grocery-list] Response had nested recipes. Adding to the recipeGroup")
-                for(var i=0; i<response.data.nestedRecipes.length; i++) {
-                    log.trace("[/my-grocery-list] Processing nested recipe ["+response.data.nestedRecipes[i].id+"]")
-                    recipeGroup.addNestedRecipe(response.data.nestedRecipes[i],response.data.nestedRecipes[i].parentRecipe);
-                }
-                
-            }
-            
-            //log.trace("Items: "+items.length)
-            
-            var groceryList = recipeGroup.getGroceryList();
-            console.log(groceryListMap);
-
-            log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
-            res.render('my-grocery-list', {
-                user: user,
-                recipes: recipeGroup.recipes,
-                list: groceryList,
-                map: groceryListMap
-            });
-            
-        
-        
-        
-        })
-      
-    }).catch(function(e){
-        console.log("Error Occured:",e); 
-    });*/
-    
-});
 
 
 function buildGroceryItemsList(recipes, user, res){
@@ -523,7 +429,7 @@ app.post('/login',
 
 app.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect('/login');
   
 });
 

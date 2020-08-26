@@ -19,7 +19,6 @@ append config
   - var includeTest = false
 append scripts
   script(src='/js/recipes/recipe-catalog.js')
-  script(src='/js/recipes/navbar.js')
   
 //- Page Content
 block content
@@ -106,13 +105,14 @@ block content
 
 
   // Center aligned
-  div(style="display:none")#no-results-div.card.text-center
-    .card-body
-      h5.card-title
-        | No Results Found!
-      p.card-text.font-size-sm.text-muted
-        | Try adjusting your search criteria
-  .pt-4.pb-5.mb-4
+  if recipes.length == 0
+    div#no-results-div.card.text-center
+      .card-body
+        h5.card-title
+          | No Results Found!
+        p.card-text.font-size-sm.text-muted
+          | Try adjusting your search criteria
+    .pt-4.pb-5.mb-4
     //- pagination.pug template
     //include recipe-partials/pagination
 

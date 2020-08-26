@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const log = require('../config/logger');
 const Tag = require('./Tag');
 const RecipeTag = require('./RecipeTag');
 const RecipeIngredient = require('./RecipeIngredient');
@@ -64,7 +65,16 @@ const Recipe = db.define('recipe', {
 const { Op } = require('sequelize');
 
 Recipe.byId = async function byId(id) {
-    return await Recipe.findByPk(id);
+    log.trace('[RECIPE] Entering Recipe.byId ['+id+']')
+    const recipe = await Recipe.findByPk(id);
+    log.trace('[RECIPE] Got recipe. Grabbing Tags');
+    recipe.tags = await recipe.getTags();
+    log.trace('[RECIPE] Got Tags grabbing RecipeInredients.');
+    recipe.recipeIngredients = await recipe.getRecipeIngredients();
+    log.trace('[RECIPE] Got Recipe Ingredients. Grabbing any nested recipes');
+    recipe.nestedRecipes = await recipe.getNestedRecipes();
+    log.trace('[RECIPE] Done');
+    return recipe;
 };
 
 Recipe.getIds = async function getIds() {

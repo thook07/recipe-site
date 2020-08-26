@@ -36,13 +36,13 @@ block content
                 button(type="button" data-toggle="tooltip" data-placement="left" title="Remove from Favorites").btn-wishlist.btn-sm.btn-primary.active
                   i.czi-trash
                 .d-sm-flex.align-items-center
-                  a(href="#" style="width:10rem").product-list-thumb
+                  a(href="/recipe/"+recipe.id style="width:10rem").product-list-thumb
                     img(src=recipe.images[0], alt="Product")
                   .card-body.py-2
                     a(href="/recipe/"+recipe.id).product-meta.d-block.font-size-xs.pb-1
                       | #{recipe.author}
                     h3.product-title.font-size-base
-                      a(href="#") #{recipe.name}
+                      a(href="/recipe/"+recipe.id) #{recipe.name}
                     .d-flex.justify-content-between
                       button(type="button").btn.btn-primary.btn-sm.mb-2.mt-1
                         i.czi-cart.font-size-sm.mr-1

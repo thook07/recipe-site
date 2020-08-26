@@ -1,9 +1,13 @@
 const Sequelize = require('sequelize')
 const crypto = require('crypto')
 const db = require('../config/database')
+const log = require('../config/logger')
 const Recipe = require('../models/Recipe');
-const GroceryList = require('../models/GroceryList');
+const GroceryListRecipe = require('./GroceryListRecipe');
+const GroceryListItem = require('./GroceryListItem');
+const GroceryList = require('./GroceryList');
 const Favorite = require('../models/Favorite');
+const Ingredient = require('../models/Ingredient');
 
 const User = db.define('user', {
     email: {
@@ -73,7 +77,7 @@ User.prototype.getFavoriteRecipes = async function(){
     for (const favorite of favorites) {  
         const recipe = await Recipe.byId(favorite.recipeId);
         recipe.favoredDate = favorite.createdAt
-        recipe.tags = recipe.tags = await recipe.getTags();
+        recipe.tags = await recipe.getTags();
         recipes.push(recipe);
         console.log(recipes);
     }
@@ -81,39 +85,46 @@ User.prototype.getFavoriteRecipes = async function(){
 }
 
 User.prototype.getGroceryList = async function() {
-    // -- This ones interesting.
-    const groceryList = {};
-    groceryList.items = []; //array of ingredients (includes ingredientId, amount, recipeId, quantity)
-    groceryList.recipes = []; //array of recipes (inclues quantity);
-    groceryList.itemCategoryMap = {}; //map of items based on category
-
     // - First: Get the recipeIds
-    const listItems = await GroceryList.findAll({
+    const groceryListRecipes = await GroceryListRecipe.findAll({
         where: {
             userId: this.id
         }
     });
-    // - Second: Build the full Recipe. Add quantity to the recipe
-    var recipes = [];
-    for (const listItem of listItems) {  
-        const recipe = await Recipe.byId(listItem.recipeId);
-        //recipe.favoredDate = favorite.createdAt
-        recipe.recipeIngredients = await recipe.getRecipeIngredients();
-        recipe.quantity = listItem.quantity;
+
+    const groceryList = new GroceryList([], []);
+    const recipes = [];
+    const recipeQuantityMap = {};
+    for (const groceryListRecipe of groceryListRecipes) {  
+        ("[User] GroceryListRecipe: " + JSON.stringify(groceryListRecipe));
+        const recipe = await Recipe.byId(groceryListRecipe.recipeId);
         recipes.push(recipe);
+        recipeQuantityMap[recipe.id] = groceryListRecipe.quantity;
+        for(const ri of recipe.recipeIngredients) {
+            if(ri.isRecipe) {
+                //todo handle this
+            } else {
+                log.trace('[User] getGroceryList: RecipeIngredient: ' + JSON.stringify(ri));
+                log.trace('[User] getGroceryList: IngredientID: ' + ri.ingredientId);
+                if(ri.ingredientId == null) {
+                    log.warn('[User] getGroceryList: RecipeIngredient has null IngredientId. RecipeIngredient.ID: ['+ri.id+']');
+                    log.warn('[User] getGroceryList: Skipping this RI')
+                } else {
+                    var ingredient = await Ingredient.findByPk(ri.ingredientId);
+                    groceryList.addItem(ingredient.id, ri.amount, recipe.id, ingredient.category)                    
+                }
+                //items.push(item); 
+            }
+        }
+        
     }
     groceryList.recipes = recipes;
-    // - Third: Build Array of Ingredients
-    for(const recipe of recipes) {
-        recipe.
-    }
-
-
+    groceryList.recipeQuantityMap = recipeQuantityMap;
     return groceryList;
 }
 
 User.prototype.getGroceryListRecipes = async function() {
-    const listItems = await GroceryList.findAll({
+    const listItems = await GroceryListRecipe.findAll({
         where: {
             userId: this.id
         }

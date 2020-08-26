@@ -14,8 +14,9 @@ header(class=className)
           +image('/img/logo-dark.png', 'Cartzilla')(width='142')
         a(href='/catalog' style='min-width: 4.625rem;').navbar-brand.d-sm-none.mr-2
           +image('/img/logo-icon.png', 'Cartzilla')(width='74')
-        .input-group-overlay.d-none.d-lg-flex.mx-4
-          input(type='text' placeholder='Search for products').form-control.appended-form-control
+        form(action='/catalog').input-group-overlay.d-none.d-lg-flex.mx-4
+          //.input-group-overlay.d-none.d-lg-flex.mx-4
+          input(type='text' name="q" placeholder='Search for products').form-control.appended-form-control#search-input
           .input-group-append-overlay
             span.input-group-text
               i.czi-search
@@ -26,7 +27,7 @@ header(class=className)
             span.navbar-tool-tooltip Expand menu
             .navbar-tool-icon-box: i.navbar-tool-icon.czi-menu
           if user
-            a(id="wishlist-button" href='/my-favorites').navbar-tool.d-none.d-lg-flex
+            a(id="wishlist-button" href='profile/my-favorites').navbar-tool.d-none.d-lg-flex
               span.navbar-tool-tooltip Wishlist
               .navbar-tool-icon-box: i.navbar-tool-icon.czi-heart
             div(id="navbar-user-account").navbar-tool.dropdown.ml-2
@@ -92,11 +93,12 @@ header(class=className)
         #navbarCollapse.collapse.navbar-collapse
 
           // Search
-          .input-group-overlay.d-lg-none.my-3
-            .input-group-prepend-overlay
-              span.input-group-text
-                i.czi-search
-            input(type='text' placeholder='Search for products').form-control.prepended-form-control
+          form
+            .input-group-overlay.d-lg-none.my-3
+              .input-group-prepend-overlay
+                span.input-group-text
+                  i.czi-search
+              input(type='text' placeholder='Search for products').form-control.prepended-form-control#search-input-small
 
           //- menu-departments.pug
           //include menu-departments
