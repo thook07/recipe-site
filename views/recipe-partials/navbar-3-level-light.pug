@@ -93,12 +93,12 @@ header(class=className)
         #navbarCollapse.collapse.navbar-collapse
 
           // Search
-          form
+          form(action='/catalog'
             .input-group-overlay.d-lg-none.my-3
               .input-group-prepend-overlay
                 span.input-group-text
                   i.czi-search
-              input(type='text' placeholder='Search for products').form-control.prepended-form-control#search-input-small
+              input(type='text' name="q" placeholder='Search for products').form-control.prepended-form-control#search-input-small
 
           //- menu-departments.pug
           //include menu-departments
