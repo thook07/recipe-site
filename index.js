@@ -18,8 +18,13 @@ db.authenticate()
 //models
 const User = require('./models/User')
 const Recipe = require('./models/Recipe')
+const RecipeIngredient = require('./models/RecipeIngredient')
+const Favorite = require('./models/Favorite')
+const GroceryListRecipe = require('./models/GroceryListRecipe')
 const Tag = require('./models/Tag')
-const RecipePageVisit = require('./models/RecipePageVisit')
+const RecipePageVisit = require('./models/RecipePageVisit');
+const relations = require('./config/relations');
+
 //misc
 var firebase = require('./firebase.js');
 var log = require('./config/logger.js');
@@ -70,8 +75,12 @@ app.get('/catalog', async (req, res) => {
         //log.trace('[/] User: ' + req.user.email)
         //log.trace('[/] User Role: ' + req.user.role)
         userId = user.id
-        user.favorites = await user.getFavorites();
-        user.groceryListItems = await user.getGroceryListRecipes();
+        var favoriteArr = [];
+        for(const favorite of user.favorites) {
+            favoriteArr.push(favorite.recipeId);
+        }
+        user.favorites = favoriteArr;
+        //user.groceryListItems = await user.getGroceryListRecipes();
     } else{
         log.trace("[/] User: Anonyomous")
         log.trace('[/] User Role: undefined')
@@ -79,11 +88,11 @@ app.get('/catalog', async (req, res) => {
 
 
 
-
     let q = req.query.q || '';
 
     const { Op } = require('sequelize')
     const recipes = await Recipe.findAll({
+        include: [Tag],
         where: {
             [Op.and]: [
                 {  
@@ -104,13 +113,6 @@ app.get('/catalog', async (req, res) => {
         } else {
             categoryMap[tags[i].category] = [tags[i]];
         }
-    }
-    
-
-    //for now i'll just call the getTags async func and apply that to the recipe obj
-    //I imagine there is a better way to just do this on recipe load.
-    for(const recipe of recipes) {  
-        recipe.tags = await recipe.getTags()
     }
 
     log.trace('[/catalog] Showing Catalog Page ['+recipes.length+']');
@@ -304,15 +306,18 @@ app.post('/validateToken', (req, res) => {
 
 
 // -- Used for Testing
-app.get('/test', (req, res) => {
+app.get('/test', async (req, res) => {
     log.info("/test requested....")
     
-    
-    firebase.firebase.auth().onAuthStateChanged(function(user) {
-        console.log("user", user);
-        console.log("Showing home page...");
-        res.render('test');
+    const recipe = await Recipe.findOne({
+        where: {
+          id: "gravy"
+        },
+        include: Tag
     });
+    res.send(JSON.stringify(recipe));
+
+
     
 });
 
@@ -368,5 +373,3 @@ app.use(function(req, res) {
         tags: tags
     });
 });
-
-

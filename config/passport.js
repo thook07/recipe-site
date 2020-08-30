@@ -1,4 +1,6 @@
-const User = require('../models/User')
+const User = require('../models/User');
+const Favorite = require('../models/Favorite');
+const GroceryListRecipe = require('../models/GroceryListRecipe');
 var log = require('./logger.js');
 
 module.exports = function(passport, Strategy){
@@ -34,7 +36,12 @@ module.exports = function(passport, Strategy){
     
     passport.deserializeUser(async function(id, cb) {
         log.trace("[Passport deseralizeUser] Entering deserializeUser" + id)
-        const user = await User.findByPk(id);
+        const user = await User.findOne({
+            where: {
+            id: id
+            },
+            include: [Favorite, GroceryListRecipe]
+        });
         cb(null, user);
     });
 };

@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Recipe = require('./Recipe');
+const RecipeTag = require('./RecipeTag');
 
 const Tag = db.define('tag', {
     id: {
@@ -14,5 +16,15 @@ const Tag = db.define('tag', {
     },
 
 });
+
+/*Tag.associate = function(models) {
+    Tag.hasMany(models.Recipe);
+    Tag.belongsToMany(models.Recipe, { through: models.RecipeTag, as: 'recipeTag', foreignKey: 'recipeId' })
+};*/
+
+
+
+//Tag.belongsTo(Recipe);
+//Tag.belongsToMany(Recipe, { through: 'RecipeTag' });
 
 module.exports = Tag;

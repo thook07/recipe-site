@@ -62,6 +62,7 @@ const Recipe = db.define('recipe', {
 
 });
 
+
 const { Op } = require('sequelize');
 
 Recipe.byId = async function byId(id) {
