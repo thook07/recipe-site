@@ -1,0 +1,32 @@
+extends recipe-partials/layout-grocery
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var parentMenu = 'Pages'
+  
+//- Page Content
+block content
+
+  .container.pb-5.mb-lg-3
+    .row.justify-content-center.pt-lg-4.text-center
+      .col-lg-5.col-md-7.col-sm-9
+        h1.display-404 403
+        h2.h3.mb-4 Access Denied.
+        p.font-size-md.mb-4: u You do not have access to this page
+    .row.justify-content-center
+      .col-xl-8.col-lg-10
+        .row
+          .col-sm-4.mb-3
+            
+          .col-sm-4.mb-3
+            a(href='/login').card.h-100.border-0.box-shadow-sm
+              .card-body
+                .media.align-items-center
+                  i.czi-sign-in.text-success.h4.mb-0
+                  .media-body.pl-3
+                    h5.font-size-sm.mb-0 Login
+                    span.text-muted.font-size-ms Login to view this page.
+          .col-sm-4.mb-3
+            
+                    

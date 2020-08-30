@@ -4,18 +4,24 @@ const log = require('../config/logger')
 const tags = require('../tags.json');
 const framework = require('../framework')
 const Recipe = require('../models/Recipe')
+const authZ = require('../config/authorization');
 
 // -- Administrative Stuff
 router.get("/", (req, res) => {
-    res.render("admin/admin.pug", {});
+    authZ.protected(req,res);
+    res.render("admin/admin.pug", {
+        user: req.user
+    });
 });
 
 router.get('/add', (req, res) => {
+    authZ.protected(req,res);
     res.send('ADD')
 });
 
 router.get('/add-recipe', (req, res) => {
-    log.trace("building /admin/createRecipe page")
+    authZ.protected(req,res);
+    log.trace("building /admin/add-recipe page")
     var meals = tags[1];
     var cats = tags[2];
     var cooks = tags[4];
@@ -29,6 +35,7 @@ router.get('/add-recipe', (req, res) => {
 });
 
 router.get('/add-recipe-images', async (req, res) => {
+    authZ.protected(req,res);
     log.trace("[/admin/add-recipe-images] building add recipe images page")
     
     const recipes = await Recipe.getAllAttributes(['id','name', 'images']);
@@ -36,11 +43,13 @@ router.get('/add-recipe-images', async (req, res) => {
     console.log(recipes[3].images)
 
     res.render("admin/admin-upload-images", {
-        recipes: recipes
+        recipes: recipes,
+        user: req.user
     });
 });
 
 router.get('/update-recipe', (req, res) => {
+    authZ.protected(req,res);
     log.trace('[/admin/update-recipe] Start.')
     framework.getRecipesTable({},function(response, err){ 
         if(err){
@@ -50,22 +59,26 @@ router.get('/update-recipe', (req, res) => {
         var recipes = response.data.recipes;
 
         res.render("admin/admin-update-recipes", {
-            recipes: recipes
+            recipes: recipes,
+            user: req.user
         })
         
     });
 });
 
 router.get('/update-recipe-ingredients', (req, res) => {
+    authZ.protected(req,res);
     log.trace('[/admin/update-recipe-ingredients] Start.')
     framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
         res.render("admin/admin-update-recipe-ingredients", {
-            recipeIngredients: response.data.recipeIngredients
+            recipeIngredients: response.data.recipeIngredients,
+            user: req.user
         });
     });
 });
 
 router.get('/update-tags', (req, res) => {
+    authZ.protected(req,res);
     log.trace('[/admin/update-tags] Start.')
     framework.getRecipes(undefined,function(response, err){ 
         if(err){
@@ -105,7 +118,8 @@ router.get('/update-tags', (req, res) => {
     
             res.render("admin/admin-update-tags", {
                 recipes: recipes,
-                tags: tagMap
+                tags: tagMap,
+                user: req.user
             })
     
         })
@@ -116,7 +130,10 @@ router.get('/update-tags', (req, res) => {
 });
 
 router.get('/update-ingredients', (req, res) => {
-    res.render("admin/admin-ingredients");
+    authZ.protected(req,res);
+    res.render("admin/admin-ingredients", {
+        user: req.user
+    });
 });
 
 

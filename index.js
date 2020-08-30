@@ -19,6 +19,7 @@ db.authenticate()
 const User = require('./models/User')
 const Recipe = require('./models/Recipe')
 const Tag = require('./models/Tag')
+const RecipePageVisit = require('./models/RecipePageVisit')
 //misc
 var firebase = require('./firebase.js');
 var log = require('./config/logger.js');
@@ -57,56 +58,10 @@ const server = app.listen(3000, () => {
 
 // -- Home Page
 app.get('/', async (req, res) => {
-    let q = req.query.q || ''
-
-    log.trace("[/] entering app.get(\'/\'):")
-    if(req.user) {
-      log.trace('[/] User: ' + req.user.email)
-      log.trace('[/] User Role: ' + req.user.role)
-    } else{
-      log.trace("[/] User: Anonyomous")
-      log.trace('[/] User Role: undefined')
-    }
-
-    const { Op } = require('sequelize')
-    const recipes = await Recipe.findAll({
-        where: {
-            [Op.and]: [
-                {  
-                    name: {
-                        [Op.like]: '%'+q+'%' 
-                    }
-                },
-                { approved: 1 }
-            ]
-        }
-    })
-    log.trace("[/] Got recipes. Grabbing Tags now..")
-    const tags = await Tag.findAll();
-    var categoryMap = {};
-    for(i=0; i<tags.length; i++){
-        if(tags[i].category in categoryMap) {
-            categoryMap[tags[i].category].push(tags[i]);
-        } else {
-            categoryMap[tags[i].category] = [tags[i]];
-        }
-    }
-
-    //for now i'll just call the getTags async func and apply that to the recipe obj
-    //I imagine there is a better way to just do this on recipe load.
-    for(const recipe of recipes) {  
-        recipe.tags = await recipe.getTags()
-    }
-
-    res.render('index', {
-        recipes: recipes,
-        tags: tags,
-        user: req.user,
-        newTags: categoryMap
-    });
-    
+    res.redirect('/catalog');
 });
 
+// -- Catalog
 app.get('/catalog', async (req, res) => {
     log.trace("[/] entering app.get(\'/\'):")
     var userId = undefined
@@ -191,52 +146,22 @@ app.get('/recipe/:recipe', async (req, res) => {
         }
     }
 
+    var userId = (req.user == undefined ? 0: req.user.id)
+    const rpv = RecipePageVisit.build({
+        recipeId: recipe.id,
+        userId: userId
+    })
+    log.trace('Recording Page Visit for Recipe: ['+recipe.id+']')
+    await rpv.save();
+
+
+
     res.render('grocery-single', {
         recipe: recipe,
         nestedRecipes: totalRecipes, 
-        tags: tags
+        tags: tags,
+        user: req.user
     });
-
-    
-    /*framework.getRecipes([recipeId], function(response, err){
-        if(err) {
-            log.error("No Recipe found for ["+recipeId+"]");
-            res.status(404);
-            res.render('404-simple.pug');
-        }
-        var recipe = response.data.recipeGroup[0];
-        var nestedRecipes = response.data.nestedRecipes;
-        //adding the original recipe to the front of the array
-        nestedRecipes = [recipe].concat(nestedRecipes);
-        log.debug("Showing Page for recipe: " + recipe.id)
-        res.render('grocery-single', {
-            recipe: recipe,
-            nestedRecipes: nestedRecipes, 
-            tags: tags
-        });
-        
-        
-        
-    })*/
-    
-    /*let recipeRef = firebase.db.collection('recipes').doc(recipeId);
-    let getDoc = recipeRef.get().then(doc => {
-        if (!doc.exists) {
-            console.log('No such document!');
-            res.status(404);
-            res.render('404-simple.pug');
-        } else {
-            console.log("Showing Page for recipe: " + recipeId)
-            res.render('grocery-single', {
-                recipe: doc.data(),
-                tags: tags
-            });
-        }
-    }).catch(err => {
-        console.log('Error getting document', err);
-        res.status(404)
-        res.render('404-simple.pug');
-    });*/
     
 });
 
