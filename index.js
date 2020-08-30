@@ -105,6 +105,7 @@ app.get('/catalog', async (req, res) => {
             categoryMap[tags[i].category] = [tags[i]];
         }
     }
+    
 
     //for now i'll just call the getTags async func and apply that to the recipe obj
     //I imagine there is a better way to just do this on recipe load.

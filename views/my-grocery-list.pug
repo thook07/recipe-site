@@ -4,7 +4,7 @@ append config
   - var pageTitle = 'Grocery List'
   - var parentMenu = 'Home'
   - var removeOverlap = true
-  - var breadcrumbs = [{'title': 'Profile', 'link': '/profile'}, {'title': 'Grocery List'}]
+  - var breadcrumbs = [{'title': 'Catalog', 'link': '/catalog'}, {'title': 'Grocery List'}]
   - var includeFirebase = true
   - var includeIsotope = true
   - var includeAutoComplete = true
@@ -24,7 +24,7 @@ block content
     .row
       if user
         if user.groceryList
-          section.col-lg-10.pb-5.mb-2.mb-xl-4.pl-5
+          section.col-lg-10.pb-5.mb-2.mb-xl-4.px-5
             .row
               .col
                 h2.h5.pt-2 Shopping List
@@ -57,7 +57,7 @@ block content
                         each recipeId in item.recipes
                           span(class=recipeId).badge.badge-secondary.ml-2.float-right.d-none.d-md-block.recipe-badge
                             | #{recipeId}
-      section.col-lg-2.px-4
+      section.col-lg-2.px-4.d-none.d-lg-block.d-xl-block
         // One item + Static controls + Dots inside + No loop
         // Related products carousel
         .row

@@ -8,6 +8,7 @@ append config
   - var showSidebar = true
   - var fixedTop = true
   - var isModalQuickView = true
+  - var isModalAddToCart = true
   - var includeFirebase = true
   - var includeIsotope = true
   - var includeAutoComplete = true
@@ -50,6 +51,8 @@ block content
         .card.product-card
           //span.badge.badge-danger.badge-shadow Sale
           if user
+            button(type='button' data-user-id=user.id data-recipe-name=recipe.name data-recipe-id=recipe.id).btn-wishlist-left.btn-sm.d-xl-none
+              i.czi-basket
             if user.favorites.includes(recipe.id)
               button(type='button' data-user-id=user.id data-recipe-id=recipe.id).btn-wishlist.btn-sm.btn-primary.active
                 i.czi-heart
@@ -66,11 +69,11 @@ block content
               img(src="recipe-images/default.jpg" alt='Product')
           .card-body.py-2
             if recipe.author
-              a(href='recipe/'+recipe.id).product-meta.d-block.font-size-xs.pb-1 #{recipe.author}
+              a(href='recipe/'+recipe.id).product-meta.d-block.font-size-sm.pb-1 #{recipe.author}
             else
-              a(href='recipe/'+recipe.id).product-meta.d-block.font-size-xs.pb-1 Brother Nature
+              a(href='recipe/'+recipe.id).product-meta.d-block.font-size-sm.pb-1 Brother Nature
             h3.product-title.font-size-sm
-              a(href='recipe/'+recipe.id) #{recipe.name}
+              a(href='recipe/'+recipe.id).font-size-lg #{recipe.name}
             //.d-flex.justify-content-between
               .product-price
                 span.text-accent test

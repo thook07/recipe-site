@@ -1,0 +1,41 @@
+// Quick View Modal
+#add-to-cart.modal-add-to-cart.modal.fade(tabindex='-1')
+  .modal-dialog.modal-sm
+    .modal-content
+      .modal-header
+        h4.modal-title.product-title
+          a(href='shop-single-v1.html' data-toggle='tooltip' data-placement='right' title='Go to product page')
+            span#add-to-cart-recipe-name
+              | Recipe Name
+            i.czi-arrow-right.font-size-lg.ml-2
+        button(type='button' class='close' data-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        .row
+          // Product details
+          .col-lg-12.pt-4.pt-lg-0.cz-image-zoom-pane
+            .product-details.pb-3
+              .form-group.d-flex.align-items-center.justify-content-center
+                .custom-control.custom-option.custom-control-inline.mb-2.mr-3
+                  input(type='radio', name='mobile-add-to-cart-quantity', data-value='1', id='x1' checked).custom-control-input
+                  label.custom-option-label-xl.custom-option-label(for='x1') 1x
+                .custom-control.custom-option.custom-control-inline.mb-2.mr-3
+                  input(type='radio', name='mobile-add-to-cart-quantity', data-value='2', id='x2').custom-control-input
+                  label.custom-option-label-xl.custom-option-label(for='x2') 2x
+                .custom-control.custom-option.custom-control-inline.mb-2.mr-3
+                  input(type='radio', name='mobile-add-to-cart-quantity', data-value='3', id='x3').custom-control-input
+                  label.custom-option-label-xl.custom-option-label(for='x3') 3x
+                .custom-control.custom-option.custom-control-inline.mb-2.mr-3
+                  input(type='radio', name='mobile-add-to-cart-quantity', data-value='4', id='x4').custom-control-input
+                  label.custom-option-label-xl.custom-option-label(for='x4') 4x
+              .row
+                .col-lg-1.col-md-2.col-sm-3
+                .col-lg-10.col-md-8.col-sm-6
+                  .form-group.d-flex.align-items-center
+                    if user
+                      button(data-user-id=user.id).btn.btn-primary.btn-shadow.btn-block#mobileAddToGroceryBtn
+                        i.czi-cart.font-size-lg.mr-2
+                        | Add to Cart
+                .col-lg-1.col-md-2.col-sm-3
+                  
+

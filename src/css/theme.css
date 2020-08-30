@@ -11906,6 +11906,16 @@ label:not(.form-check-label):not(.custom-control-label):not(.custom-file-label):
   cursor: pointer;
 }
 
+.custom-option-label-xl {
+  width: 4rem !important;
+  height: 4rem !important;
+  font-size: 1.15rem !important;
+  padding-bottom: 1rem !important;
+  padding-top: 1rem !important;
+}
+
+
+
 .custom-option-label:hover {
   border-color: #c9d5e0;
   color: #373f50;
@@ -14606,6 +14616,16 @@ a.badge-shadow:hover {
   }
 }
 
+.modal-add-to-cart .modal-dialog {
+  max-width: 485px !important;
+}
+
+@media (min-width: 576px) {
+  .modal-add-to-cart {
+    padding-left: 1rem;
+  }
+}
+
 .cz-carousel {
   position: relative;
 }
@@ -15782,6 +15802,15 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
   z-index: 5;
 }
 
+.product-card .product-card-actions,
+.product-card > .btn-wishlist-left,
+.product-card .badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 5;
+}
+
 .product-card .product-card-actions .btn-action {
   padding: .5rem;
   transition: all 0.15s ease-in-out;
@@ -15908,6 +15937,14 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
   visibility: hidden;
 }
 
+.product-card-alt .btn-wishlist-left {
+  top: 0.75rem;
+  left: 0.75rem;
+  background-color: #fff;
+  z-index: 5;
+  visibility: hidden;
+}
+
 .product-card-alt .badge {
   position: absolute;
   right: auto;
@@ -15928,6 +15965,7 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
 
 .product-card-alt .product-thumb-overlay,
 .product-card-alt .btn-wishlist,
+.product-card-alt .btn-wishlist-left,
 .product-card-alt .product-card-actions {
   position: absolute;
   transition: all 0.15s ease-in-out;
@@ -15937,6 +15975,7 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
 @media (min-width: 992px) {
   .product-card-alt .product-thumb:hover .product-thumb-overlay,
   .product-card-alt .product-thumb:hover .btn-wishlist,
+  .product-card-alt .product-thumb:hover .btn-wishlist-left,
   .product-card-alt .product-thumb:hover .product-card-actions {
     visibility: visible;
     opacity: 1;
@@ -15975,6 +16014,20 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
   text-align: center;
 }
 
+.btn-wishlist-left {
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0 !important;
+  transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out, border-color 0.25s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 0;
+  border-radius: 50%;
+  background-color: #f3f5f9;
+  color: #373f50;
+  text-align: center;
+}
+
+
+
 .btn-wishlist > i {
   font-size: 1.0625rem;
   line-height: 2.75rem;
@@ -15994,6 +16047,29 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
 }
 
 .btn-wishlist.btn-sm > i, .btn-group-sm > .btn-wishlist.btn > i {
+  font-size: 0.8125rem;
+  line-height: 2rem;
+}
+
+.btn-wishlist-left > i {
+  font-size: 1.0625rem;
+  line-height: 2.75rem;
+}
+
+.btn-wishlist-left:hover {
+  color: #fe696a;
+}
+
+.btn-wishlist-left:focus {
+  outline: 0;
+}
+
+.btn-wishlist-left.btn-sm, .btn-group-sm > .btn-wishlist-left.btn {
+  width: 2rem;
+  height: 2rem;
+}
+
+.btn-wishlist-left.btn-sm > i, .btn-group-sm > .btn-wishlist-left.btn > i {
   font-size: 0.8125rem;
   line-height: 2rem;
 }
