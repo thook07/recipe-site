@@ -3,6 +3,7 @@ const crypto = require('crypto')
 const db = require('../config/database')
 const log = require('../config/logger')
 const Recipe = require('../models/Recipe');
+const RecipeIngredient = require('../models/RecipeIngredient');
 const GroceryListRecipe = require('./GroceryListRecipe');
 const GroceryListItem = require('./GroceryListItem');
 const GroceryList = require('./GroceryList');
@@ -102,48 +103,44 @@ User.prototype.getGroceryList = async function() {
         recipeQuantityMap[groceryListRecipe.recipe.id] = groceryListRecipe.quantity;
         groceryListRecipe.recipe.quantity = groceryListRecipe.quantity;
         recipes.push(groceryListRecipe.recipe);
+        log.debug('[User] getGroceryList: Recipe: ' + groceryListRecipe.recipe.name);
         for(const ri of groceryListRecipe.recipe.recipeIngredients) {
             if(ri.isRecipe) {
-                //TODO: handle this
+                const nestedRecipe = await Recipe.findOne({
+                    where: {
+                        id: ri.ingredientId
+                    },
+                    include: {
+                        all: true,
+                        nested: true
+                    }
+                })
+                recipeQuantityMap[nestedRecipe.id] = groceryListRecipe.quantity;
+                log.info('[User] Nested Recipe found: ['+nestedRecipe.name+']')
+                for(const nestedRi of nestedRecipe.recipeIngredients) {
+                    log.debug('[User] nested: ' + nestedRi.ingredientDescription)
+                    if(ri.ingredientId == null) {
+                        log.warn('[User] getGroceryList nested: RecipeIngredient has null IngredientId. RecipeIngredient.ID: ['+nestedRi.id+']');
+                        log.warn('[User] getGroceryList nested: Skipping this RI')
+                    } else {
+                        log.debug('[User] getGroceryList nested: Adding Item: ' + nestedRi.ingredient.id)
+                        groceryList.addRI(nestedRi);                    
+                    }
+                }
             } else {
                 log.trace('[User] getGroceryList: RecipeIngredient: ' + JSON.stringify(ri));
-                log.trace('[User] getGroceryList: IngredientID: ' + ri.ingredientId);
+                log.debug('[User] getGroceryList: IngredientID: ' + ri.ingredientId);
                 if(ri.ingredientId == null) {
                     log.warn('[User] getGroceryList: RecipeIngredient has null IngredientId. RecipeIngredient.ID: ['+ri.id+']');
                     log.warn('[User] getGroceryList: Skipping this RI')
                 } else {
-                    log.trace('[User] getGroceryList: Adding Item: ' + ri.ingredient.name)
+                    log.debug('[User] getGroceryList: Adding Item: ' + ri.ingredient.name)
                     groceryList.addRI(ri);                    
                 }
             }
         }
     }
 
-
-
-    /*for (const groceryListRecipe of groceryListRecipes) {  
-        ("[User] GroceryListRecipe: " + JSON.stringify(groceryListRecipe));
-        const recipe = await Recipe.byId(groceryListRecipe.recipeId);
-        recipes.push(recipe);
-        recipeQuantityMap[recipe.id] = groceryListRecipe.quantity;
-        for(const ri of recipe.recipeIngredients) {
-            if(ri.isRecipe) {
-                //todo handle this
-            } else {
-                log.trace('[User] getGroceryList: RecipeIngredient: ' + JSON.stringify(ri));
-                log.trace('[User] getGroceryList: IngredientID: ' + ri.ingredientId);
-                if(ri.ingredientId == null) {
-                    log.warn('[User] getGroceryList: RecipeIngredient has null IngredientId. RecipeIngredient.ID: ['+ri.id+']');
-                    log.warn('[User] getGroceryList: Skipping this RI')
-                } else {
-                    var ingredient = await Ingredient.findByPk(ri.ingredientId);
-                    groceryList.addItem(ingredient.id, ri.amount, recipe.id, ingredient.category)                    
-                }
-                //items.push(item); 
-            }
-        }
-        
-    }*/
     groceryList.recipes = recipes;
     groceryList.recipeQuantityMap = recipeQuantityMap;
     

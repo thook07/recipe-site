@@ -54,7 +54,6 @@ GroceryList.prototype.getItemsByCategory = function() {
         }
         
     }
-    
     return catMap;
     
 }

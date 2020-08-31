@@ -13,7 +13,7 @@ function GroceryListItem(recipeIngredient) {
 }
 
 GroceryListItem.prototype.addIngredient = function(amount, recipeId) {
-    log.trace("[GroceryListItem] addIngredient: ["+amount+"] ["+recipeId+"]")
+    log.debug("[GroceryListItem] addIngredient: ["+amount+"] ["+recipeId+"]")
     this.amount.push(amount);
     this.recipes.push(recipeId)
     this.amountMap[recipeId] = amount

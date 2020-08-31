@@ -73,12 +73,17 @@ block content
                     | #{recipe.attribution.author}
 
 
-    
+      - var ingId = '#ingredients-' + recipe.id
+      - var ingId2 = 'ingredients-' + recipe.id
+      - var instructId = '#instructions-' + recipe.id
+      - var instructId2 = 'instructions-' + recipe.id
+      - var notesId = '#notes-' + recipe.id
+      - var notesId2 = 'notes-' + recipe.id
       .col-xl-6.px-2.mb-3
         .h-100.bg-light.rounded-lg.py-5.px-4.px-sm-5
           ul(class="nav nav-tabs nav-fill", role="tablist")
             li.nav-item
-              a(href="#ingredients", class="nav-link active", data-toggle="tab", role="tab")
+              a(href=ingId, class="nav-link active", data-toggle="tab", role="tab")
                 span.d-none.d-sm-block
                   i.czi-view-list.mr-2
                   | Ingredients
@@ -87,7 +92,7 @@ block content
                   | Ingredients
             if recipe.instructions    
               li.nav-item
-                a(href="#instructions", class="nav-link", data-toggle="tab", role="tab")
+                a(href=instructId, class="nav-link", data-toggle="tab", role="tab")
                   span.d-none.d-sm-block
                     i.czi-menu.mr-2
                     | Instructions
@@ -96,7 +101,7 @@ block content
                     | How To
             if recipe.notes
               li.nav-item
-                a(href="#notes", class="nav-link", data-toggle="tab", role="tab")
+                a(href=notesId, class="nav-link", data-toggle="tab", role="tab")
                   span.d-none.d-sm-block
                     i.czi-edit-alt.mr-2
                     | Notes
@@ -105,7 +110,7 @@ block content
                 
                 
           .tab-content
-            div(id="ingredients", class="tab-pane fade show active", role="tabpanel")
+            div(id=ingId2, class="tab-pane fade show active", role="tabpanel")
               p.font-size-sm
                 // Basic list group
                 .list-group
@@ -129,14 +134,14 @@ block content
                         else
                           | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
             if recipe.instructions
-              div(id="instructions", class="tab-pane fade", role="tabpanel")
+              div(id=instructId2, class="tab-pane fade", role="tabpanel")
                 p.font-size-sm
                   ul.list-group
                     each instruction in recipe.instructions
                       li.list-group-item
                         | #{instruction}          
             if recipe.notes
-              div(id="notes", class="tab-pane fade", role="tabpanel")
+              div(id=notesId2, class="tab-pane fade", role="tabpanel")
                 p.font-size-sm
                   ul.list-group
                     each note in recipe.notes

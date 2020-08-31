@@ -66,11 +66,11 @@ router.get('/my-grocery-list', async (req, res) => {
 
 router.get('/edit-grocery-list', async (req, res) => {
     authZ.protected(req,res);
-    log.trace("[/my-grocery-list] Entering....");
+    log.trace("[/edit-grocery-list] Entering....");
 
     var user = req.user || await User.byId(1);
     user.groceryList = await user.getGroceryList();
-    log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
+    log.debug("[/edit-grocery-list] Showing Page for my-grocery-list")
     res.render('edit-grocery-list', {
         user: user
     });

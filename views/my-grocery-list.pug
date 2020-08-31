@@ -46,6 +46,7 @@ block content
                 each items, cat in user.groceryList.getItemsByCategory()
                   a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
                   each item in items
+                    unless item.recipeIngredient.amount == 'na'
                       - var check = "icon-"+ item.recipeIngredient.ingredient.id;
                       a(data-text=item.recipeIngredient.ingredient.id data-check=check).list-group-item.list-group-item-action.grocery-item
                         span(id=check).d-none

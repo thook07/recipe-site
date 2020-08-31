@@ -4,6 +4,7 @@ const log = require('../config/logger')
 const tags = require('../tags.json');
 const framework = require('../framework')
 const Recipe = require('../models/Recipe')
+const RecipeIngredient = require('../models/RecipeIngredient')
 const authZ = require('../config/authorization');
 
 // -- Administrative Stuff
@@ -66,15 +67,29 @@ router.get('/update-recipe', (req, res) => {
     });
 });
 
-router.get('/update-recipe-ingredients', (req, res) => {
+router.get('/update-recipe-ingredients', async (req, res) => {
     authZ.protected(req,res);
     log.trace('[/admin/update-recipe-ingredients] Start.')
-    framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
+
+    const recipeIngredients = await RecipeIngredient.findAll({
+        include: {
+            all: true,
+            nested: true
+        }
+    }) 
+
+    res.render("admin/admin-update-recipe-ingredients", {
+        recipeIngredients: recipeIngredients,
+        user: req.user
+    });
+
+
+    /*framework.getRecipeIngredientIssues({"filter":"all"},function(response, err){ 
         res.render("admin/admin-update-recipe-ingredients", {
             recipeIngredients: response.data.recipeIngredients,
             user: req.user
         });
-    });
+    });*/
 });
 
 router.get('/update-tags', (req, res) => {

@@ -84,30 +84,82 @@ app.get('/catalog', async (req, res) => {
         user.favorites = favoriteArr;
         user.groceryList = await user.getGroceryList();
         //user.groceryListItems = await user.getGroceryListRecipes();
+        log.trace('[/catalog] UserId: ' + user.id);
     } else{
         log.trace("[/] User: Anonyomous")
         log.trace('[/] User Role: undefined')
     }
 
-
-
     let q = req.query.q || '';
+    var qTags = req.query.tags;
+    var sortBy = req.query.sort || 'az'
 
+    if(sortBy == 'favorite' && user == undefined) {
+        log.warn('Trying to sort on favorite without being logged in. Switching to AZ');
+        sortBy = 'az';
+    }
+
+    qTags = (qTags == undefined) ? [] : qTags.split(',');
+    log.trace("Tags: "+JSON.stringify(qTags));
+    console.log(qTags);
     const { Op } = require('sequelize')
-    const recipes = await Recipe.findAll({
-        include: [Tag],
+    var recipes = await Recipe.findAll({
         where: {
-            [Op.and]: [
-                {  
-                    name: {
-                        [Op.like]: '%'+q+'%' 
-                    }
+            [Op.or]: {
+                name: {
+                    [Op.like]: '%'+q+'%'
                 },
-                { approved: true }
-            ]
-        }
+                attAuthor: {
+                    [Op.like]: '%'+q+'%'
+                },
+            },
+            approved: 1
+        },
+        include: [Tag]
     })
-    log.trace("[/] Got recipes. Grabbing Tags now..")
+    log.trace('[/catalog] Got recipes based on query. Now need to check to see if any other filters are applied');
+    log.debug('[/catalog] Current Recipe Total: ['+recipes.length+']');
+
+    if(sortBy == 'popular') {
+        log.trace('[/catalog] SortBy was popular. So need to grab view count to be able to sort.');
+        var tempArr = recipes.slice();
+        recipes = [];
+        for(const recipe of tempArr) {
+            recipe.views = await recipe.viewCount
+            log.trace('recipe views' + recipe.views)
+            recipes.push(recipe);
+        }
+        
+    }
+
+
+    var filterEnabled = false;
+    var filteredRecipes = [];
+    if( qTags.length > 0 ){
+        filterEnabled = true
+        log.debug('[/catalog] Tag Filter Applied: ' + JSON.stringify(qTags))
+        for(const recipe of recipes){
+            for(const tag of recipe.tags){
+                if(qTags.includes(tag.id) == false) {
+                    filteredRecipes.push(recipe);
+                    break;
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
+    if(filterEnabled) { log.debug('[/catalog] Current Recipe Total: ['+filteredRecipes.length+']');}
+    var finalRecipes = (filterEnabled ? filteredRecipes : recipes);
+
+
+
+    log.trace("[/catalog] Building Sidebar full of tags...");
     const tags = await Tag.findAll();
     var categoryMap = {};
     for(i=0; i<tags.length; i++){
@@ -118,10 +170,52 @@ app.get('/catalog', async (req, res) => {
         }
     }
 
+    log.trace('[/catalog] Sorting: ' + sortBy);
+    
+
+    finalRecipes.sort((a,b) => {
+        const name1 = a.name.toUpperCase();
+        const name2 = b.name.toUpperCase();
+        let comparison = 0;
+            
+        if(sortBy == 'az' || sortBy == 'za') {
+            if (name1 > name2) {
+                comparison = 1;
+            } else if (name1 < name2) {
+                comparison = -1;
+            }
+            if(sortBy == 'za') {
+                return comparison * -1
+            }
+            return comparison
+        } 
+
+        if(sortBy == 'popular') {
+            const views1 =  a.views;
+            const views2 =  b.views;
+            log.trace('[/catalog sort] ' + a.name + '\'s view count was ' + views1 + ', while ' + b.name + '\'s view count was ' + views2 + ' ['+(views1-views2)+']')
+            return views2-views1;
+        }
+
+        if(sortBy == 'favorite') {
+            var isFavorite1 = user.favorites.includes(a.id); //true
+            var isFavorite2 = user.favorites.includes(b.id); //false
+            if( isFavorite1 == true && isFavorite2 == false) {
+                return -1
+            }
+            if( isFavorite1 == false && isFavorite2 == true) {
+                return 1
+            }
+            return 0;
+
+        }
+        log.wtf('[/catalog sort] Shouldnt have gotten here...')
+        return 1;
+    });
     log.trace('[/catalog] Showing Catalog Page ['+recipes.length+']');
 
     res.render('index-new', {
-        recipes: recipes,
+        recipes: finalRecipes,
         tags: tags,
         user: user,
         userId: userId,
@@ -384,8 +478,16 @@ async function test(){
             id: 1
         }
     })
-    user.getGroceryList();
+    const list = await user.getGroceryList();
+    var map = list.getItemsByCategory()
+    for(test in map){
+        //console.log(map[test])
+        for(var item of map[test]){
+            //console.log(item);
+            console.log(test + ' -> ' + item.recipeIngredient.amount)
+        }
+    }
+    
 }
 
-
-//test();
+test();
