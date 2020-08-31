@@ -114,20 +114,20 @@ block content
                       a(recipe-id=recipeIngredient.ingredientId).ingredient-link.list-group-item.list-group-item-action
                         //i.czi-link.mr-2
                         if recipeIngredient.amount == "na"
-                          | #{recipeIngredient.ingredient} 
+                          | #{recipeIngredient.ingredientDescription} 
                           span.float-right
                             i.czi-basket-alt
                         else
-                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredient}
+                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
                           span.float-right
                             i.czi-basket-alt
 
                     else
                       .list-group-item
                         if recipeIngredient.amount == "na"
-                          | #{recipeIngredient.ingredient} 
+                          | #{recipeIngredient.ingredientDescription} 
                         else
-                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredient}
+                          | #{recipeIngredient.amount} - #{recipeIngredient.ingredientDescription}
             if recipe.instructions
               div(id="instructions", class="tab-pane fade", role="tabpanel")
                 p.font-size-sm
