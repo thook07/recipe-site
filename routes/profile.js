@@ -43,10 +43,22 @@ router.get('/my-favorites', async (req, res) => {
 router.get('/my-grocery-list', async (req, res) => {
     log.trace("[/my-grocery-list] Entering....");
 
-    var user = req.user //|| await User.byId(1);
+    var user = req.user || await User.byId(1);
     user.groceryList = await user.getGroceryList();
     log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
     res.render('my-grocery-list', {
+        user: user
+    });
+    
+});
+
+router.get('/edit-grocery-list', async (req, res) => {
+    log.trace("[/my-grocery-list] Entering....");
+
+    var user = req.user || await User.byId(1);
+    user.groceryList = await user.getGroceryList();
+    log.debug("[/my-grocery-list] Showing Page for my-grocery-list")
+    res.render('edit-grocery-list', {
         user: user
     });
     

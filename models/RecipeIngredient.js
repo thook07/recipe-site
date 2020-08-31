@@ -17,7 +17,7 @@ const RecipeIngredient = db.define('recipeIngredient', {
     ingredientId: {
         type: Sequelize.STRING
     },
-    ingredient: {
+    ingredientDescription: {
         type: Sequelize.STRING
     },
     isRecipe: {

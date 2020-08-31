@@ -1,0 +1,127 @@
+extends recipe-partials/layout-profile
+
+//- Override default config variables
+append config
+  - var pageTitle = 'Your Recipe List'
+  - var breadcrumbs = [{'title': 'Catalog', 'link': '/catalog'}, {'title': 'List'}]
+  - var parentMenu = 'Shop'
+  - var removeOverlap = true
+append scripts
+  script(src='/js/recipes/edit-grocery-list.js')
+
+  
+//- Page Content
+block content
+
+  .container.pb-5.mb-2.mb-md-4
+    .row
+
+      // List of items
+      section.col-lg-12
+
+        // Item
+        if user
+          if user.groceryList
+            each recipe in user.groceryList.recipes
+              .d-sm-flex.justify-content-between.align-items-center.my-4.pb-3.border-bottom
+                .media.media-ie-fix.d-block.d-sm-flex.align-items-center.text-center.text-sm-left
+                  a(href='shop-single-v1.html' style='width: 10rem;').d-inline-block.mx-auto.mr-sm-4
+                    - var imageSrc = recipe.images[0] || '/recipe-iamges/default.jpg'
+                    img(src=imageSrc alt='Product')
+                  .media-body.pt-2
+                    h3.product-title.font-size-base.mb-2
+                      a(href='shop-single-v1.html') #{recipe.name}
+                    .font-size-sm
+                      span.text-muted.mr-2 Author:
+                      - var author = recipe.author || 'Brother Nature';
+                      | #{author}
+                    .font-size-sm
+                      span.text-muted.mr-2 Tags
+                      each tag in recipe.tags
+                        | #{tag.name} &nbsp;
+                    //.font-size-lg.text-accent.pt-2 $154.<small>00</small>
+                .pt-2.pt-sm-0.pl-sm-3.mx-auto.mx-sm-0.text-center.text-sm-left(style='max-width: 9rem;')
+                  .form-group.mb-0
+                    - var quantityId = 'quantity-'+recipe.id
+                    label(for=quantityId).font-weight-medium Quantity
+                    input(type='number' id=quantityId value=recipe.quantity).form-control
+                  button(type='button' data-recipe-id=recipe.id).btn.btn-link.px-0.text-danger.remove-from-list
+                    i.czi-close-circle.mr-2
+                    span.font-size-sm Remove
+
+        button(type='button' data-user-id=user.id).btn.btn-outline-accent.btn-block#update-list-btn
+          i.czi-loading.font-size-base.mr-2
+          | Update List
+
+      // Sidebar
+      aside.d-none
+        .cz-sidebar-static.rounded-lg.box-shadow-lg.ml-lg-auto
+          .text-center.mb-4.pb-3.border-bottom
+            h2.h6.mb-3.pb-1 Subtotal
+            h3.font-weight-normal
+              | $265.
+              small 00
+          .form-group.mb-4
+            label(for='order-comments').mb-3
+              span.badge.badge-info.font-size-xs.mr-2 Note
+              span.font-weight-medium Additional comments
+            textarea(rows='6')#order-comments.form-control
+          #order-options.accordion
+            .card
+              .card-header
+                h3.accordion-heading
+                  a(href='#promo-code' role='button' data-toggle='collapse' aria-expanded='true' aria-controls='promo-code')
+                    | Apply promo code
+                    span.accordion-indicator
+              #promo-code.collapse.show(data-parent='#order-options')
+                form(method='post' novalidate).card-body.needs-validation
+                  .form-group
+                    input(type='text' placeholder='Promo code' required).form-control
+                    .invalid-feedback Please provide promo code.
+                  button(type='submit').btn.btn-outline-primary.btn-block Apply promo code
+            .card
+              .card-header
+                h3.accordion-heading
+                  a(href='#shipping-estimates' role='button' data-toggle='collapse' aria-expanded='true' aria-controls='shipping-estimates').collapsed
+                    | Shipping estimates
+                    span.accordion-indicator
+              #shipping-estimates.collapse(data-parent='#order-options')
+                .card-body
+                  form(novalidate).needs-validation
+                    .form-group
+                      select(required).form-control.custom-select
+                        option(value='') Choose your country
+                        option(value='Australia') Australia
+                        option(value='Belgium') Belgium
+                        option(value='Canada') Canada
+                        option(value='Finland') Finland
+                        option(value='Mexico') Mexico
+                        option(value='New Zealand') New Zealand
+                        option(value='Switzerland') Switzerland
+                        option(value='United States') United States
+                      .invalid-feedback Please choose your country!
+                    .form-group
+                      select(required).form-control.custom-select
+                        option(value='') Choose your city
+                        option(value='Bern') Bern
+                        option(value='Brussels') Brussels
+                        option(value='Canberra') Canberra
+                        option(value='Helsinki') Helsinki
+                        option(value='Mexico City') Mexico City
+                        option(value='Ottawa') Ottawa
+                        option(value='Washington D.C.') Washington D.C.
+                        option(value='Wellington') Wellington
+                      .invalid-feedback Please choose your city!
+                    .form-group
+                      input(type='text' placeholder='ZIP / Postal code' required).form-control
+                      .invalid-feedback Please provide a valid zip!
+                    button(type='submit').btn.btn-outline-primary.btn-block Calculate shipping
+          a(href='checkout-details.html').btn.btn-primary.btn-shadow.btn-block.mt-4
+            i.czi-card.font-size-lg.mr-2
+            | Proceed to Checkout
+
+      #list-on-load
+        if user
+          if user.groceryList
+            each recipe in user.groceryList.recipes
+              div(data-recipe-id=recipe.id data-recipe-quantity=recipe.quantity).item

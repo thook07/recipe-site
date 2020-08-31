@@ -3,8 +3,15 @@ var dateFormat  = require('dateformat');
 var os          = require('os');
 
 var level = "trace";
+var showSQL = false;
 
 exports.trace = function(msg, line) {
+    if(showSQL == false) {
+        if( msg.startsWith('Executing (default): ') ) {
+            return;
+        }
+    }
+
     var logMsg = getBeginningString(line, "T") + msg;
     
     if(level.toUpperCase() === "TRACE") {
@@ -125,6 +132,8 @@ function emailWTF(msg, subject) {
 }
 
 
-
+if(showSQL == false) {
+    console.log("[REMINDER] No SQL Statements being printed")
+}
 
 

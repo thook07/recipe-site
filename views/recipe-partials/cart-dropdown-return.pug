@@ -1,41 +1,36 @@
 // Cart dropdown
 .widget.widget-cart.px-3.pt-2.pb-3
-  .d-flex.flex-wrap.justify-content-between
-    .mr-2.py-2
-      span.text-primary Recipes:
-      if user
-        if user.groceryListItems
-          span.ml-1
-            | #{user.groceryListItems.length} 
-          .font-size-sm.mr-2.py-2
-    .mr-2.py-2
-      span.text-primary Items:
-      if user
-        if user.groceryListItems
-          span.font-size-base.ml-1
-            | #{user.groceryListItems.length} 
   div(style='height: 15rem;' data-simplebar data-simplebar-auto-hide='false')
     if user
-      if user.groceryListItems
-        each item in user.groceryListItems
+      if user.groceryList
+        each recipe in user.groceryList.recipes
           .widget-cart-item.pb-2.border-bottom
-            button(type='button' class='close text-danger' aria-label='Remove')
+            button(data-recipe-id=recipe.id data-user-id=user.id type='button' class='close text-danger' aria-label='Remove').removeBasket
               span(aria-hidden='true') &times;
             .media.align-items-center
               a(href='shop-single-v1.html').d-block.mr-2
-                if item.images
-                  img(src=item.images[0], alt='Product' width='64')
+                if recipe.images
+                  img(src=recipe.images[0], alt='Product' width='64')
                 else
                   img(src='/recipe-images/default.jpg', alt='Product' width='64')
               .media-body
                 h6.widget-product-title
-                  a(href='shop-single-v1.html') #{item.name}
+                  a(href='shop-single-v1.html') #{recipe.name}
                 .widget-product-meta
                   //span.text-accent.mr-2
                     small x
                     |
-                  span.text-muted  x#{item.quantity}
-
+                  span.text-muted  x#{recipe.quantity}
+  .d-flex.flex-wrap.justify-content-between.align-items-center.py-3
+    .font-size-sm.mr-2.py-2
+      span.text-muted Recipes:
+      span.text-accent.font-size-base.ml-1
+        if user
+          if user.groceryList
+            | #{user.groceryList.recipes.length}
+    a(href='/profile/edit-grocery-list').btn.btn-outline-secondary.btn-sm
+      | Expand List
+      i.czi-arrow-right.ml-1.mr-n1
   a(href='/profile/my-grocery-list').btn.btn-primary.btn-sm.btn-block.py-2.mt-3
     i.czi-basket.mr-2.font-size-base.align-middle
     | View Grocery List

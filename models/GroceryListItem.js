@@ -1,16 +1,15 @@
 
 const log = require('../config/logger');
 
-function GroceryListItem(ingredientId, amount, recipeId, category) {
-    log.trace("[GroceryListItem] constructor: ["+ingredientId+"] ["+amount+"] ["+recipeId+"] ["+category+"]")
-    this.id = ingredientId;
+function GroceryListItem(recipeIngredient) {
+    log.trace("[GroceryListItem] constructor: "+ JSON.stringify(recipeIngredient));
+    this.recipeIngredient = recipeIngredient;
     this.amount = [];
-    this.amount.push(amount);
+    this.amount.push(recipeIngredient.amount);
     this.recipes = [];
-    this.recipes.push(recipeId);
+    this.recipes.push(recipeIngredient.recipeId);
     this.amountMap = {};
-    this.amountMap[recipeId] = amount
-    this.category = category;
+    this.amountMap[recipeIngredient.recipeId] = recipeIngredient.amount
 }
 
 GroceryListItem.prototype.addIngredient = function(amount, recipeId) {

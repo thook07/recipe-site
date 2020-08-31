@@ -23,6 +23,8 @@ const Favorite = require('./models/Favorite')
 const GroceryListRecipe = require('./models/GroceryListRecipe')
 const Tag = require('./models/Tag')
 const RecipePageVisit = require('./models/RecipePageVisit');
+const Ingredient = require('./models/Ingredient');
+const IngredientCategory = require('./models/IngredientCategory');
 const relations = require('./config/relations');
 
 //misc
@@ -80,6 +82,7 @@ app.get('/catalog', async (req, res) => {
             favoriteArr.push(favorite.recipeId);
         }
         user.favorites = favoriteArr;
+        user.groceryList = await user.getGroceryList();
         //user.groceryListItems = await user.getGroceryListRecipes();
     } else{
         log.trace("[/] User: Anonyomous")
@@ -373,3 +376,16 @@ app.use(function(req, res) {
         tags: tags
     });
 });
+
+
+async function test(){
+    const user = await User.findOne({
+        where: {
+            id: 1
+        }
+    })
+    user.getGroceryList();
+}
+
+
+test();

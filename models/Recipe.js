@@ -4,6 +4,7 @@ const log = require('../config/logger');
 const Tag = require('./Tag');
 const RecipeTag = require('./RecipeTag');
 const RecipeIngredient = require('./RecipeIngredient');
+const RecipePageVisit = require('./RecipePageVisit');
 
 
 const Recipe = db.define('recipe', {
@@ -58,6 +59,19 @@ const Recipe = db.define('recipe', {
     approved: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+    },
+    viewCount: {
+        type: Sequelize.VIRTUAL,
+        async get() {
+            return await RecipePageVisit.count({
+                where:{
+                    recipeId: this.id
+                }
+            });
+        },
+        set(value) {
+            throw new Error('Do not try to set the `url` value! User attLink instead.');
+        }
     }
 
 });

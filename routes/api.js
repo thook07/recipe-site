@@ -82,6 +82,17 @@ router.post('/groceryList/add', async (req, res) => {
     log.trace('[/api/groceryList/add] RecipeID: ' + recipeId);
     log.trace('[/api/groceryList/add] Quantity: ' + quantity);
 
+    /*const recipe = await Recipe.findOne({
+        where: {
+            id: recipeId
+        },
+        include: [RecipeIngredient]
+    })
+
+    for(const ri of recipe.recipeIngredients) {
+
+    }*/
+
     try {
         var list = await GroceryListRecipe.findOne({
             where: {
@@ -102,16 +113,75 @@ router.post('/groceryList/add', async (req, res) => {
                 quantity: quantity 
              });
         }
-        console.log(list);
         await list.save();
         res.status(200)
         res.send("Successfully added favorite for " + userId);
     } catch(err) {
-        console.log(err);
+        log.error(err);
         res.status(400);
         res.send(err);
     }
 });
+
+router.post('/groceryList/remove', async (req, res) => {
+    log.trace('[/api/groceryList/remove] Starting...');
+    const userId = req.body.userId;
+    const recipeId = req.body.recipeId;
+    log.trace('[/api/groceryList/remove] UserID: ' + userId);
+    log.trace('[/api/groceryList/remove] RecipeID: ' + recipeId);
+
+    try {
+        await GroceryListRecipe.destroy({
+            where: {
+                userId: userId,
+                recipeId: recipeId
+            }
+        });
+        res.status(200)
+        res.send("Successfully removed recipe from grocery list for " + userId);
+    } catch(err) {
+        log.error(err);
+        res.status(400);
+        res.send(err);
+    }
+});
+
+router.post('/groceryList/update', async (req, res) => {
+    log.trace('[/api/groceryList/update] Starting...');
+    const userId = req.body.userId;
+    const changes = req.body.changes;
+    log.trace('[/api/groceryList/update] UserID: ' + userId);
+    log.trace('[/api/groceryList/update] changes: ' + JSON.stringify(changes));
+
+    for (var change in changes) {
+        var recipeId = changes[change].recipeId;
+        var quantity = changes[change].quantity;
+
+        if(quantity > 0 ) {
+            log.trace('[/api/groceryList/update] Updating ' + recipeId + '\'s quantity to ' + quantity);
+            await GroceryListRecipe.update({ quantity: quantity }, {
+                where: {
+                recipeId,
+                userId
+                }
+            });
+        } else {
+            log.trace('[/api/groceryList/update] Deleting ' + recipeId + ' from list.');
+            await GroceryListRecipe.destroy({
+                where: {
+                    recipeId,
+                    userId
+                }
+            });
+        }
+
+          
+    }
+    //for now we are just assuming it all works..
+    res.status(200)
+    res.send("Successfully removed recipe from grocery list for " + userId);
+});
+
 
 router.get('/recipes', async (req, res) => {
     res.send( await Recipe.findAll() );
@@ -267,12 +337,12 @@ router.get('/tags/', async (req, res) => {
 });
 
 router.get('/grocery-cart', async (req, res) => {
-    var user = req.user //|| await User.byId(1);
+    var user = req.user || await User.byId(1);
     if(user) {
         //log.trace('[/] User: ' + req.user.email)
         //log.trace('[/] User Role: ' + req.user.role)
         userId = user.id
-        user.groceryListItems = await user.getGroceryListRecipes();
+        user.groceryList = await user.getGroceryList();
         res.status(200)
         res.render('recipe-partials/cart-dropdown-return', {
             user: user

@@ -16,6 +16,7 @@ append config
   - var includeTest = false
 append scripts
   script(src='/js/groceryList.js')
+  script(src='/js/recipes/navbar.js')
   
 //- Page Content
 block content
@@ -41,12 +42,13 @@ block content
                 each items, cat in user.groceryList.getItemsByCategory()
                   a.list-group-item.list-group-item-action.list-group-item-accent #{cat}
                   each item in items
-                      - var check = "icon-"+ item.id;
-                      a(data-text=item.id data-check=check).list-group-item.list-group-item-action.grocery-item
+                      - var check = "icon-"+ item.recipeIngredient.ingredient.id;
+                      a(data-text=item.recipeIngredient.ingredient.id data-check=check).list-group-item.list-group-item-action.grocery-item
                         span(id=check).d-none
                           i.czi-check.mr-2
-                        span(id=item.id)
-                          | #{item.id}
+                        span(id=item.recipeIngredient.ingredient.id)
+                          - var display = item.recipeIngredient.ingredient.name || item.recipeIngredient.ingredient.id
+                          | #{display}
                         each amt, recipeId in item.amountMap
                           - var cName = 'amt-'+recipeId + " " + recipeId
                           span(class=cName data-amount=amt).badge.badge-accent.ml-2.amount-badge

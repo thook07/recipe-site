@@ -85,17 +85,43 @@ User.prototype.getFavoriteRecipes = async function(){
 }
 
 User.prototype.getGroceryList = async function() {
-    // - First: Get the recipeIds
+    // - Get the Recipe with ALL associations
     const groceryListRecipes = await GroceryListRecipe.findAll({
         where: {
             userId: this.id
+        },
+        include: {
+            all: true,
+            nested: true
         }
     });
-
     const groceryList = new GroceryList([], []);
     const recipes = [];
     const recipeQuantityMap = {};
-    for (const groceryListRecipe of groceryListRecipes) {  
+    for(const groceryListRecipe of groceryListRecipes) {
+        recipeQuantityMap[groceryListRecipe.recipe.id] = groceryListRecipe.quantity;
+        groceryListRecipe.recipe.quantity = groceryListRecipe.quantity;
+        recipes.push(groceryListRecipe.recipe);
+        for(const ri of groceryListRecipe.recipe.recipeIngredients) {
+            if(ri.isRecipe) {
+                //TODO: handle this
+            } else {
+                log.trace('[User] getGroceryList: RecipeIngredient: ' + JSON.stringify(ri));
+                log.trace('[User] getGroceryList: IngredientID: ' + ri.ingredientId);
+                if(ri.ingredientId == null) {
+                    log.warn('[User] getGroceryList: RecipeIngredient has null IngredientId. RecipeIngredient.ID: ['+ri.id+']');
+                    log.warn('[User] getGroceryList: Skipping this RI')
+                } else {
+                    log.trace('[User] getGroceryList: Adding Item: ' + ri.ingredient.name)
+                    groceryList.addRI(ri);                    
+                }
+            }
+        }
+    }
+
+
+
+    /*for (const groceryListRecipe of groceryListRecipes) {  
         ("[User] GroceryListRecipe: " + JSON.stringify(groceryListRecipe));
         const recipe = await Recipe.byId(groceryListRecipe.recipeId);
         recipes.push(recipe);
@@ -117,9 +143,10 @@ User.prototype.getGroceryList = async function() {
             }
         }
         
-    }
+    }*/
     groceryList.recipes = recipes;
     groceryList.recipeQuantityMap = recipeQuantityMap;
+    
     return groceryList;
 }
 

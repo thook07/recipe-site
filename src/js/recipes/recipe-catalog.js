@@ -92,7 +92,7 @@ function updateCart(){
     });
 }
 
-async function addToGroceryList(recipeId, userId, quantity){
+function addToGroceryList(recipeId, userId, quantity){
 
     var data = {
         recipeId: recipeId,
@@ -100,7 +100,7 @@ async function addToGroceryList(recipeId, userId, quantity){
         quantity, quantity
     }
 
-    res = await $.post( '/api/groceryList/add', data, res => {
+    $.post( '/api/groceryList/add', data, res => {
         $('#toast-title').text('Success');
         $('#toast-body').text('Added to List!');
         $('#generic-success-toast').toast('show');

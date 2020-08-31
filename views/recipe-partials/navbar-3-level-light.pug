@@ -87,14 +87,14 @@ header(class=className)
                 small Hello, Sign in
                 | My Account
           if user
-            if user.groceryListItems
+            if user.groceryList
               .navbar-tool.dropdown.ml-3#cart-link
                 a(href='/profile/my-grocery-list').navbar-tool-icon-box.bg-secondary.dropdown-toggle
                   //span.navbar-tool-label #{user.groceryListItems.length}
                   i.navbar-tool-icon.czi-basket
                 a(href='/profile/my-grocery-list').navbar-tool-text
                   small My List
-                  | #{user.groceryListItems.length} recipes
+                  | #{user.groceryList.recipes.length} recipes
 
                 //- cart-dropdown.pug template
                 include cart-dropdown
