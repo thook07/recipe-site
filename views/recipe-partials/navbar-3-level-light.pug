@@ -99,13 +99,10 @@ header(class=className)
                 //- cart-dropdown.pug template
                 include cart-dropdown
           else
-            .navbar-tool.dropdown.ml-3#cart-link
+            .navbar-tool.ml-3#cart-link
               a(href='#signin-modal' data-toggle='modal').navbar-tool-icon-box.bg-secondary.dropdown-toggle
                 span.navbar-tool-label 0
                 i.navbar-tool-icon.czi-basket
-              a(href='#signin-modal' data-toggle='modal').navbar-tool-text
-                small My List
-                | 0 recipes
               
               //- cart-dropdown.pug template
               include cart-dropdown

@@ -6,8 +6,9 @@ append config
   - var isPageTitle = true
   - var isToolbar = true
   - var pageTitle = 'My Favorites'
-  - var parentMenu = 'Account'
-  - var breadcrumbs = [{'title': 'Account', 'link': '#'}, {'title': 'Profile info'}]
+  - var parentMenu = 'Profile'
+  - var breadcrumbs = [{'title': 'Profile', 'link': '/profile'}, {'title': 'My Favorites'}]
+  - var removeOverlap = true
 
 //- Page Content
 block content
@@ -21,7 +22,7 @@ block content
         include recipe-partials/sidebar-account
 
       // Content  
-      section.col-lg-8
+      section.col-lg-8.py-4
 
         // Toolbar
 

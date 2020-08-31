@@ -37,6 +37,10 @@ block content
                   button(type="button").btn.btn-outline-primary#hide-checked
                     | Hide 
                     i.czi-check.ml-2
+              .col
+                a(href="/profile/edit-grocery-list").btn.btn-secondary.float-right
+                  | Edit List
+                  i.czi-sign-in.ml-2
             ul.list-group.mt-4
               .list-group.d-flex.justify-content-between.align-items-center
                 each items, cat in user.groceryList.getItemsByCategory()

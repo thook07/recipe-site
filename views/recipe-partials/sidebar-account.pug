@@ -15,16 +15,31 @@
   .bg-secondary.px-4.py-3
     h3.font-size-sm.mb-0.text-muted Dashboard
   ul.list-unstyled.mb-0
-    li.border-bottom.mb-0
+    li.mb-0
       a(href='/profile/my-recipes')&attributes(pageTitle === 'My Recipes' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
         i.czi-wallet.opacity-60.mr-2
         | My Recipes
         span.font-size-sm.text-muted.ml-auto 1
-    li.mb-0
+    li.border-bottom.mb-0
       a(href='/profile/my-favorites')&attributes(pageTitle === 'My Favorites' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
         i.czi-heart.opacity-60.mr-2
         | My Favorites
-        span.font-size-sm.text-muted.ml-auto 3
+        if user
+          if user.favorites
+            span.font-size-sm.text-muted.ml-auto #{user.favorites.length}
+          else 
+            span.font-size-sm.text-muted.ml-auto 0
+      a(href='/profile/my-grocery-list')&attributes(pageTitle === 'My Grocery List' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        i.czi-basket.opacity-60.mr-2
+        | My Grocery List
+        if user
+          if user.groceryList
+            span.font-size-sm.text-muted.ml-auto #{user.groceryList.recipes.length}
+          else 
+            span.font-size-sm.text-muted.ml-auto 0
+      a(href='/profile/edit-grocery-list')&attributes(pageTitle === 'Edit Grocery List' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        i.czi-edit.opacity-60.mr-2
+        | Edit Grocery List
   .bg-secondary.px-4.py-3
     h3.font-size-sm.mb-0.text-muted Account settings
   ul.list-unstyled.mb-0

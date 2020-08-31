@@ -18,10 +18,20 @@ block content
 
       // List of items
       section.col-lg-12
-
+        a(href='/profile/my-grocery-list').btn.btn-primary.btn-block.btn-shadow.mt-4
+          i.czi-sign-in.font-size-lg.mr-2
+          | View My Grocery List
         // Item
         if user
           if user.groceryList
+            if user.groceryList.recipes.length == 0
+              div#no-results-div.card.text-center
+                .card-body
+                  h5.card-title
+                    | Your List is empty
+                  p.card-text.font-size-sm.text-muted
+                    | Go back to the catalog to add recipes to your list
+                  a.btn.btn-sm.btn-primary(href="/catalog") Go to Catalog
             each recipe in user.groceryList.recipes
               .d-sm-flex.justify-content-between.align-items-center.my-4.pb-3.border-bottom
                 .media.media-ie-fix.d-block.d-sm-flex.align-items-center.text-center.text-sm-left
@@ -49,9 +59,12 @@ block content
                     i.czi-close-circle.mr-2
                     span.font-size-sm Remove
 
-        button(type='button' data-user-id=user.id).btn.btn-outline-accent.btn-block#update-list-btn
-          i.czi-loading.font-size-base.mr-2
-          | Update List
+        if user
+          if user.groceryList
+            if user.groceryList.recipes.length > 0
+              button(type='button' data-user-id=user.id).btn.btn-outline-accent.btn-block#update-list-btn
+                i.czi-loading.font-size-base.mr-2
+                | Update List
 
       // Sidebar
       aside.d-none
