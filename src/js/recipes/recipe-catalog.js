@@ -82,6 +82,10 @@ $(document).ready(function(){
         $('#add-to-cart').modal('show');
     });
 
+    $('#sorting').on('change', function(e) {
+        var sortBy = $(this).val()
+        window.location.replace("/catalog?sort=" + sortBy);
+    });
 });
 
 function updateCart(){

@@ -29,14 +29,14 @@ block content
   section.d-md-flex.justify-content-between.align-items-center.mb-4.pb-2.pt-3
     h1.h2.mb-3.mb-md-0.mr-3 Product catalog
     .d-flex.align-items-center
-      .d-none.d-sm-block.py-2.font-size-sm.text-muted.text-nowrap.mr-2 Sort by:
-      ul.nav.nav-tabs.font-size-sm.mb-0
-        li.nav-item
-          a(id='sort-1' href='#').nav-link.active Name (A-Z)
-        li.nav-item
-          a(id='sort-2' href='#').nav-link Name (Z-A)
-        li.nav-item
-          a(id='sort-3' href='#').nav-link Random
+      .form-inline.flex-nowrap.mr-3.mr-sm-4.pb-3
+        label(for="sorting").text-light.opacity-75.text-nowrap.mr-2.d-none.d-sm-block Sort by:
+        select.form-control.custom-select#sorting
+          option(value="az" selected) A - Z Order
+          option(value="za") Z - A Order
+          option(value="popular") Popularity
+        span.font-size-sm.text-light.opacity-75.text-nowrap.ml-2.d-none.d-md-block
+        | of #{recipes.length} recipes
   
 
   // Product grid

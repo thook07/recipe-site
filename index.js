@@ -479,15 +479,8 @@ async function test(){
         }
     })
     const list = await user.getGroceryList();
-    var map = list.getItemsByCategory()
-    for(test in map){
-        //console.log(map[test])
-        for(var item of map[test]){
-            //console.log(item);
-            console.log(test + ' -> ' + item.recipeIngredient.amount)
-        }
-    }
+    
     
 }
 
-test();
+//test();
