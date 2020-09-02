@@ -170,7 +170,7 @@ app.get('/catalog', async (req, res) => {
         }
     }
 
-    log.trace('[/catalog] Sorting: ' + sortBy);
+    log.debug('[/catalog] Sorting: ' + sortBy);
     
 
     finalRecipes.sort((a,b) => {
@@ -215,6 +215,7 @@ app.get('/catalog', async (req, res) => {
     log.trace('[/catalog] Showing Catalog Page ['+recipes.length+']');
 
     res.render('index-new', {
+        sortBy: sortBy,
         recipes: finalRecipes,
         tags: tags,
         user: user,
@@ -269,7 +270,7 @@ app.get('/recipe/:recipe', async (req, res) => {
 app.use('/account', require('./routes/account'));
 
 // -- Administrative Routes
-app.use('/admin', require('./routes/admin'));
+app.use('/admin', require('./routes/admin')(db));
 
 // -- API Routes
 app.use('/api', require('./routes/api'));

@@ -5,15 +5,80 @@ const tags = require('../tags.json');
 const framework = require('../framework')
 const Recipe = require('../models/Recipe')
 const RecipeIngredient = require('../models/RecipeIngredient')
+const RecipePageVisit = require('../models/RecipePageVisit')
+const Ingredient = require('../models/Ingredient')
+const IngredientCategory = require('../models/IngredientCategory')
+const Tag = require('../models/Tag')
 const authZ = require('../config/authorization');
 
+module.exports = function(sequelize){
+
 // -- Administrative Stuff
-router.get("/", (req, res) => {
-    authZ.protected(req,res);
-    res.render("admin/admin.pug", {
-        user: req.user
+router.get("/", async (req, res) => {
+    log.trace('[/admin] Building Dashboard...');
+    //authZ.protected(req,res);
+    const { Op, QueryTypes} = require("sequelize");
+
+    var recipeCount = await Recipe.count();
+    var riCount = await RecipeIngredient.count();
+    var ingredientCount = await Ingredient.count();
+    var tagCount = await Tag.count();
+    var pendingRecipes = await Recipe.count({ where: {approved: false} })
+    var noNameIngredients = await Ingredient.count({ where: {name: { [Op.is]: null}}})
+    var percentNoName = (noNameIngredients / ingredientCount * 100).toFixed(2) + '%'
+    var totalViews = await RecipePageVisit.count();
+
+    var top10Recipes = await sequelize.query(`
+        SELECT r.*, count(rpv.id) as viewCount FROM recipes r 
+        JOIN recipePageVisits rpv on r.id = rpv.recipeId  GROUP BY r.id
+        ORDER BY viewCount desc
+        LIMIT 10
+        `,
+        {
+          type: QueryTypes.SELECT
+        });
+    
+    var data = {
+        recipeCount,
+        riCount,
+        ingredientCount,
+        tagCount,
+        pendingRecipes,
+        noNameIngredients,
+        percentNoName,
+        top10Recipes,
+        totalViews
+    }
+
+    res.render("admin/admin-dashboard.pug", {
+        user: req.user,
+        data: data
     });
 });
+
+router.get('/ingredients', async (req, res) => {
+
+    var q = req.query.q || '';
+
+    const { Op } = require("sequelize");
+    const ingredients = await Ingredient.findAll({
+        where: {
+            [Op.or]: [
+                { id: {[Op.like] : '%'+q+'%' }}, 
+                { name: {[Op.like] : '%'+q+'%' }}, 
+                { categoryId: {[Op.like] : '%'+q+'%' }}, 
+            ]
+        }
+    })
+    const categories = await IngredientCategory.findAll();
+
+    res.render("admin/ingredients", {
+        user: req.user,
+        ingredients,
+        categories,
+        q
+    });
+})
 
 router.get('/add', (req, res) => {
     authZ.protected(req,res);
@@ -26,6 +91,7 @@ router.get('/add-recipe', (req, res) => {
     var meals = tags[1];
     var cats = tags[2];
     var cooks = tags[4];
+    
 
     res.render('admin/admin-add-recipe', {
         tags: tags,
@@ -274,5 +340,5 @@ router.get('/admin/:action', (req, res) => {
 });*/
 
 
-module.exports = router;
-
+    return router;
+}

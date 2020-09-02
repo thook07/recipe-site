@@ -2,8 +2,8 @@
 var dateFormat  = require('dateformat');
 var os          = require('os');
 
-var level = "debug";
-var showSQL = false;
+var level = "trace";
+var showSQL = true;
 
 exports.trace = function(msg, line) {
     if(showSQL == false) {

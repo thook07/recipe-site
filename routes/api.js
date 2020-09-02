@@ -328,6 +328,30 @@ router.get('/ingredients', async (req, res) => {
     });
 });
 
+router.post('/ingredient/update', async (req, res) => {
+    log.debug('[/api/ingredient/update] Entering.')
+    const ingRequest = req.body.ingredient;
+    log.trace('[/api/ingredient/update] Ingredient Requested:' + JSON.stringify(ingRequest));
+    try {
+        log.debug('[/api/ingredient/update] Updating Ingredient with id: ' + ingRequest.id);
+        const ingredient = await Ingredient.update({ name: ingRequest.name, categoryId: ingRequest.categoryId }, {
+            where: {
+                id: ingRequest.id
+            }
+        });
+        log.debug('[/api/ingredient/update] Updated!');
+        
+        res.status(200);
+        res.send("Success");
+    } catch(err) {
+        console.log(err);
+        log.error(JSON.stringify(err))
+        res.status(400);
+        res.send(err);
+    }
+    
+});
+
 router.get('/tags/', async (req, res) => {
     const tags = await Tag.findAll();
     // Compile the source code

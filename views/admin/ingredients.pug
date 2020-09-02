@@ -1,0 +1,93 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+	- var isPageTitle = false
+	- var pageTitle = 'Ingredients'
+	- var parentMenu = 'Account'
+	- var navbarTemplate = 'navbar-marketplace'
+	- var footerTemplate = 'footer-marketplace'
+	- var isFileUploadScript = true
+	- var isCardScript = false
+	- var isChartScript = true 
+	- var isCodeHighlighting = true 
+append scripts
+	script(src='/js/recipes/admin-ingredients.js')
+
+//- Page Content
+block content
+
+	//- dashboard-header.pug template
+	//include partials/dashboard-header
+
+	.mb-5.pb-3
+		.box-shadow-lg.rounded-lg.overflow-hidden
+			.row
+
+				// Sidebar
+				aside.col-lg-2
+					//- sidebar-dashboard.pug template
+					include ../recipe-partials/sidebar-admin
+
+				// Content
+				section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+					.row.p-1.pt-3
+						.col-lg-8
+								h3 #{pageTitle}
+						.col-lg-4.d-flex.justify-content-end
+								input(type="text", id="q", placeholder="Filter..." value=q).form-control.ml-2
+								button(type="button").btn.btn-primary.btn-icon.ml-2#filterBtn
+										i.czi-rocket.mr-2
+										| Go
+					.row
+						.col-lg-12.p-1
+							.table-responsive
+								table.table.bg-light
+									thead
+									tr
+										th id
+										th name
+										th categoryId
+										th actions
+									tbody
+									each ing in ingredients
+										tr
+											td #{ing.id}
+											td #{ing.name}
+											td #{ing.categoryId}
+											td 
+												button(type="button" data-id=ing.id data-name=ing.name data-catId=ing.categoryId).btn.btn-primary.btn-icon.ml-2.editBtn
+													i.czi-edit.mr-2
+													| Edit
+														
+
+	#update-modal.modal-quick-view.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h4.modal-title.product-title
+						a
+							| Update Ingredient
+							i.czi-arrow-right.font-size-lg.ml-2
+					button(type='button' class='close' data-dismiss='modal' aria-label='Close')
+						span(aria-hidden='true') &times;
+				.modal-body
+					.row.justify-content-center
+						.col-lg-10.pr-lg-0
+							.form-group
+								label(for="text-input") ID
+								input(type="text", name='id' id="text-id" readonly).form-control
+							.form-group
+								label(for="search-input") Name
+								input(type="search", name='name' id="text-name").form-control
+							.form-group
+								label(for="select-input") Category
+								select(id="text-category" name='category').form-control.custom-select
+									each cat in categories
+										option(value=cat.id) #{cat.name}
+							button().btn.btn-primary.btn-block#update-ingredient-btn.mt-4
+								i.czi-loading.font-size-base.mr-2
+								| Update Ingredient
+
+				 
+	include ../recipe-partials/toast-generic-success

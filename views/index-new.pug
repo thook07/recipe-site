@@ -30,12 +30,12 @@ block content
     h1.h2.mb-3.mb-md-0.mr-3 Product catalog
     .d-flex.align-items-center
       .form-inline.flex-nowrap.mr-3.mr-sm-4.pb-3
-        label(for="sorting").text-light.opacity-75.text-nowrap.mr-2.d-none.d-sm-block Sort by:
+        label(for="sorting").opacity-75.text-nowrap.mr-2 Sort by:
         select.form-control.custom-select#sorting
-          option(value="az" selected) A - Z Order
-          option(value="za") Z - A Order
-          option(value="popular") Popularity
-        span.font-size-sm.text-light.opacity-75.text-nowrap.ml-2.d-none.d-md-block
+          option(value="az" selected=(sortBy === 'az' ? 'selected': undefined)) A - Z Order
+          option(value="za" selected=(sortBy === 'za' ? 'selected': undefined)) Z - A Order
+          option(value="popular" selected=(sortBy === 'popular' ? 'selected': undefined)) Popularity
+        span.font-size-sm.opacity-75.text-nowrap.ml-2
         | of #{recipes.length} recipes
   
 

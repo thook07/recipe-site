@@ -1,0 +1,119 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+  - var isPageTitle = false
+  - var pageTitle = 'Admin Dashboard'
+  - var parentMenu = 'Account'
+  - var navbarTemplate = 'navbar-marketplace'
+  - var footerTemplate = 'footer-marketplace'
+  - var isFileUploadScript = true
+  - var isCardScript = false
+  - var isChartScript = true 
+  - var isCodeHighlighting = true 
+
+//- Page Content
+block content
+
+  //- dashboard-header.pug template
+  //include partials/dashboard-header
+
+  .mb-5.pb-3
+    .box-shadow-lg.rounded-lg.overflow-hidden
+      .row
+
+        // Sidebar
+        aside.col-lg-2
+          //- sidebar-dashboard.pug template
+          include ../recipe-partials/sidebar-admin
+
+        // Content
+        section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+          .row.p-1.pt-3
+            h3 #{pageTitle}
+          .row
+            .col-lg-3.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.recipeCount}
+                    p.card-text.font-size-sm.text-muted
+                      | Total Recipes
+            .col-lg-3.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.riCount}
+                    p.card-text.font-size-sm.text-muted
+                      | Recipe Ingredients
+            .col-lg-3.p-1
+              .card.text-center
+                a(href="/admin/ingredients")
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.ingredientCount}
+                    p.card-text.font-size-sm.text-muted
+                      | Ingredients
+            .col-lg-3.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.tagCount}
+                    p.card-text.font-size-sm.text-muted
+                      | Tags
+          .row
+            .col-lg-3.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.pendingRecipes}
+                    p.card-text.font-size-sm.text-muted
+                      | Pending Approval
+            .col-lg-3.p-1
+              .card.text-center
+                a(href="/admin/ingredients")
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.noNameIngredients}
+                    p.card-text.font-size-sm.text-muted
+                      | No Name Ingredient
+            .col-lg-3.p-1
+              .card.text-center
+                a(href="/admin/ingredients")
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.percentNoName}
+                    p.card-text.font-size-sm.text-muted
+                      i.czi-percent.text-muted.mr-2
+                      | No Name Ingredient %
+            .col-lg-3.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.totalViews}
+                    p.card-text.font-size-sm.text-muted
+                      i.czi-eye.text-muted.mr-2
+                      | Total Recipe Views
+            // 5 stars
+            .col-lg-12.p-1
+              .card
+                .card-body
+                  h5.card-title
+                    | Top 10 - Most Popular
+                  each recipe in data.top10Recipes
+                    .d-flex.align-items-center.mb-2
+                      .text-nowrap.mr-3
+                        span.d-inline-block.align-middle #{recipe.name}
+                        i.czi-star-filled.font-size-xs.ml-1
+                      .w-100
+                        .progress(style="height: 4px;")
+                          .progress-bar.bg-success(role="progressbar", style="width: 100%;", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100")
+                      span.text-muted.ml-3 #{recipe.viewCount}
+
+                      
+  include ../recipe-partials/toast-generic-success

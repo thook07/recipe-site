@@ -1,0 +1,52 @@
+//- Include config.pug file that holds all variables
+block config
+  include ../helpers/config
+
+//- Mixins - reusable code snippets
+include ../helpers/mixins
+
+doctype html
+html(lang="en")
+
+  //- head.pug template
+  include head 
+  
+  // Body
+  body(style="background: #f1f4f6")&attributes(isToolbar ? {'class': 'toolbar-enabled'} : '')
+      
+    //- modal-signin.pug template
+    include modal-signin
+      
+
+    //- navbar-{name}.pug template
+    include navbar-3-level-light
+
+    //- page-title-{version}.pug template
+    //include page-title-shop
+  
+    // Page Content
+    block content
+
+    //- footer-{version}.pug template
+    //include footer-light
+
+  include toast-generic-success
+    // Back To Top Button
+    a(href='#top' data-scroll).btn-scroll-top
+      span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top
+      i.btn-scroll-top-icon.czi-arrow-up    
+    
+    // JavaScript libraries, plugins and custom scripts
+    script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': '/js/vendor.min.js'})
+    if isCardScript
+      script()&attributes(isNestedFile ? {'src': '../js/card.min.js'} : {'src': '/js/card.min.js'})
+      script.
+        new Card({
+            form: document.querySelector('.interactive-credit-card'),
+            container: '.card-wrapper'
+        });
+    if isChartScript
+      script()&attributes(isNestedFile ? {'src': '../js/chartist.min.js'} : {'src': '/js/chartist.min.js'})
+    if isCodeHighlighting
+      script()&attributes(isNestedFile ? {'src': '../js/prism.min.js'} : {'src': '/js/prism.min.js'})
+    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/theme.min.js'})
