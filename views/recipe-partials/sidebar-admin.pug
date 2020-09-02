@@ -18,11 +18,11 @@
           | Dashboard
           //span.font-size-sm.text-muted.ml-auto 4
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Purchases' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        a()&attributes(pageTitle === 'Recipes' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-basket.opacity-60.mr-2
           | Recipes
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Favorites' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        a(href='/admin/recipe-ingredients')&attributes(pageTitle === 'Recipe Ingredients' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-bread.opacity-60.mr-2
           | Recipe Ingredients
       li.border-bottom.mb-0
@@ -33,6 +33,13 @@
         a()&attributes(pageTitle === 'Favorites' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-heart.opacity-60.mr-2
           | Tags
+    .bg-secondary.p-3
+      h3.font-size-md.mb-0.text-muted Approvals
+    ul.list-unstyled.mb-0
+      li.border-bottom.mb-0
+        a()&attributes(pageTitle === 'Sales' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-dollar.opacity-60.mr-2
+          | Pending Recipes
     .bg-secondary.p-3
       h3.font-size-md.mb-0.text-muted Create, Update, Delete
     ul.list-unstyled.mb-0

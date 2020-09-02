@@ -45,10 +45,10 @@ block content
 								table.table.bg-light
 									thead
 									tr
-										th id
-										th name
-										th categoryId
-										th actions
+										th ID
+										th Name
+										th Category
+										th Actions
 									tbody
 									each ing in ingredients
 										tr
@@ -56,9 +56,11 @@ block content
 											td #{ing.name}
 											td #{ing.categoryId}
 											td 
-												button(type="button" data-id=ing.id data-name=ing.name data-catId=ing.categoryId).btn.btn-primary.btn-icon.ml-2.editBtn
-													i.czi-edit.mr-2
-													| Edit
+												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Ingredient" data-id=ing.id data-name=ing.name data-catId=ing.categoryId).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+													i.czi-edit
+												- var href='/admin/recipe-ingredients?i='+ing.id
+												a(data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients" href=href).btn.btn-outline-primary.btn-icon.mr-2
+													i.czi-sign-in
 														
 
 	#update-modal.modal-quick-view.modal.fade(tabindex='-1')

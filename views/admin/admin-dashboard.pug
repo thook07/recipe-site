@@ -42,7 +42,7 @@ block content
                       | Total Recipes
             .col-lg-3.p-1
               .card.text-center
-                a()
+                a(href='/admin/recipe-ingredients')
                   .card-body
                     h1.display-4.card-title
                       | #{data.riCount}
@@ -75,21 +75,21 @@ block content
                       | Pending Approval
             .col-lg-3.p-1
               .card.text-center
-                a(href="/admin/ingredients")
+                a(href="/admin/ingredients?issues=true")
                   .card-body
                     h1.display-4.card-title
-                      | #{data.noNameIngredients}
+                      | #{data.noNameIngredients} 
                     p.card-text.font-size-sm.text-muted
-                      | No Name Ingredient
+                      | No Name Ingredient (#{data.percentNoName})
             .col-lg-3.p-1
               .card.text-center
-                a(href="/admin/ingredients")
+                a(href="/admin/recipe-ingredients?issues=true")
                   .card-body
                     h1.display-4.card-title
-                      | #{data.percentNoName}
+                      | #{data.recipeIngIssues}
                     p.card-text.font-size-sm.text-muted
-                      i.czi-percent.text-muted.mr-2
-                      | No Name Ingredient %
+                      i.czi-security-close.text-muted.mr-2
+                      | Recipe Ingredients issues
             .col-lg-3.p-1
               .card.text-center
                 a()
@@ -100,7 +100,7 @@ block content
                       i.czi-eye.text-muted.mr-2
                       | Total Recipe Views
             // 5 stars
-            .col-lg-12.p-1
+            .col-lg-4.p-1
               .card
                 .card-body
                   h5.card-title
@@ -114,6 +114,23 @@ block content
                         .progress(style="height: 4px;")
                           .progress-bar.bg-success(role="progressbar", style="width: 100%;", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100")
                       span.text-muted.ml-3 #{recipe.viewCount}
-
+            .col-lg-4.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.totalUsers}
+                    p.card-text.font-size-sm.text-muted
+                      i.czi-eye.text-muted.mr-2
+                      | Total Users
+            .col-lg-4.p-1
+              .card.text-center
+                a()
+                  .card-body
+                    h1.display-4.card-title
+                      | #{data.totalAdmins}
+                    p.card-text.font-size-sm.text-muted
+                      i.czi-eye.text-muted.mr-2
+                      | Total Admins
                       
   include ../recipe-partials/toast-generic-success

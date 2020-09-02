@@ -320,6 +320,36 @@ router.get('/recipe-ingredients', async (req, res) => {
     });
 });
 
+router.post('/recipe-ingredient/update', async(req, res) => {
+log.debug('[/api/recipe-ingredient/update] Entering.')
+    const riRequest = req.body.recipeIngredient;
+    log.trace('[/api/recipe-ingredient/update] Recipe Ingredient Requested:' + JSON.stringify(riRequest));
+    try {
+        log.debug('[/api/recipe-ingredient/update] Updating Recipe Ingredient with id: ' + riRequest.id);
+        const ri = await RecipeIngredient.update({ 
+            amount: riRequest.amount, 
+            ingredientDescription: riRequest.ingredientDescription, 
+            recipeId: riRequest.recipeId, 
+            ingredientId: riRequest.ingredientId, 
+            isRecipe: riRequest.isRecipe
+        }, {
+            where: {
+                id: riRequest.id
+            }
+        });
+        log.debug('[/api/recipe-ingredient/update] Updated!');
+        
+        res.status(200);
+        res.send("Success");
+    } catch(err) {
+        console.log(err);
+        log.error(JSON.stringify(err))
+        res.status(400);
+        res.send(err);
+    }
+});
+
+
 router.get('/ingredients', async (req, res) => {
     const ingredients = await Ingredient.findAll();
     // Compile the source code

@@ -3,6 +3,7 @@ const router = express.Router();
 const log = require('../config/logger')
 const tags = require('../tags.json');
 const framework = require('../framework')
+const User = require('../models/User')
 const Recipe = require('../models/Recipe')
 const RecipeIngredient = require('../models/RecipeIngredient')
 const RecipePageVisit = require('../models/RecipePageVisit')
@@ -25,8 +26,12 @@ router.get("/", async (req, res) => {
     var tagCount = await Tag.count();
     var pendingRecipes = await Recipe.count({ where: {approved: false} })
     var noNameIngredients = await Ingredient.count({ where: {name: { [Op.is]: null}}})
+    var recipeIngIssues = await RecipeIngredient.count({ where: {ingredientId: { [Op.is]: null}}})
     var percentNoName = (noNameIngredients / ingredientCount * 100).toFixed(2) + '%'
     var totalViews = await RecipePageVisit.count();
+    var totalUsers = await User.count();
+    var totalAdmins = await User.count({ where: {role: "Admin"}});
+
 
     var top10Recipes = await sequelize.query(`
         SELECT r.*, count(rpv.id) as viewCount FROM recipes r 
@@ -47,7 +52,10 @@ router.get("/", async (req, res) => {
         noNameIngredients,
         percentNoName,
         top10Recipes,
-        totalViews
+        totalViews,
+        totalUsers,
+        totalAdmins,
+        recipeIngIssues
     }
 
     res.render("admin/admin-dashboard.pug", {
@@ -56,20 +64,58 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get('/recipes', async (req, res) => {
+
+    var q = req.query.q || '';
+    var issues = req.query.issues || false;
+
+    const { Op } = require("sequelize");
+    var recipes = []
+    if(q != '' ) {
+        recipes = await Recipe.findAll({
+            where: {
+                [Op.or]: [
+                    { id: {[Op.like] : '%'+q+'%' }}, 
+                    { name: {[Op.like] : '%'+q+'%' }}, 
+                    { attAuthor: {[Op.like] : '%'+q+'%' }}, 
+                ]
+            }
+        })
+    } else if(issues == 'true') {
+        recipes = await Recipe.findAll({ where: {name: { [Op.is]: null}}});
+    } else {
+        recipes = await Recipe.findAll({ limit: 100});
+    }
+    
+    res.render("admin/recipes", {
+        user: req.user,
+        recipes,
+        q
+    });
+});
+
 router.get('/ingredients', async (req, res) => {
 
     var q = req.query.q || '';
+    var issues = req.query.issues || false;
 
     const { Op } = require("sequelize");
-    const ingredients = await Ingredient.findAll({
-        where: {
-            [Op.or]: [
-                { id: {[Op.like] : '%'+q+'%' }}, 
-                { name: {[Op.like] : '%'+q+'%' }}, 
-                { categoryId: {[Op.like] : '%'+q+'%' }}, 
-            ]
-        }
-    })
+    var ingredients = []
+    if(q != '' ) {
+        ingredients = await Ingredient.findAll({
+            where: {
+                [Op.or]: [
+                    { id: {[Op.like] : '%'+q+'%' }}, 
+                    { name: {[Op.like] : '%'+q+'%' }}, 
+                    { categoryId: {[Op.like] : '%'+q+'%' }}, 
+                ]
+            }
+        })
+    } else if(issues == 'true') {
+        ingredients = await Ingredient.findAll({ where: {name: { [Op.is]: null}}});
+    } else {
+        ingredients = await Ingredient.findAll({ limit: 100});
+    }
     const categories = await IngredientCategory.findAll();
 
     res.render("admin/ingredients", {
@@ -77,6 +123,66 @@ router.get('/ingredients', async (req, res) => {
         ingredients,
         categories,
         q
+    });
+});
+
+router.get('/recipe-ingredients', async (req, res) => {
+
+    var q = req.query.q || '';
+    var i = req.query.i || '';
+    var r = req.query.r || '';
+    var issues = req.query.issues || false;
+    var queryDisplay;
+
+    const { Op } = require("sequelize") 
+    var ris = [];
+    if( q != '') {
+        queryDisplay = 'Filter: ' + q
+        ris = await RecipeIngredient.findAll({
+            where: {
+                [Op.or]: [
+                    { id: {[Op.like] : '%'+q+'%' }}, 
+                    { ingredientDescription: {[Op.like] : '%'+q+'%' }}, 
+                    { ingredientId: {[Op.like] : '%'+q+'%' }}, 
+                ]
+            }
+        })
+    } else if( i != '') {
+        queryDisplay = 'Ingredient: ' + i
+        ris = await RecipeIngredient.findAll({
+            where: {
+                ingredientId: i
+            }
+        });
+    } else if( r != '') {
+        queryDisplay = 'Recipe: ' + r
+        ris = await RecipeIngredient.findAll({
+            where: {
+                recipeId: r
+            }
+        });
+    } else if( issues == "true") {
+        queryDisplay = 'Showing Recipe Ingredients with Issues'
+        ris = await RecipeIngredient.findAll({ where: {ingredientId: { [Op.is]: null}}});
+    } else {
+        ris = await RecipeIngredient.findAll({ limit: 100 });
+    }
+
+    const recipes = await Recipe.findAll({attributes: ['id', 'name']});
+    const ingredients = await Ingredient.findAll({attributes: ['id', 'name']});
+
+    
+    
+    
+    res.render("admin/recipe-ingredients", {
+        user: req.user,
+        ris,
+        recipes,
+        ingredients,
+        queryDisplay,
+        q,
+        i,
+        r
     });
 })
 

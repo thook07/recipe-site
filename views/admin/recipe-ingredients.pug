@@ -1,0 +1,128 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+	- var isPageTitle = false
+	- var pageTitle = 'Recipe Ingredients'
+	- var parentMenu = 'Account'
+	- var navbarTemplate = 'navbar-marketplace'
+	- var footerTemplate = 'footer-marketplace'
+	- var isFileUploadScript = true
+	- var isCardScript = false
+	- var isChartScript = true 
+	- var isCodeHighlighting = true 
+append scripts
+	script(src='/js/recipes/admin-recipe-ingredients.js')
+
+//- Page Content
+block content
+
+	//- dashboard-header.pug template
+	//include partials/dashboard-header
+
+	.mb-5.pb-3
+		.box-shadow-lg.rounded-lg.overflow-hidden
+			.row
+
+				// Sidebar
+				aside.col-lg-2
+					//- sidebar-dashboard.pug template
+					include ../recipe-partials/sidebar-admin
+
+				// Content
+				section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+					.row.p-1.pt-3
+						.col-lg-4
+								h3 #{pageTitle}
+						.col-lg-8.d-flex.justify-content-end
+								select(id="select-ingredient-id" name='ingredientId').form-control.custom-select
+									option Select Ingredient...
+									each ingredient in ingredients
+										option(value=ingredient.id) #{ingredient.name || ingredient.id}
+								select(id="select-recipe-id" name='recipeId').form-control.custom-select.ml-2
+									option Select Recipe...
+									each recipe in recipes
+										option(value=recipe.id) #{recipe.name}
+								input(type="text", id="q", placeholder="Filter..." value=q).form-control.ml-2
+								button(type="button").btn.btn-primary.btn-icon.ml-2#filterBtn
+										i.czi-rocket.mr-2
+										| Go
+					if queryDisplay 
+						.row
+							.col-lg-12.p-1
+								| #{queryDisplay}
+					.row
+						.col-lg-12.p-1
+							.table-responsive
+								table.table.bg-light
+									thead
+									tr
+										th 
+										th ID
+										th Desc
+										th Amt
+										th Recipe
+										th Ingredient
+										th Actions
+									tbody
+									each ri in ris
+										tr
+											td 
+												if(ri.isRecipe)
+													button(type="button", class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title="This is nested recipe").p-1
+														i.czi-basket.alt.font-size-lg
+											td #{ri.id}
+											td #{ri.ingredientDescription}
+											td #{ri.amount}
+											td #{ri.recipeId}
+											td #{ri.ingredientId}
+											td 
+												button(type="button" data-ri=JSON.stringify(ri)).btn.btn-primary.btn-icon.ml-2.editBtn
+													i.czi-edit.mr-2
+													| Edit
+														
+
+	#update-modal.modal-quick-view.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h4.modal-title.product-title
+						a
+							| Update Recipe Ingredient 
+							i.czi-arrow-right.font-size-lg.ml-2
+					button(type='button' class='close' data-dismiss='modal' aria-label='Close')
+						span(aria-hidden='true') &times;
+				.modal-body
+					.row.justify-content-center
+						.col-lg-10.pr-lg-0
+							.form-group
+								label(for="text-input") ID
+								input(type="text", name='id' id="text-id" readonly).form-control
+							.form-group
+								label(for="amount") Amount
+								input(type="search", name='amount' id="text-amount").form-control
+							.form-group
+								label(for="ingredientDescription") Ingredient Description
+								input(type="search", name='ingredientDescription' id="text-ingredientDescription").form-control
+							.form-group
+								label(for="recipeId") RecipeId
+								select(id="text-recipeId" name='recipeId').form-control.custom-select
+									each recipe in recipes
+										option(value=recipe.id) #{recipe.name}
+							.form-group
+								label(for="ingredientId") IngredientId
+								select(id="text-ingredientId" name='ingredientId').form-control.custom-select
+									option Select Ingredient...
+									each ingredient in ingredients
+										option(value=ingredient.id) #{ingredient.name || ingredient.id}
+							.form-group
+								label(for="isRecipe") Is Recipe?
+								select(id="text-isRecipe" name='isRecipe').form-control.custom-select
+									option(value=1) True
+									option(value=0) False
+							button().btn.btn-primary.btn-block#update-btn.mt-4
+								i.czi-loading.font-size-base.mr-2
+								| Update Recipe Ingredient
+
+				 
+	include ../recipe-partials/toast-generic-success
