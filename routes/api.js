@@ -223,29 +223,64 @@ router.post('/recipes/add', async (req, res) => {
     }
     
 });
-
+    
 router.post('/recipes/:recipe/update', async (req, res) => {
-    log.trace('POST [api/recipes/recipe:/update] Entering: ' + req.params.recipe)
+    log.debug('POST [api/recipes/recipe:/update] Entering: ' + req.params.recipe);
     var recipeId = req.params.recipe;
-    console.log(req.body);
+    log.debug('[api/recipes/'+recipeId+'/update] Grabbing attributes...')
     var attMap = req.body.attributes;
-    log.trace('Searching for ' + recipeId);
+    log.trace('[api/recipes/'+recipeId+'/update] Attributes: ' + JSON.stringify(attMap));
+    log.debug('[api/recipes/'+recipeId+'/update] Searching for ' + recipeId);
     recipe = await Recipe.byId(recipeId)
     if(recipe) {
-        log.trace('Found ['+recipeId+']. Update attributes.');
-        log.trace(JSON.stringify(attMap));
+        log.debug('[api/recipes/'+recipeId+'/update] Found ['+recipeId+']. Update attributes.');
         for(var key in attMap){
+            if(key == 'recipeIngredients') {
+                continue;
+            }
             recipe[key] = attMap[key];
         }
-        log.debug('Updating Recipe ['+recipeId+']!')
+        log.debug('[api/recipes/'+recipeId+'/update] Updating Recipe ['+recipeId+']!')
         try {
             await recipe.save();
-            res.status(200).send('Successfully updated '+recipeId);
+            log.debug('[api/recipes/'+recipeId+'/update] Successfully saved Recipe. Checking to see if recipe Ingredients need to be updated.')
+            if(attMap['recipeIngredients'] != undefined) {
+                log.debug('[api/recipes/'+recipeId+'/update] Updating Recipe Ingredients as well.')
+                for(const ri of attMap['recipeIngredients']) {
+                    log.trace('[api/recipes/'+recipeId+'/update] ' + JSON.stringify(ri));
+                    if(ri.id == undefined && (ri.amount != undefined || ri.ingredientDescription != undefined)) {
+                        log.trace('[api/recipes/'+recipeId+'/update] Recipe Ingredient request with no id. Inserting new Recipe Ingredient');
+                        var newRi = await RecipeIngredient.create({ 
+                            amount: ri.amount, 
+                            ingredientDescription: ri.ingredientDescription,
+                            recipeId: recipeId
+                        });
+                        log.debug("api/recipes/'+recipeId+'/update] Success. auto-generated ID:" + newRi.id);
+                    } else {
+                        log.trace('[api/recipes/'+recipeId+'/update] Updating Recipe Ingredient with id: ' + ri.id);
+                        await RecipeIngredient.update({ 
+                            amount: ri.amount ,
+                            ingredientDescription: ri.ingredientDescription
+                        }, {
+                            where: {
+                                id: ri.id
+                            }
+                        });
+                    }
+                }
+            }
+
+            res.status(200).send('[api/recipes/'+recipeId+'/update] Successfully updated '+recipeId);
         } catch(err) {
+            log.error(JSON.stringify(err))
             res.status(500).send(err)
         }
+
+        
+
+
     } else {
-        res.status(404).send('Recipe with id '+recipeId+' not found')
+        res.status(404).send('[api/recipes/'+recipeId+'/update] Recipe with id '+recipeId+' not found')
     }
 });
 

@@ -81,12 +81,7 @@ const { Op } = require('sequelize');
 
 Recipe.byId = async function byId(id) {
     log.trace('[RECIPE] Entering Recipe.byId ['+id+']')
-    const recipe = await Recipe.findByPk(id);
-    log.trace('[RECIPE] Got recipe. Grabbing Tags');
-    recipe.tags = await recipe.getTags();
-    log.trace('[RECIPE] Got Tags grabbing RecipeInredients.');
-    recipe.recipeIngredients = await recipe.getRecipeIngredients();
-    log.trace('[RECIPE] Got Recipe Ingredients. Grabbing any nested recipes');
+    const recipe = await Recipe.findByPk(id, { include: [Tag, RecipeIngredient]});
     recipe.nestedRecipes = await recipe.getNestedRecipes();
     log.trace('[RECIPE] Done');
     return recipe;

@@ -67,6 +67,7 @@ router.get("/", async (req, res) => {
 router.get('/recipes', async (req, res) => {
 
     var q = req.query.q || '';
+    var r = req.query.r || '';
     var issues = req.query.issues || false;
 
     const { Op } = require("sequelize");
@@ -79,12 +80,15 @@ router.get('/recipes', async (req, res) => {
                     { name: {[Op.like] : '%'+q+'%' }}, 
                     { attAuthor: {[Op.like] : '%'+q+'%' }}, 
                 ]
-            }
+            },
+            include: [RecipeIngredient, Tag]
         })
+    } else if(r != '' ) {
+        recipes = await Recipe.findAll({ where: {id: r}, include: [RecipeIngredient, Tag] });
     } else if(issues == 'true') {
-        recipes = await Recipe.findAll({ where: {name: { [Op.is]: null}}});
+        recipes = await Recipe.findAll({ where: {name: { [Op.is]: null}},include: [RecipeIngredient, Tag] });
     } else {
-        recipes = await Recipe.findAll({ limit: 100});
+        recipes = await Recipe.findAll({ limit: 100, include: [RecipeIngredient, Tag] });
     }
     
     res.render("admin/recipes", {
