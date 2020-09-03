@@ -26,7 +26,7 @@ $(document).ready(function(){
             $("#text-notes").val(convertToCSV(data.notes, false));
         }
         if( data.images ) {
-            $("#text-images").attr('rows',data.notes.length);
+            $("#text-images").attr('rows',data.images.length);
             $("#text-images").val(convertToCSV(data.images, false));
         }
         $("#text-author").val(data.attAuthor)
@@ -63,6 +63,30 @@ $(document).ready(function(){
         });
     })
     
+    $('.inactivateBtn').on('click', function() {
+        var recipeId = $(this).attr('data-recipe-id');
+        var recipeName = $(this).attr('data-recipe-name');
+        $('#yesNoRecipeName').html(recipeName);
+        $('#inactivateBtnApproved').attr('data-recipe-id',recipeId);
+
+        $('#yes-no-modal').modal('show');
+    });
+
+    $('#inactivateBtnApproved').on('click', function() {
+        var recipeId = $(this).attr('data-recipe-id');
+        var data = {
+            attributes: {
+                approved: 0
+            }
+        }
+        $.post('/api/recipes/'+recipeId+'/update', data, res => {
+            $('#yes-no-modal').modal('hide');
+            location.reload();
+        }).fail(err => {
+            console.log(err);
+        });
+    });
+
 });
 
 function convertToCSV(arr, isRi) {

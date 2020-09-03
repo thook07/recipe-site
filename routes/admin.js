@@ -91,8 +91,10 @@ router.get('/recipes', async (req, res) => {
         recipes = await Recipe.findAll({ limit: 100, include: [RecipeIngredient, Tag] });
     }
     
+    var pendingRecipes = await Recipe.count({ where: {approved: false} })
     res.render("admin/recipes", {
         user: req.user,
+        pendingRecipes,
         recipes,
         q
     });
@@ -122,8 +124,10 @@ router.get('/ingredients', async (req, res) => {
     }
     const categories = await IngredientCategory.findAll();
 
+    var pendingRecipes = await Recipe.count({ where: {approved: false} })
     res.render("admin/ingredients", {
         user: req.user,
+        pendingRecipes,
         ingredients,
         categories,
         q
@@ -178,8 +182,10 @@ router.get('/recipe-ingredients', async (req, res) => {
     
     
     
+    var pendingRecipes = await Recipe.count({ where: {approved: false} })
     res.render("admin/recipe-ingredients", {
         user: req.user,
+        pendingRecipes,
         ris,
         recipes,
         ingredients,

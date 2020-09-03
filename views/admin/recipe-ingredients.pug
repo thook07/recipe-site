@@ -77,9 +77,8 @@ block content
 											td #{ri.recipeId}
 											td #{ri.ingredientId}
 											td 
-												button(type="button" data-ri=JSON.stringify(ri)).btn.btn-primary.btn-icon.ml-2.editBtn
-													i.czi-edit.mr-2
-													| Edit
+												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Recipe Ingredient" data-ri=JSON.stringify(ri)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+													i.czi-edit
 														
 
 	#update-modal.modal-quick-view.modal.fade(tabindex='-1')

@@ -91,10 +91,12 @@ block content
                                             td 
                                                 a(href=recipe.url, class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title=recipe.url).btn.btn-outline-secondary.btn-icon
                                                     i.czi-link.font-size-lg
-                                            td 
-                                                button(type="button" data-recipe=JSON.stringify(recipe)).btn.btn-primary.btn-icon.ml-2.editBtn
-                                                    i.czi-edit.mr-2
-                                                    | Edit
+                                            td(style='min-width: 9rem;')
+                                                button(type="button" data-toggle="tooltip", data-placement="top", title="Edit Recipe" data-recipe=JSON.stringify(recipe)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                    i.czi-edit
+                                                a(href="#" data-toggle="tooltip", data-placement="top", title="Inactivate Recipe" data-recipe-id=recipe.id data-recipe-name=recipe.name).btn.btn-outline-warning.btn-icon.inactivateBtn.mr-2
+                                                    i.czi-security-close
+                                                    
                                                         
 
     #update-modal.modal-quick-view.modal.fade(tabindex='-1')
@@ -155,6 +157,26 @@ block content
                             button().btn.btn-primary.btn-block#update-btn.mt-4
                                 i.czi-loading.font-size-base.mr-2
                                 | Update Recipe
+    #yes-no-modal.modal.fade(tabindex='-1')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h6.modal-title.product-title Are you sure?
+                .modal-body
+                    .row.justify-content-center
+                        .col-lg-12
+                            p This will hide <span id="yesNoRecipeName"></span> from the catalog. Are you sure you want to do this?
+                    .row.justify-content-center
+                        .col-lg-6
+                            button().btn.btn-outline-primary.btn-block#inactivateBtnApproved.mt-4
+                                    i.czi-security-check.font-size-base.mr-2
+                                    | Yes, Inactivate!
+                        .col-lg-6
+                            button(data-dismiss="modal").btn.btn-outline-accent.btn-block.mt-4
+                                    i.czi-security-close.font-size-base.mr-2
+                                    | Nevermind
+                        
+                            
 
                  
     include ../recipe-partials/toast-generic-success
