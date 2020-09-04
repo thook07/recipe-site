@@ -459,7 +459,6 @@ router.post('/recipe-ingredient/update', async(req, res) => {
     }
 });
 
-
 router.get('/ingredients', async (req, res) => {
     const ingredients = await Ingredient.findAll();
     // Compile the source code
@@ -468,8 +467,31 @@ router.get('/ingredients', async (req, res) => {
     });
 });
 
-router.post('/ingredient/add', async (req, res) => {
+router.get('/ingredients/id', async (req, res) => {
+    const results = await Ingredient.findAll({ attributes: ['id']});
+    const ids = []
+    for(const result of results) {
+        ids.push(result.id)
+    }
+    // Compile the source code
+    res.status(200).send(ids)
+});
 
+router.post('/ingredient/add', async (req, res) => {
+    log.debug('[/api/ingredient/add] Entering..');
+    var ingRequest = req.body.ingredient
+    log.trace('[/api/ingredient/add] Ingredient JSON: ' + JSON.stringify(ingRequest));
+    try {
+        const ing = await Ingredient.create({ 
+            id: ingRequest.id,
+            name: ingRequest.name,
+            categoryId: ingRequest.categoryId
+         })
+        res.status(200).send('Successfully Created Ingredient with Id: ' + ing.id)
+    } catch( err ) {
+        console.log(err);
+        res.status(500).send(err)
+    }
 });
 
 router.post('/ingredient/update', async (req, res) => {
@@ -524,6 +546,33 @@ router.get('/tags/', async (req, res) => {
     res.render('helpers/tags-table', {
         tags: tags
     });
+});
+
+router.get('/tags/id', async (req, res) => {
+    const results = await Tag.findAll({ attributes: ['id']});
+    const ids = []
+    for(const result of results) {
+        ids.push(result.id)
+    }
+    // Compile the source code
+    res.status(200).send(ids)
+});
+
+router.post('/tag/add', async (req, res) => {
+    log.debug('[/api/tag/add] Entering..');
+    var tagRequest = req.body.tag
+    log.trace('[/api/tag/add] Ingredient JSON: ' + JSON.stringify(tagRequest));
+    try {
+        const tag = await Tag.create({ 
+            id: tagRequest.id,
+            name: tagRequest.name,
+            category: tagRequest.categoryId
+         })
+        res.status(200).send('Successfully Created Ingredient with Id: ' + tag.id)
+    } catch( err ) {
+        console.log(err);
+        res.status(500).send(err)
+    }
 });
 
 router.post('/tag/update', async (req, res) => {

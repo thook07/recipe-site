@@ -332,18 +332,30 @@ module.exports = function(sequelize){
     router.get('/add-ingredient', async (req, res) => {
         
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
-        res.send("<h1>Add Ingredient</h1>", {
+        var categories = await IngredientCategory.findAll();
+        res.render('admin/add-ingredient', {
             user: req.user,
-            pendingRecipes
+            pendingRecipes,
+            categories
         });
     });
 
     router.get('/add-tag', async (req, res) => {
-        
+        const { Op, QueryTypes } = require("sequelize");
+        var categories = await sequelize.query(`
+            SELECT DISTINCT(category) FROM tags
+            `,
+            {
+            type: QueryTypes.SELECT
+        });
+
+        console.log(categories)
+
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
-        res.send("<h1>Add Tag</h1>", {
+        res.render('admin/add-tag', {
             user: req.user,
-            pendingRecipes
+            pendingRecipes,
+            categories
         });
     });
 

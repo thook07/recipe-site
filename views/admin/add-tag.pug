@@ -1,0 +1,65 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+	- var isPageTitle = false
+	- var pageTitle = 'Add Tag'
+	- var parentMenu = 'Account'
+	- var navbarTemplate = 'navbar-marketplace'
+	- var footerTemplate = 'footer-marketplace'
+	- var isFileUploadScript = true
+	- var isCardScript = false
+	- var isChartScript = true 
+	- var isCodeHighlighting = true 
+append scripts
+	script(src='/js/recipes/add-tag.js')
+
+//- Page Content
+block content
+
+	//- dashboard-header.pug template
+	//include partials/dashboard-header
+
+	.mb-5.pb-3
+		.box-shadow-lg.rounded-lg.overflow-hidden
+			.row
+
+				// Sidebar
+				aside.col-lg-2
+					//- sidebar-dashboard.pug template
+					include ../recipe-partials/sidebar-admin
+
+				// Content
+				section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+					.row.p-1.pt-3
+						.col-lg-12
+								h3 #{pageTitle}
+					.row
+						.col-lg-12.p-1
+							form.needs-validation#cr-form.p-3
+								.form-group.pb-2
+									label(for='id').font-weight-medium ID
+									input(type='text' name="id" placeholder="my-tag-id" required)#text-id.form-control
+									small.form-text.text-muted No Spaces
+									.invalid-feedback
+										span#text-id-feedback 
+											| ID is required
+								.form-group.pb-2
+									label(for='password').font-weight-medium Name
+									input(type='text' name="password" placeholder='My Tag Name' required)#text-name.form-control
+									.invalid-feedback
+										| Name is required
+								.form-group.pb-2
+									label(for='role').font-weight-medium Category
+									select(id='text-category' name='role').form-control.custom-select
+										option -- Select Category --
+										each category in categories
+											option(value=category.category) #{category.category}
+									.invalid-feedback
+										| Select a Category
+								button#createBtn.btn.btn-primary.btn-block
+									i.czi-upload.font-size-lg.mr-2
+									| Add Tag
+
+
+		include ../recipe-partials/toast-generic-success
