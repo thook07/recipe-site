@@ -414,6 +414,10 @@ router.get('/ingredients', async (req, res) => {
     });
 });
 
+router.post('/ingredient/add', async (req, res) => {
+
+});
+
 router.post('/ingredient/update', async (req, res) => {
     log.debug('[/api/ingredient/update] Entering.')
     const ingRequest = req.body.ingredient;
@@ -436,6 +440,28 @@ router.post('/ingredient/update', async (req, res) => {
         res.send(err);
     }
     
+});
+
+router.post('/ingredient/delete', async (req, res) => {
+    log.debug('[/api/ingredient/delete] Enter');
+    const id = req.body.id;
+    log.debug('[/api/ingredient/delete] Delete Ingredient with id: ' + id);
+    const ingredient = await Ingredient.findByPk(id)
+    if(ingredient != undefined) {
+        log.trace('[/api/ingredient/delete] Got ingredient: ' + JSON.stringify(ingredient))
+        try { 
+            await ingredient.destroy();
+            log.debug('[/api/ingredient/delete] Successfully Deleted.');
+            res.status(200).send('Success');
+        } catch(err) {
+            console.log(err);
+            log.error(JSON.stringify(err));
+            res.status(500).send(err);
+        }
+    } else {
+        res.status(404).send('Ingredient with ID: ' + id + ' was not found.')
+    }
+
 });
 
 router.get('/tags/', async (req, res) => {

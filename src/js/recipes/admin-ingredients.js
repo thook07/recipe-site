@@ -22,6 +22,25 @@ $(document).ready(function(){
 
     });
 
+    $('.deleteBtn').on('click', function() {
+        var ingredientId = $(this).attr('data-id');
+        $('#deleteBtnApproved').attr('data-id',ingredientId);
+        $('#yes-no-modal').modal('show');
+    });
+
+    $('#deleteBtnApproved').on('click', function() {
+        var ingId = $(this).attr('data-id');
+        var data = {
+            id: ingId
+        }
+        $.post('/api/ingredient/delete', data, res => {
+            $('#yes-no-modal').modal('hide');
+            location.reload();
+        }).fail(err => {
+            console.log(err);
+        });
+    });
+
     $('#update-ingredient-btn').on('click', function(){
         var data = {
             ingredient: {

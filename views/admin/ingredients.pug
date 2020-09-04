@@ -57,12 +57,14 @@ block content
 											td #{ing.id}
 											td #{ing.name}
 											td #{ing.categoryId}
-											td 
+											td(style='min-width: 15rem;')
 												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Ingredient" data-id=ing.id data-name=ing.name data-catId=ing.categoryId).btn.btn-outline-primary.btn-icon.editBtn.mr-2
 													i.czi-edit
 												- var href='/admin/recipe-ingredients?i='+ing.id
 												a(data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients" href=href).btn.btn-outline-primary.btn-icon.mr-2
 													i.czi-sign-in
+												button(type="button"  data-toggle="tooltip", data-placement="top", title="Delete Ingredient" data-id=ing.id).btn.btn-outline-danger.btn-icon.deleteBtn.mr-2
+													i.czi-trash
 														
 
 	#update-modal.modal-quick-view.modal.fade(tabindex='-1')
@@ -93,5 +95,22 @@ block content
 								i.czi-loading.font-size-base.mr-2
 								| Update Ingredient
 
-				 
+	#yes-no-modal.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h6.modal-title.product-title Are you sure?
+				.modal-body
+					.row.justify-content-center
+						.col-lg-12
+							p This will be gone forever
+					.row.justify-content-center
+						.col-lg-6
+							button().btn.btn-outline-danger.btn-block#deleteBtnApproved.mt-4
+									i.czi-security-check.font-size-base.mr-2
+									| Yes, Delete it!
+						.col-lg-6
+							button(data-dismiss="modal").btn.btn-outline-accent.btn-block.mt-4
+									i.czi-security-close.font-size-base.mr-2
+									| Nevermind			 
 	include ../recipe-partials/toast-generic-success
