@@ -18,6 +18,10 @@
           | Dashboard
           //span.font-size-sm.text-muted.ml-auto 4
       li.border-bottom.mb-0
+        a(href='/admin/users')&attributes(pageTitle === 'Users' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-user.opacity-60.mr-2
+          | Users
+      li.border-bottom.mb-0
         a(href='/admin/recipes')&attributes(pageTitle === 'Recipes' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-basket.opacity-60.mr-2
           | Recipes
@@ -29,10 +33,14 @@
         a(href='/admin/ingredients')&attributes(pageTitle === 'Ingredients' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-basket-alt.opacity-60.mr-2
           | Ingredients
-      li.mb-0
+      li.border-bottom.mb-0
         a(href='/admin/tags')&attributes(pageTitle === 'Tags' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-wallet.opacity-60.mr-2
           | Tags
+      li.mb-0
+        a(href='/admin/recipe-views')&attributes(pageTitle === 'Recipe Views' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-eye.opacity-60.mr-2
+          | Recipe Views
     .bg-secondary.p-3
       h3.font-size-md.mb-0.text-muted Approvals
     ul.list-unstyled.mb-0
@@ -49,21 +57,21 @@
           i.czi-add-circle.opacity-60.mr-2
           | Add Recipe
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Update Recipe Images' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        a(href="/admin/upload-recipe-images")&attributes(pageTitle === 'Upload Recipe Images' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-instagram.opacity-60.mr-2
-          | Update Recipe Imgs
+          | Upload Recipe Imgs
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Add Ingredient' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        a(href='/admin/add-user')&attributes(pageTitle === 'Add User' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-add-user.opacity-60.mr-2
+          | Add User
+      li.border-bottom.mb-0
+        a(href='/admin/add-ingredient')&attributes(pageTitle === 'Add Ingredient' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-add-circle.opacity-60.mr-2
           | Add Ingredient
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Add Tag' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        a(href='add-tag')&attributes(pageTitle === 'Add Tag' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-lable.opacity-60.mr-2
           | Add Tag
-      li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Add User' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-add-user.opacity-60.mr-2
-          | Add User
       li.mb-0
         a(href='/logout').nav-link-style.d-flex.align-items-center.px-4.py-3
           i.czi-sign-out.opacity-60.mr-2

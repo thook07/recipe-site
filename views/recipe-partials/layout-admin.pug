@@ -36,17 +36,7 @@ html(lang="en")
       span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top
       i.btn-scroll-top-icon.czi-arrow-up    
     
-    // JavaScript libraries, plugins and custom scripts
-    script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': '/js/vendor.min.js'})
-    if isCardScript
-      script()&attributes(isNestedFile ? {'src': '../js/card.min.js'} : {'src': '/js/card.min.js'})
-      script.
-        new Card({
-            form: document.querySelector('.interactive-credit-card'),
-            container: '.card-wrapper'
-        });
-    if isChartScript
-      script()&attributes(isNestedFile ? {'src': '../js/chartist.min.js'} : {'src': '/js/chartist.min.js'})
-    if isCodeHighlighting
-      script()&attributes(isNestedFile ? {'src': '../js/prism.min.js'} : {'src': '/js/prism.min.js'})
-    script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/theme.min.js'})
+    unless removeThemeAndVendor
+      script()&attributes(isNestedFile ? {'src': '../js/vendor.min.js'} : {'src': '/js/vendor.min.js'})
+      script()&attributes(isNestedFile ? {'src': '../js/theme.min.js'} : {'src': '/js/theme.min.js'})
+          

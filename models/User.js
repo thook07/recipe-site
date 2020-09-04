@@ -169,13 +169,14 @@ User.prototype.correctPassword = function(enteredPassword) {
     return User.encryptPassword(enteredPassword, this.salt()) === this.password()
 }
 
-const setSaltAndPassword = user => {
+const setSaltAndPassword = (user, options) => {
+    log.debug('[User] setSaltAndPassword: Entering...')
     if (user.changed('password')) {
+        log.debug('[User] user has changed password. Encrypting!')
         user.salt = User.generateSalt()
         user.password = User.encryptPassword(user.password(), user.salt())
     }
 }
-
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)

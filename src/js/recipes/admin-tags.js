@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('#filterBtn').on('click', function(){
-        document.location.href = "/admin/tag?q=" + $("#q").val();
+        document.location.href = "/admin/tags?q=" + $("#q").val();
     })
 
     $('.editBtn').on('click', function(){

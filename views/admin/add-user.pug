@@ -1,0 +1,69 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+	- var isPageTitle = false
+	- var pageTitle = 'Add User'
+	- var parentMenu = 'Account'
+	- var navbarTemplate = 'navbar-marketplace'
+	- var footerTemplate = 'footer-marketplace'
+	- var isFileUploadScript = true
+	- var isCardScript = false
+	- var isChartScript = true 
+	- var isCodeHighlighting = true 
+append scripts
+	script(src='/js/recipes/add-user.js')
+
+//- Page Content
+block content
+
+	//- dashboard-header.pug template
+	//include partials/dashboard-header
+
+	.mb-5.pb-3
+		.box-shadow-lg.rounded-lg.overflow-hidden
+			.row
+
+				// Sidebar
+				aside.col-lg-2
+					//- sidebar-dashboard.pug template
+					include ../recipe-partials/sidebar-admin
+
+				// Content
+				section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+					.row.p-1.pt-3
+						.col-lg-12
+								h3 #{pageTitle}
+					.row
+						.col-lg-12.p-1
+							form(novalidate).needs-validation#cr-form.p-3
+								//Recipe Name
+								.form-group.pb-2
+									label(for='email').font-weight-medium Email
+									.input-group
+										.input-group-prepend
+											.input-group-text
+												i.czi-mail
+										input(type='text' name="email" placeholder="john.doe@example.com" required)#text-email.form-control
+									.invalid-feedback
+										| Email is required
+								.form-group.pb-2
+									label(for='password').font-weight-medium Password
+									.input-group
+										.input-group-prepend
+											.input-group-text
+												i.czi-locked
+										input(type='password' name="password" required)#text-password.form-control
+									.invalid-feedback
+										| Password is required
+								.form-group.pb-2
+									label(for='role').font-weight-medium Role
+									select(id="text-role" name='role').form-control.custom-select
+										option(value='User') User
+										option(value='Admin') Admin
+								button#createBtn.btn.btn-primary.btn-block
+									i.czi-upload.font-size-lg.mr-2
+									| Add User
+
+
+		include ../recipe-partials/toast-generic-success

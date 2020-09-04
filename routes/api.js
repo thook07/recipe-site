@@ -31,6 +31,61 @@ router.get('/users', async (req, res) => {
     });
 });
 
+router.get('/users/email', async (req, res) => {
+    const emails = await User.findAll({ attributes: ['email']})
+    res.status(200).send(emails)
+});
+
+router.post('/user/add', async (req, res) => {
+    log.debug('[/api/user/add] Entering..');
+    var userRequest = req.body.user
+    log.trace('[/api/user/add] User JSON: ' + JSON.stringify(userRequest));
+    try {
+        const user = await User.create({ 
+            email: userRequest.email,
+            password: userRequest.password,
+            role: userRequest.role
+         })
+        res.status(200).send('Successfully Created User with Id: ' + user.id)
+    } catch( err ) {
+        console.log(err);
+        res.status(500).send(err)
+    }
+    
+});
+
+router.post('/user/update', async (req, res) => {
+    log.debug('[/api/user/update] Entering.')
+    const userRequest = req.body.user;
+    log.trace('[/api/user/update] User Data Requested:' + JSON.stringify(userRequest));
+    try {
+        log.debug('[/api/user/update] Updating User with id: ' + userRequest.id);
+        const user = await User.byId(userRequest.id);
+        if(userRequest.email != undefined) { user.email = userRequest.email }
+        if(userRequest.password != undefined) { user.password = userRequest.password }
+        if(userRequest.role != undefined) { user.role = userRequest.role }
+            
+        if(user.changed('email') || user.changed('password') || user.changed('role') ) {
+            await user.save();
+            log.debug('[/api/user/update] Updated!');
+        } else {
+            log.warn('[/api/user/update] No Changes Detected. Why was this called? Not saving.')
+        }
+        
+        res.status(200);
+        res.send("Success");
+    } catch(err) {
+        console.log(err);
+        log.error(JSON.stringify(err))
+        res.status(400);
+        res.send(err);
+    }
+});
+
+router.get('/user/delete', async (req, res) => {
+
+});
+
 router.post('/favorite/add', async (req, res) => {
     log.trace('[/api/favorite/add] Starting...');
     const userId = req.body.userId;
@@ -182,7 +237,6 @@ router.post('/groceryList/update', async (req, res) => {
     res.status(200)
     res.send("Successfully removed recipe from grocery list for " + userId);
 });
-
 
 router.get('/recipes', async (req, res) => {
     res.send( await Recipe.findAll() );
@@ -377,7 +431,7 @@ router.get('/recipe-ingredients', async (req, res) => {
 });
 
 router.post('/recipe-ingredient/update', async(req, res) => {
-log.debug('[/api/recipe-ingredient/update] Entering.')
+    log.debug('[/api/recipe-ingredient/update] Entering.')
     const riRequest = req.body.recipeIngredient;
     log.trace('[/api/recipe-ingredient/update] Recipe Ingredient Requested:' + JSON.stringify(riRequest));
     try {

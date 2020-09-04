@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     //enable the sorting of the images
     $( "#sortable" ).sortable();
-    
+
     //whenever the recipe gets selected
     $('#recipeSelect').on('change', async function(e) {
         console.log($(this).val())

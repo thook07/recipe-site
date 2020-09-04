@@ -1,0 +1,63 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+	- var isPageTitle = false
+	- var pageTitle = 'Recipe Views'
+	- var parentMenu = 'Account'
+	- var navbarTemplate = 'navbar-marketplace'
+	- var footerTemplate = 'footer-marketplace'
+	- var isFileUploadScript = true
+	- var isCardScript = false
+	- var isChartScript = true 
+	- var isCodeHighlighting = true 
+append scripts
+	script(src='/js/recipes/admin-tags.js')
+
+//- Page Content
+block content
+
+	//- dashboard-header.pug template
+	//include partials/dashboard-header
+
+	.mb-5.pb-3
+		.box-shadow-lg.rounded-lg.overflow-hidden
+			.row
+
+				// Sidebar
+				aside.col-lg-2
+					//- sidebar-dashboard.pug template
+					include ../recipe-partials/sidebar-admin
+
+				// Content
+				section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+					.row.p-1.pt-3
+						.col-lg-8
+								h3 #{pageTitle}
+						.col-lg-4.d-flex.justify-content-end
+								//input(type="text", id="q", placeholder="Filter..." value=q).form-control.ml-2
+								//button(type="button").btn.btn-primary.btn-icon.ml-2#filterBtn
+										i.czi-rocket.mr-2
+										| Go
+					.row
+						.col-lg-12.p-1
+							.table-responsive
+								table.table.bg-light
+									thead
+									tr
+										th ID
+										th RecipeId
+										th UserId
+										th Created
+										th Updated
+									tbody
+									each view in pageViews
+										tr
+											td #{view.id}
+											td #{view.recipeId}
+											td #{view.userId}
+											td #{view.createdAt}
+											td #{view.updatedAt}
+														
+				 
+	include ../recipe-partials/toast-generic-success

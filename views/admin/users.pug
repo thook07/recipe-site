@@ -1,0 +1,123 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+    - var isPageTitle = false
+    - var pageTitle = 'Users'
+    - var parentMenu = 'Account'
+    - var navbarTemplate = 'navbar-marketplace'
+    - var footerTemplate = 'footer-marketplace'
+    - var isFileUploadScript = true
+    - var isCardScript = false
+    - var isChartScript = true 
+    - var isCodeHighlighting = true 
+append scripts
+    script(src='/js/recipes/admin-users.js')
+    
+  
+//- Page Content
+block content
+
+    //- dashboard-header.pug template
+    //include partials/dashboard-header
+
+    .mb-5.pb-3
+        .box-shadow-lg.rounded-lg.overflow-hidden
+            .row
+
+                // Sidebar
+                aside.col-lg-2
+                    //- sidebar-dashboard.pug template
+                    include ../recipe-partials/sidebar-admin
+
+                // Content
+                section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+                    .row.p-1.pt-3
+                        .col-lg-8
+                                h3 #{pageTitle}
+                        .col-lg-4.d-flex.justify-content-end
+                                input(type="text", id="q", placeholder="Filter..." value=q).form-control.ml-2
+                                button(type="button").btn.btn-primary.btn-icon.ml-2#filterBtn
+                                    i.czi-rocket.mr-2
+                                    | Go
+                                button(type="button" data-toggle="tooltip", data-placement="top", title="Show All").btn.btn-primary.btn-icon.ml-2#showAllBtn
+                                    i.czi-user-circle
+                                button(type="button" data-toggle="tooltip", data-placement="top", title="Show Admins").btn.btn-primary.btn-icon.ml-2#showAdminBtn
+                                    i.czi-locked
+                                a(href='/admin/add-user' type="button" data-toggle="tooltip", data-placement="top", title="Add New User").btn.btn-primary.btn-icon.ml-2
+                                    i.czi-add-user
+                    .row
+                        .col-lg-12.p-1
+                            .table-responsive
+                                table.table.bg-light
+                                    thead
+                                    tr
+                                        th ID
+                                        th Email
+                                        th Role
+                                        th Actions
+                                    tbody
+                                    each user in users
+                                        tr
+                                            td #{user.id}
+                                            td #{user.email}
+                                            td #{user.role}
+                                            td 
+                                                button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit User" data-user=JSON.stringify(user)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                    i.czi-edit
+                                                button(type="button"  data-toggle="tooltip", data-placement="top", title="Reset User's Password" data-user-id=user.id).btn.btn-outline-primary.btn-icon.resetPasswordBtn.mr-2
+                                                    i.czi-unlocked
+                                                        
+
+    #update-modal.modal-quick-view.modal.fade(tabindex='-1')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title.product-title
+                        a
+                            | Update User
+                            i.czi-arrow-right.font-size-lg.ml-2
+                    button(type='button' class='close' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    .row.justify-content-center
+                        .col-lg-10.pr-lg-0
+                            .form-group
+                                label(for="text-id") ID
+                                input(type="text", name='id' id="text-id" readonly).form-control
+                            .form-group
+                                label(for="text-email") Email
+                                input(name='email' id="text-email").form-control
+                            .form-group
+                                label(for="text-password") Password
+                                input(type="password" name='password' id="text-password").form-control
+                            .form-group
+                                label(for="text-role") Role
+                                select(id="text-role" name='role').form-control.custom-select
+                                    option(value='User') User
+                                    option(value='Admin') Admin
+                            button().btn.btn-primary.btn-block#update-btn.mt-4
+                                i.czi-loading.font-size-base.mr-2
+                                | Update User
+    #reset-password-confirm-modal.modal.fade(tabindex='-1')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h6.modal-title.product-title Password Reset?
+                .modal-body
+                    .row.justify-content-center
+                        .col-lg-12
+                            .form-group
+                                label(for="#text-reset-password") Password
+                                input(type="password" name='password' id="#text-reset-password").form-control
+                    .row.justify-content-center
+                        .col-lg-6
+                            button().btn.btn-outline-success.btn-block#resetPasswordBtnApproved.mt-4
+                                    i.czi-security-check.font-size-base.mr-2
+                                    | Reset Password
+                        .col-lg-6
+                            button(data-dismiss="modal").btn.btn-outline-accent.btn-block.mt-4
+                                    i.czi-security-close.font-size-base.mr-2
+                                    | Cancel
+                 
+    include ../recipe-partials/toast-generic-success
