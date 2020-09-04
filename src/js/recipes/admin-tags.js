@@ -1,19 +1,17 @@
 $(document).ready(function(){
 
     $('#filterBtn').on('click', function(){
-        document.location.href = "/admin/ingredients?q=" + $("#q").val();
+        document.location.href = "/admin/tag?q=" + $("#q").val();
     })
 
     $('.editBtn').on('click', function(){
-        var id = $(this).attr('data-id') || '';
-        var name = $(this).attr('data-name') || null;
-        var catId = $(this).attr('data-catId') || '';
+        var tag = JSON.parse($(this).attr('data-tag'))
 
-        $('#text-id').val(id)
-        $('#text-name').val(name)
+        $('#text-id').val(tag.id)
+        $('#text-name').val(tag.name)
 
         $('#text-category > option').each(function(){
-            if( $(this).val() == catId ) {
+            if( $(this).val() == tag.category ) {
                 $(this).attr('selected', 'selected');
             }
         });
@@ -22,17 +20,16 @@ $(document).ready(function(){
 
     });
 
-    $('#update-ingredient-btn').on('click', function(){
+    $('#update-btn').on('click', function(){
         var data = {
-            ingredient: {
+            tag: {
                 id: $('#text-id').val(),
                 name: $('#text-name').val(),
                 categoryId: $('#text-category').val()
             }
         }
-        console.log(data);
-
-        $.post('/api/ingredient/update', data, res => {
+        
+        $.post('/api/tag/update', data, res => {
             $('#update-modal').modal('hide');
             location.reload();
         }).fail(err => {

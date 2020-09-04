@@ -3,7 +3,7 @@ extends ../recipe-partials/layout-admin
 //- Override default config variables
 append config
 	- var isPageTitle = false
-	- var pageTitle = 'Ingredients'
+	- var pageTitle = 'Tags'
 	- var parentMenu = 'Account'
 	- var navbarTemplate = 'navbar-marketplace'
 	- var footerTemplate = 'footer-marketplace'
@@ -12,7 +12,7 @@ append config
 	- var isChartScript = true 
 	- var isCodeHighlighting = true 
 append scripts
-	script(src='/js/recipes/admin-ingredients.js')
+	script(src='/js/recipes/admin-tags.js')
 
 //- Page Content
 block content
@@ -39,8 +39,6 @@ block content
 								button(type="button").btn.btn-primary.btn-icon.ml-2#filterBtn
 										i.czi-rocket.mr-2
 										| Go
-								a(data-toggle="tooltip", data-placement="top", title="Show Ingredient Issues" href='/admin/ingredients?issues=true').btn.btn-warning.btn-icon.ml-2
-										i.czi-security-announcement
 					.row
 						.col-lg-12.p-1
 							.table-responsive
@@ -52,17 +50,14 @@ block content
 										th Category
 										th Actions
 									tbody
-									each ing in ingredients
+									each tag in tags
 										tr
-											td #{ing.id}
-											td #{ing.name}
-											td #{ing.categoryId}
+											td #{tag.id}
+											td #{tag.name}
+											td #{tag.category}
 											td 
-												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Ingredient" data-id=ing.id data-name=ing.name data-catId=ing.categoryId).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Tag" data-tag=JSON.stringify(tag)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
 													i.czi-edit
-												- var href='/admin/recipe-ingredients?i='+ing.id
-												a(data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients" href=href).btn.btn-outline-primary.btn-icon.mr-2
-													i.czi-sign-in
 														
 
 	#update-modal.modal-quick-view.modal.fade(tabindex='-1')
@@ -71,7 +66,7 @@ block content
 				.modal-header
 					h4.modal-title.product-title
 						a
-							| Update Ingredient
+							| Update Tag
 							i.czi-arrow-right.font-size-lg.ml-2
 					button(type='button' class='close' data-dismiss='modal' aria-label='Close')
 						span(aria-hidden='true') &times;
@@ -87,11 +82,11 @@ block content
 							.form-group
 								label(for="select-input") Category
 								select(id="text-category" name='category').form-control.custom-select
-									each cat in categories
-										option(value=cat.id) #{cat.name}
-							button().btn.btn-primary.btn-block#update-ingredient-btn.mt-4
+									each cat in tagCategories
+										option(value=cat.category) #{cat.category}
+							button().btn.btn-primary.btn-block#update-btn.mt-4
 								i.czi-loading.font-size-base.mr-2
-								| Update Ingredient
+								| Update Tag
 
 				 
 	include ../recipe-partials/toast-generic-success

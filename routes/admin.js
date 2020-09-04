@@ -42,6 +42,7 @@ router.get("/", async (req, res) => {
         {
           type: QueryTypes.SELECT
         });
+
     
     var data = {
         recipeCount,
@@ -60,7 +61,8 @@ router.get("/", async (req, res) => {
 
     res.render("admin/admin-dashboard.pug", {
         user: req.user,
-        data: data
+        data: data,
+        pendingRecipes
     });
 });
 
@@ -194,26 +196,64 @@ router.get('/recipe-ingredients', async (req, res) => {
         i,
         r
     });
-})
-
-router.get('/add', (req, res) => {
-    authZ.protected(req,res);
-    res.send('ADD')
 });
 
-router.get('/add-recipe', (req, res) => {
-    authZ.protected(req,res);
-    log.trace("building /admin/add-recipe page")
-    var meals = tags[1];
-    var cats = tags[2];
-    var cooks = tags[4];
+router.get('/tags', async (req, res) => {
+    var q = req.query.q || '';
     
+    const { Op, QueryTypes } = require("sequelize");
+    var tags = []
+    if(q != '' ) {
+        tags = await Tag.findAll({
+            where: {
+                [Op.or]: [
+                    { id: {[Op.like] : '%'+q+'%' }}, 
+                    { name: {[Op.like] : '%'+q+'%' }},
+                    { category: {[Op.like] : '%'+q+'%' }}
+                ]
+            }
+        })
+    } else {
+        tags = await Tag.findAll({ limit: 100});
+    }
+    
+    var tagCategories = await sequelize.query(`
+        SELECT DISTINCT(category) FROM tags
+        `,
+        {
+          type: QueryTypes.SELECT
+    });
+    
+    console.log(tagCategories)
 
-    res.render('admin/admin-add-recipe', {
-        tags: tags,
-        meals: meals,
-        cats: cats,
-        cooks: cooks
+    var pendingRecipes = await Recipe.count({ where: {approved: false} })
+    res.render("admin/tags", {
+        user: req.user,
+        pendingRecipes,
+        tagCategories,
+        tags,
+        q
+    });
+});
+
+router.get('/pending-recipes', async (req, res) => {
+
+
+    var recipes = await Recipe.findAll({ where: {approved: false} })
+    res.render("admin/pending-recipes", {
+        user: req.user,
+        pendingRecipes: recipes.length,
+        recipes
+    });
+});
+
+router.get('/add-recipe', async (req, res) => {
+    //authZ.protected(req,res);
+    log.trace("building /admin/add-recipe page");
+    
+    const tags = await Tag.findAll();
+    res.render('admin/add-recipe', {
+        tags: tags
     });
 });
 

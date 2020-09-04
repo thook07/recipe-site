@@ -9,6 +9,7 @@ const Favorite = require('../models/Favorite');
 const RecipeIngredient = require('../models/RecipeIngredient');
 const Ingredient = require('../models/Ingredient');
 const Tag = require('../models/Tag');
+const RecipeTag = require('../models/RecipeTag')
 const File = require('../models/File')
 
 /*
@@ -204,14 +205,34 @@ router.get('/recipes/:recipe/images', async (req, res) => {
 });
 
 router.post('/recipes/add', async (req, res) => {
+    log.debug('[/api/recipes/add] Enter.')
     const data = req.body.recipe;
+    log.trace('[/api/recipes/add] Recipe Data: ' + JSON.stringify(data))
+    
     try {
-        console.log(data);
+        log.debug('[/api/recipes/add] Building Recipe')
         const recipe = Recipe.build(data);
-        console.log(recipe);
+        log.trace('[/api/recipes/add] Recipe Built. Saving Next: ' + JSON.stringify(recipe))
         await recipe.save();
-        
+        log.debug('[/api/recipes/add] Saved RecipeId: ['+recipe.id+']. Now for tags and recipe ingredients')
+        if(data.recipeIngredients) {
+            for(const ri of data.recipeIngredients) {
+                log.debug('[/api/recipes/add] Creating RecipeIng ['+ri.amount+'] ['+ri.ingredientDescription+']')
+                ri.recipeId = recipe.id;
+                const recipeIngredient = await RecipeIngredient.create(ri);
+                log.trace('[/api/recipes/add] Created Recipe Ingredient with ID: ' + recipeIngredient.id)
+            }
+        }
 
+        if(data.tags) {
+            for(const tag of data.tags) {
+                const recipeTag = await RecipeTag.create({
+                    recipeId: recipe.id,
+                    tagId: tag
+                });
+                log.trace('[/api/recipes/add] Created RecipeTag with ID: ' + recipeTag.id)
+            }
+        }
 
         //const recipe = await Recipe.create( data );
 
@@ -423,6 +444,29 @@ router.get('/tags/', async (req, res) => {
     res.render('helpers/tags-table', {
         tags: tags
     });
+});
+
+router.post('/tag/update', async (req, res) => {
+    log.debug('[/api/tag/update] Entering.')
+    const tagRequest = req.body.tag;
+    log.trace('[/api/tag/update] Tag Requested:' + JSON.stringify(tagRequest));
+    try {
+        log.debug('[/api/tag/update] Updating Tag with id: ' + tagRequest.id);
+        const tag = await Tag.update({ name: tagRequest.name, category: tagRequest.category }, {
+            where: {
+                id: tagRequest.id
+            }
+        });
+        log.debug('[/api/tag/update] Updated!');
+        res.status(200);
+        res.send("Success");
+    } catch(err) {
+        console.log(err);
+        log.error(JSON.stringify(err))
+        res.status(400);
+        res.send(err);
+    }
+    
 });
 
 router.get('/grocery-cart', async (req, res) => {

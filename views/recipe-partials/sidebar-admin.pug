@@ -30,14 +30,14 @@
           i.czi-basket-alt.opacity-60.mr-2
           | Ingredients
       li.mb-0
-        a()&attributes(pageTitle === 'Favorites' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-heart.opacity-60.mr-2
+        a(href='/admin/tags')&attributes(pageTitle === 'Tags' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-wallet.opacity-60.mr-2
           | Tags
     .bg-secondary.p-3
       h3.font-size-md.mb-0.text-muted Approvals
     ul.list-unstyled.mb-0
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Sales' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+        a(href="/admin/pending-recipes")&attributes(pageTitle === 'Pending Recipes' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
           i.czi-thumb-up.opacity-60.mr-2
           | Pending Recipes
           span.font-size-sm.text-muted.ml-auto #{pendingRecipes}
@@ -45,25 +45,25 @@
       h3.font-size-md.mb-0.text-muted Create, Update, Delete
     ul.list-unstyled.mb-0
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Sales' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-dollar.opacity-60.mr-2
+        a(href="/admin/add-recipe")&attributes(pageTitle === 'Add Recipe' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-add-circle.opacity-60.mr-2
           | Add Recipe
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Products' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-package.opacity-60.mr-2
+        a()&attributes(pageTitle === 'Update Recipe Images' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-instagram.opacity-60.mr-2
           | Update Recipe Imgs
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Add New Product' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-cloud-upload.opacity-60.mr-2
-          | Update Recipe
+        a()&attributes(pageTitle === 'Add Ingredient' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-add-circle.opacity-60.mr-2
+          | Add Ingredient
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Payouts' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-currency-exchange.opacity-60.mr-2
-          | Update Recipe Ing.
+        a()&attributes(pageTitle === 'Add Tag' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-lable.opacity-60.mr-2
+          | Add Tag
       li.border-bottom.mb-0
-        a()&attributes(pageTitle === 'Payouts' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
-          i.czi-currency-exchange.opacity-60.mr-2
-          | Update Tags
+        a()&attributes(pageTitle === 'Add User' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
+          i.czi-add-user.opacity-60.mr-2
+          | Add User
       li.mb-0
         a(href='/logout').nav-link-style.d-flex.align-items-center.px-4.py-3
           i.czi-sign-out.opacity-60.mr-2
