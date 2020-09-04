@@ -15,7 +15,7 @@ const authZ = require('../config/authorization');
 module.exports = function(sequelize){
 
     // -- Administrative Stuff
-    router.get("/", async (req, res) => {
+    router.get("/", authZ.ensureAdmin(), async (req, res) => {
         log.trace('[/admin] Building Dashboard...');
         //authZ.protected(req,res);
         const { Op, QueryTypes} = require("sequelize");
@@ -66,7 +66,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/users', async (req, res) => {
+    router.get('/users', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
         var role = req.query.role || '';
@@ -101,7 +101,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipes', async (req, res) => {
+    router.get('/recipes', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
         var r = req.query.r || '';
@@ -137,7 +137,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/ingredients', async (req, res) => {
+    router.get('/ingredients', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
         var issues = req.query.issues || false;
@@ -171,7 +171,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipe-ingredients', async (req, res) => {
+    router.get('/recipe-ingredients', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
         var i = req.query.i || '';
@@ -233,7 +233,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/tags', async (req, res) => {
+    router.get('/tags', authZ.ensureAdmin(), async (req, res) => {
         var q = req.query.q || '';
         
         const { Op, QueryTypes } = require("sequelize");
@@ -271,7 +271,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipe-views', async (req, res) => {
+    router.get('/recipe-views', authZ.ensureAdmin(), async (req, res) => {
         
         const pageViews = await RecipePageVisit.findAll({limit: 100, order: [ ['createdAt', 'DESC']] })
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
@@ -293,19 +293,20 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/add-recipe', async (req, res) => {
+    router.get('/add-recipe', authZ.ensureAdmin(), async (req, res) => {
         //authZ.protected(req,res);
         log.trace("building /admin/add-recipe page");
         
         const tags = await Tag.findAll();
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
         res.render('admin/add-recipe', {
+            user: req.user,
             tags: tags,
             pendingRecipes
         });
     });
 
-    router.get('/upload-recipe-images', async (req, res) => {
+    router.get('/upload-recipe-images', authZ.ensureAdmin(), async (req, res) => {
         //authZ.protected(req,res);
         log.trace("[/admin/upload-recipe-images] building add recipe images page")
         
@@ -320,7 +321,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/add-user', async (req, res) => {
+    router.get('/add-user', authZ.ensureAdmin(), async (req, res) => {
         
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
         res.render('admin/add-user', {
@@ -329,7 +330,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/add-ingredient', async (req, res) => {
+    router.get('/add-ingredient', authZ.ensureAdmin(), async (req, res) => {
         
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
         var categories = await IngredientCategory.findAll();
@@ -340,7 +341,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/add-tag', async (req, res) => {
+    router.get('/add-tag', authZ.ensureAdmin(), async (req, res) => {
         const { Op, QueryTypes } = require("sequelize");
         var categories = await sequelize.query(`
             SELECT DISTINCT(category) FROM tags

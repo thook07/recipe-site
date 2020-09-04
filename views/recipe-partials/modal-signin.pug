@@ -35,19 +35,15 @@
               label(for='si-remember').custom-control-label Remember me
             a(href='#').font-size-sm Forgot password?
           button(type='submit' id="recipe-signin-button" class='btn btn-primary btn-block btn-shadow') Sign in
-        form(autocomplete='off' novalidate)#signup-tab.needs-validation.tab-pane.fade
-          .form-group
-            label(for='su-name') Full name
-            input(type='text' id='su-name' placeholder='John Doe' required).form-control
-            .invalid-feedback Please fill in your name.
+        form(autocomplete='off' action='/sign-up' method='post' novalidate)#signup-tab.needs-validation.tab-pane.fade
           .form-group
             label(for='su-email') Email address
-            input(type='email' id='su-email' placeholder='johndoe@example.com' required).form-control
+            input(type='email' name='email' id='su-email' placeholder='johndoe@example.com' required).form-control
             .invalid-feedback Please provide a valid email address.
           .form-group
             label(for='su-password') Password
             .password-toggle
-              input(type='password' id='su-password' required).form-control
+              input(type='password' name='password' id='su-password' required).form-control
               label.password-toggle-btn
                 input(type='checkbox').custom-control-input
                 i.czi-eye.password-toggle-indicator
@@ -61,4 +57,4 @@
                 input(type='checkbox').custom-control-input
                 i.czi-eye.password-toggle-indicator
                 span.sr-only Show password
-          button(action="/user-signup" id="recipe-signup-button" class='btn btn-primary btn-block btn-shadow') Sign up
+          button(type='submit' id="recipe-signup-button" class='btn btn-primary btn-block btn-shadow') Sign up

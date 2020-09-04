@@ -3,7 +3,7 @@ var dateFormat  = require('dateformat');
 var os          = require('os');
 
 var level = "trace";
-var showSQL = true;
+var showSQL = false;
 
 exports.trace = function(msg, line) {
     if(showSQL == false) {

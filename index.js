@@ -101,7 +101,6 @@ app.get('/catalog', async (req, res) => {
 
     qTags = (qTags == undefined) ? [] : qTags.split(',');
     log.trace("Tags: "+JSON.stringify(qTags));
-    console.log(qTags);
     const { Op } = require('sequelize')
     var recipes = await Recipe.findAll({
         where: {
@@ -453,6 +452,35 @@ app.post('/login',
   function(req, res) {
     res.redirect('/catalog');
   });
+
+app.post('/sign-up', async (req, res, next) => {
+    log.info('[/sign-up] New User Signing Up!')
+    const userRequest = req.body 
+    log.trace('[/sign-up] User Details: ' + JSON.stringify(userRequest));
+    try {
+        const user = await User.create({ 
+            email: userRequest.email,
+            password: userRequest.password,
+            role: 'User'
+         })
+        log.debug('Successfully created User with Id: ' + user.id);
+        req.body.username = user.email
+        log.debug('Logging in user...');
+        log.trace('User: ' + JSON.stringify(req.body))
+        passport.authenticate('local', function(err, user, info) {
+            if (err) { return next(err); }
+            if (!user) { return res.redirect('/login'); }
+            req.logIn(user, function(err) {
+              if (err) { return next(err); }
+              return res.redirect('/catalog?status=new');
+            });
+          })(req, res, next);
+
+    } catch( err ) {
+        console.log(err);
+        res.status(500).send(err)
+    }
+});
 
 
 

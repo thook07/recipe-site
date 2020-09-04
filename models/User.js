@@ -80,7 +80,6 @@ User.prototype.getFavoriteRecipes = async function(){
         recipe.favoredDate = favorite.createdAt
         recipe.tags = await recipe.getTags();
         recipes.push(recipe);
-        console.log(recipes);
     }
     return recipes;
 }
