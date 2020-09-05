@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.get('/my-recipes', /*authZ.ensureLoggedIn(),*/ async (req, res) => {
+router.get('/my-recipes', authZ.ensureLoggedIn(), async (req, res) => {
     const user = req.user || await User.byId(1);
     user.favorites = await user.getFavoriteRecipes();
     user.groceryList = await user.getGroceryList();
@@ -37,7 +37,7 @@ router.get('/my-recipes', /*authZ.ensureLoggedIn(),*/ async (req, res) => {
     });
 });
 
-router.get('/my-favorites'/*, authZ.ensureLoggedIn()*/, async (req, res) => {
+router.get('/my-favorites', authZ.ensureLoggedIn(), async (req, res) => {
     const user = req.user || await User.byId(1);
     user.favorites = await user.getFavoriteRecipes();
     user.groceryList = await user.getGroceryList();
@@ -47,7 +47,7 @@ router.get('/my-favorites'/*, authZ.ensureLoggedIn()*/, async (req, res) => {
     });
 });
 
-router.get('/my-grocery-list'/*, authZ.ensureLoggedIn()*/, async (req, res) => {
+router.get('/my-grocery-list', authZ.ensureLoggedIn(), async (req, res) => {
     log.trace("[/my-grocery-list] Entering....");
 
     var user = req.user || await User.byId(1);
@@ -59,7 +59,7 @@ router.get('/my-grocery-list'/*, authZ.ensureLoggedIn()*/, async (req, res) => {
     
 });
 
-router.get('/edit-grocery-list'/*, authZ.ensureLoggedIn()*/, async (req, res) => {
+router.get('/edit-grocery-list', authZ.ensureLoggedIn(), async (req, res) => {
     log.trace("[/edit-grocery-list] Entering....");
 
     var user = req.user || await User.byId(1);
