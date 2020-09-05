@@ -34,14 +34,9 @@ html(lang="en")
           .cz-sidebar-inner
             ul(role='tablist' style='min-height: 3rem;').nav.nav-tabs.nav-justified.mt-2.mt-lg-4.mb-0
               li.nav-item
-                a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Categories
-              - if( user && user.role === "Admin" ) {
-                    li.nav-item
-                      a(href='#menu' data-toggle='tab' role='tab').nav-link.font-weight-medium Admin
-              - }
+                a(href='#categories' data-toggle='tab' role='tab').nav-link.font-weight-medium.active Filters
             .cz-sidebar-body.pt-3.pb-0(data-simplebar)
               .tab-content
-
                 // Categories
                 #categories.sidebar-nav.tab-pane.fade.show.active(role='tabpanel')
                   .widget.widget-categories
@@ -49,7 +44,6 @@ html(lang="en")
                       each tags, category in newTags
                         - var catId = category.trim().replace(new RegExp(' ', 'g'),"-");
                         - catId = catId.replace(/[^a-zA-Z0-9-_]/g, ''); //remove anything that wont be put in a url
-    
                         // level1.name
                         .card.border-bottom
                           .card-header
@@ -64,60 +58,12 @@ html(lang="en")
                               .widget.widget-links
                                 ul.widget-list
                                   li.widget-list-item
-                                    a(href='#').tag-filter.tag-view-all.widget-list-link View All
+                                    a(href='/catalog').tag-filter.tag-view-all.widget-list-link View All
                                   each tag in tags
                                     li.widget-list-item
-                                      a(id=tag.id href='#').tag-filter.widget-list-link #{tag.name}
+                                      - var tagUrl = '/catalog?tags=' + tag.id
+                                      a(id=tag.id href=tagUrl).tag-filter.widget-list-link #{tag.name}
                                       
-
-
-
-                // Menu
-                #menu.sidebar-nav.tab-pane.fade(role='tabpanel')
-                  .widget.widget-categories
-                    #shop-menu.accordion
-                      // Homepages
-                      .card.border-bottom
-                        .card-header
-                          h3.accordion-heading.font-size-base.px-grid-gutter
-                            a(href='#home' role='button' data-toggle='collapse' aria-expanded='false' aria-controls='home').collapsed.py-3
-                              | Manage Recipes
-                              span.accordion-indicator
-                        #home.collapse(data-parent='#shop-menu')
-                          .card-body.px-grid-gutter.pb-4
-                            .widget.widget-links
-                              ul.widget-list
-                                li.widget-list-item
-                                  a(href='/add').widget-list-link Create New Recipe
-                                li.widget-list-item
-                                  a(href='#').widget-list-link View Ingredients - Coming Soon
-                                li.widget-list-item
-                                  a(href='#').widget-list-link Update Tags - Coming Soon
-                                  
-                     
-        //.px-grid-gutter.pt-5.pb-4.mb-2
-        //  .d-flex.mb-3
-        //    i.czi-support.h4.mb-0.font-weight-normal.text-primary.mt-1.mr-1
-        //    .pl-2
-        //      .text-muted.font-size-sm Support
-        //      a(href='tel:+100331697720').nav-link-style.font-size-md +1 (00) 33 169 7720
-        //  .d-flex.mb-3
-        //    i.czi-mail.h5.mb-0.font-weight-normal.text-primary.mt-1.mr-1
-        //    .pl-2
-        //      .text-muted.font-size-sm Email
-        //      a(href='mailto:customer@example.com').nav-link-style.font-size-md customer@example.com
-        //  h6.pt-2.pb-1 Follow us
-        //  a(href="#").social-btn.sb-outline.sb-twitter.mr-2.mb-2
-        //    i.czi-twitter
-        //  a(href="#").social-btn.sb-outline.sb-facebook.mr-2.mb-2
-        //    i.czi-facebook
-        //  a(href="#").social-btn.sb-outline.sb-instagram.mr-2.mb-2
-        //    i.czi-instagram
-        //  a(href="#").social-btn.sb-outline.sb-youtube.mr-2.mb-2
-        //    i.czi-youtube
-
-
-
 
     // Page
     - var className = ""

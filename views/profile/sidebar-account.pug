@@ -3,19 +3,19 @@
   .px-4.mb-4
     .media.align-items-center
       .img-thumbnail.rounded-circle.position-relative(style='width: 6.375rem;')
-        span(data-toggle='tooltip' title='Reward points').badge.badge-warning 384
-        img(src='/img/shop/account/avatar.jpg' alt='Susan Gardner').rounded-circle
+        //span(data-toggle='tooltip' title='Reward points').badge.badge-warning 384
+        img(src='/img/marketplace/account/avatar.png' alt='Avatar').rounded-circle
       .media-body.pl-3
         if user
           h3.font-size-base.mb-0 
           span.text-accent.font-size-sm #{user.email}
         else 
-          h3.font-size-base.mb-0 Susan Gardner
+          h3.font-size-base.mb-0 User
           span.text-accent.font-size-sm myemail@gmail.com
   .bg-secondary.px-4.py-3
     h3.font-size-sm.mb-0.text-muted Dashboard
   ul.list-unstyled.mb-0
-    li.mb-0
+    //li.mb-0
       a(href='/profile/my-recipes')&attributes(pageTitle === 'My Recipes' ? {'class': 'nav-link-style d-flex align-items-center px-4 py-3 active'} : {'class': 'nav-link-style d-flex align-items-center px-4 py-3'})
         i.czi-wallet.opacity-60.mr-2
         | My Recipes

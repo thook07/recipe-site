@@ -86,6 +86,12 @@ $(document).ready(function(){
         var sortBy = $(this).val()
         window.location.replace("/catalog?sort=" + sortBy);
     });
+
+    $('.filterTag').on('click', function(){ 
+        document.location.href = '/catalog?tags='+$(this).attr('tag-id');
+    });
+
+
 });
 
 function updateCart(){

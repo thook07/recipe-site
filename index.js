@@ -125,7 +125,6 @@ app.get('/catalog', async (req, res) => {
         recipes = [];
         for(const recipe of tempArr) {
             recipe.views = await recipe.viewCount
-            log.trace('recipe views' + recipe.views)
             recipes.push(recipe);
         }
         
@@ -138,8 +137,9 @@ app.get('/catalog', async (req, res) => {
         filterEnabled = true
         log.debug('[/catalog] Tag Filter Applied: ' + JSON.stringify(qTags))
         for(const recipe of recipes){
+
             for(const tag of recipe.tags){
-                if(qTags.includes(tag.id) == false) {
+                if(qTags.includes(tag.id)) {
                     filteredRecipes.push(recipe);
                     break;
                 }
@@ -148,15 +148,8 @@ app.get('/catalog', async (req, res) => {
 
     }
 
-
-
-
-
-
     if(filterEnabled) { log.debug('[/catalog] Current Recipe Total: ['+filteredRecipes.length+']');}
     var finalRecipes = (filterEnabled ? filteredRecipes : recipes);
-
-
 
     log.trace("[/catalog] Building Sidebar full of tags...");
     const tags = await Tag.findAll();
@@ -171,7 +164,6 @@ app.get('/catalog', async (req, res) => {
 
     log.debug('[/catalog] Sorting: ' + sortBy);
     
-
     finalRecipes.sort((a,b) => {
         const name1 = a.name.toUpperCase();
         const name2 = b.name.toUpperCase();
@@ -192,7 +184,7 @@ app.get('/catalog', async (req, res) => {
         if(sortBy == 'popular') {
             const views1 =  a.views;
             const views2 =  b.views;
-            log.trace('[/catalog sort] ' + a.name + '\'s view count was ' + views1 + ', while ' + b.name + '\'s view count was ' + views2 + ' ['+(views1-views2)+']')
+            //log.trace('[/catalog sort] ' + a.name + '\'s view count was ' + views1 + ', while ' + b.name + '\'s view count was ' + views2 + ' ['+(views1-views2)+']')
             return views2-views1;
         }
 

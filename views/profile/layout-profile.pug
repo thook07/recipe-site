@@ -9,17 +9,17 @@ doctype html
 html(lang="en")
 
   //- head.pug template
-  include head 
+  include ../recipe-partials/head 
   
   // Body
   body()&attributes(isToolbar ? {'class': 'toolbar-enabled'} : '')
       
     //- modal-signin.pug template
-    include modal-signin
+    include ../recipe-partials/modal-signin
       
     //- modal-quick-view.pug template
     if isModalQuickView
-      include modal-quick-view
+      include ../recipe-partials/modal-quick-view
       
     //- modal-sizes.pug template
     //if isModalSizes
@@ -42,16 +42,16 @@ html(lang="en")
       include modal-ticket
 
     //- navbar-{name}.pug template
-    include navbar-3-level-light
+    include ../recipe-partials/navbar-3-level-light
 
     //- page-title-{version}.pug template
-    include page-title-shop
+    include ../recipe-partials/page-title-shop
   
     // Page Content
     block content
 
     //- footer-{version}.pug template
-    include footer-light
+    include ../recipe-partials/footer-light
 
     // Toolbar for handheld devices
     //if isToolbar
@@ -92,7 +92,7 @@ html(lang="en")
                 i.czi-cart
                 span.badge.badge-primary.badge-pill.ml-1 4
               span.cz-handheld-toolbar-label $265.00
-  include toast-generic-success
+  include ../recipe-partials/toast-generic-success
     // Back To Top Button
     a(href='#top' data-scroll).btn-scroll-top
       span.btn-scroll-top-tooltip.text-muted.font-size-sm.mr-2 Top

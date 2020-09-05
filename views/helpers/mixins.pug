@@ -9,7 +9,7 @@ mixin breadcrumb(skin)
     nav(aria-label='breadcrumb')
       ol()&attributes(skin === 'light' ? {'class': 'breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start'} : {'class': 'breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start'})
         li.breadcrumb-item
-          a(class='text-nowrap')&attributes(isNestedFile ? {'href':'../index.html'} : {'href':'index.html'})
+          a(class='text-nowrap')&attributes(isNestedFile ? {'href':'../index.html'} : {'href':'/catalog'})
             i.czi-home
             | Home
         each breadcrumb in breadcrumbs
