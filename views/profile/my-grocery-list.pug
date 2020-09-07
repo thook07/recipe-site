@@ -28,19 +28,29 @@ block content
           section.col-lg-10.pb-5.mb-2.mb-xl-4.px-5
             .row
               .col
-                h2.h5.pt-2 Shopping List
-              .col
-                .btn-group(role="group", aria-label="Outline button group").float-right
+                h2.h5.pt-2 
+                  span.d-none.d-sm-block Shopping List
+                  span.d-block.d-sm-none List
+              .col.d-flex.justify-content-end
+                .btn-group(role="group", aria-label="Outline button group")
                   button(type="button").btn.btn-primary#show-checked
-                    | Show
-                    i.czi-check.ml-2
+                    span.d-none.d-lg-block 
+                      | Show
+                      i.czi-check-circle.ml-2
+                    span.d-block.d-lg-none
+                      i.czi-close-circle
                   button(type="button").btn.btn-outline-primary#hide-checked
-                    | Hide 
-                    i.czi-check.ml-2
-              .col
-                a(href="/profile/edit-grocery-list").btn.btn-secondary.float-right
-                  | Edit List
-                  i.czi-sign-in.ml-2
+                    span.d-none.d-lg-block 
+                      | Hide 
+                      i.czi-close-circle.ml-2
+                    span.d-block.d-lg-none
+                      i.czi-close-circle
+                a(href="/profile/edit-grocery-list" data-toggle='tooltip' title='Edit your grocery list').btn.btn-accent.ml-2
+                  span.d-none.d-lg-block.mr-2 
+                      | Edit List 
+                      i.czi-sign-in.ml-2
+                  span.d-block.d-lg-none
+                    i.czi-sign-in
             ul.list-group.mt-4
               .list-group.d-flex.justify-content-between.align-items-center
                 each items, cat in user.groceryList.getItemsByCategory()

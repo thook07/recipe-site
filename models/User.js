@@ -46,7 +46,7 @@ User.encryptPassword = function(plainText, salt) {
 }
 
 User.byId = async function(id) {
-    return await User.findByPk(id);
+    return await User.findByPk(id, { include: [Favorite, GroceryListRecipe]});
 }
 
 User.byEmail = async function(email) {

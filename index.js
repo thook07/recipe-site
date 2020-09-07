@@ -72,7 +72,7 @@ app.get('/', async (req, res) => {
 app.get('/catalog', async (req, res) => {
     log.trace("[/] entering app.get(\'/\'):")
     var userId = undefined
-    var user = req.user //|| await User.byId(1);
+    var user = req.user || await User.byId(1);
     if(user) {
         //log.trace('[/] User: ' + req.user.email)
         //log.trace('[/] User Role: ' + req.user.role)

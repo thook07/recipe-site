@@ -80,10 +80,10 @@ header(class=className)
           if user
             if user.groceryList
               .navbar-tool.dropdown.ml-3#cart-link
-                a(href='/profile/my-grocery-list').navbar-tool-icon-box.bg-secondary.dropdown-toggle
+                a(href='#modal-show-grocery-list' data-toggle='modal').navbar-tool-icon-box.bg-secondary.dropdown-toggle
                   //span.navbar-tool-label #{user.groceryListItems.length}
                   i.navbar-tool-icon.czi-basket
-                a(href='/profile/my-grocery-list').navbar-tool-text
+                a(href='#modal-show-grocery-list' data-toggle='modal').navbar-tool-text
                   small My List
                   | #{user.groceryList.recipes.length} recipes
 

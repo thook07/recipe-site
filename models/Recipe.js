@@ -149,5 +149,16 @@ Recipe.prototype.getNestedRecipes = async function getNestedRecipes() {
 
 }
 
+Recipe.prototype.getDisplayableTags = function getDisplayableTags(){
+    var str = '';
+    if(this.tags) {
+        for(const tag of this.tags) {
+            str = str + tag.name + ', '
+        }
+        return str.slice(0, -2);
+    }
+    return '';
+
+}
 
 module.exports = Recipe;
