@@ -114,6 +114,9 @@ block content
 									option Select Ingredient...
 									each ingredient in ingredients
 										option(value=ingredient.id) #{ingredient.name || ingredient.id}
+									each recipe in recipes
+										- var r = 'Recipe: ' + recipe.name
+										option(value=recipe.id) #{r}
 							.form-group
 								label(for="isRecipe") Is Recipe?
 								select(id="text-isRecipe" name='isRecipe').form-control.custom-select

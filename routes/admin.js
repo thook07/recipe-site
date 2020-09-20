@@ -171,7 +171,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipe-ingredients', authZ.ensureAdmin(), async (req, res) => {
+    router.get('/recipe-ingredients'/*, authZ.ensureAdmin()*/, async (req, res) => {
 
         var q = req.query.q || '';
         var i = req.query.i || '';
