@@ -63,7 +63,25 @@ html(lang="en")
                                     li.widget-list-item
                                       - var tagUrl = '/catalog?tags=' + tag.id
                                       a(id=tag.id href=tagUrl).tag-filter.widget-list-link #{tag.name}
-                                      
+                      .card.border-bottom
+                        .card-header
+                          h3.accordion-heading.font-size-base.px-grid-gutter
+                            a(href="#authors" role='button' data-toggle='collapse' aria-expanded='false' aria-controls=catId).collapsed.py-3
+                              span.d-flex.align-items-center
+                                i(class="authors").font-size-lg.opacity-60.mt-n1.mr-2
+                                | Authors
+                              span.accordion-indicator       
+                        div(data-parent='#shop-categories')#authors.collapse
+                            .card-body.px-grid-gutter.pb-4
+                              .widget.widget-links
+                                ul.widget-list
+                                  li.widget-list-item
+                                    a(href='/catalog').tag-filter.tag-view-all.widget-list-link View All
+                                  each author in authors
+                                    li.widget-list-item
+                                      - var authorUrl = '/catalog?a=' + encodeURI(author)
+                                      - var authorId = author.toLowerCase().trim().split(" ").join("-")
+                                      a(id=authorId href=authorUrl).tag-filter.widget-list-link #{author} (#{authorsMap[author]})        
 
     // Page
     - var className = ""

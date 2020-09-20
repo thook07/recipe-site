@@ -93,6 +93,7 @@ app.get('/catalog', async (req, res) => {
     let q = req.query.q || '';
     var qTags = req.query.tags;
     var sortBy = req.query.sort || 'az'
+    var author = req.query.a 
 
     if(sortBy == 'favorite' && user == undefined) {
         log.warn('Trying to sort on favorite without being logged in. Switching to AZ');
@@ -102,21 +103,37 @@ app.get('/catalog', async (req, res) => {
     qTags = (qTags == undefined) ? [] : qTags.split(',');
     log.trace("Tags: "+JSON.stringify(qTags));
     const { Op } = require('sequelize')
-    var recipes = await Recipe.findAll({
-        where: {
-            [Op.or]: {
-                name: {
-                    [Op.like]: '%'+q+'%'
-                },
+
+    var recipes = [];
+
+    if(author) {
+        recipes = await Recipe.findAll({
+            where: {
                 attAuthor: {
-                    [Op.like]: '%'+q+'%'
+                    [Op.like]: '%'+author+'%'
                 },
+                approved: 1
             },
-            approved: 1
-        },
-        include: [Tag]
-    })
-    log.trace('[/catalog] Got recipes based on query. Now need to check to see if any other filters are applied');
+            include: [Tag]
+        })
+        log.trace('[/catalog] Got recipes based on author. Now need to check to see if any other filters are applied');
+    } else {
+        recipes = await Recipe.findAll({
+            where: {
+                [Op.or]: {
+                    name: {
+                        [Op.like]: '%'+q+'%'
+                    },
+                    attAuthor: {
+                        [Op.like]: '%'+q+'%'
+                    },
+                },
+                approved: 1
+            },
+            include: [Tag]
+        })
+        log.trace('[/catalog] Got recipes based on query. Now need to check to see if any other filters are applied');
+    }
     log.debug('[/catalog] Current Recipe Total: ['+recipes.length+']');
 
     if(sortBy == 'popular') {
@@ -205,13 +222,32 @@ app.get('/catalog', async (req, res) => {
     });
     log.trace('[/catalog] Showing Catalog Page ['+recipes.length+']');
 
+    var authorsMap = {};
+    var authors = [];
+    for(const r of finalRecipes){
+        if( r.author == undefined || r.author == "" ) {
+            continue;
+        }
+        if( r.author in authorsMap) {
+            authorsMap[r.author] = authorsMap[r.author] + 1
+        } else {
+            authorsMap[r.author] = 1
+        }
+        if( authors.includes(r.author) == false ){ 
+            authors.push(r.author)
+        }
+    }
+    authors.sort((a,b) => { return authorsMap[b] - authorsMap[a] })
+    
     res.render('index-new', {
         sortBy: sortBy,
         recipes: finalRecipes,
         tags: tags,
         user: user,
         userId: userId,
-        newTags: categoryMap
+        newTags: categoryMap,
+        authors: authors,
+        authorsMap: authorsMap
     });
         
 });
