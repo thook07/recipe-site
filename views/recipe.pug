@@ -30,16 +30,19 @@ block content
           h1.h2 #{recipe.name}
           
           .col-xl-12.px-2.mb-3
+
+          
             .h-100.bg-light.rounded-lg.p-4
+              // Product gallery
               .cz-product-gallery
                 .cz-preview.order-sm-2
                   if recipe.images
                     each image, index in recipe.images
                       if index == 0
-                        div(id="image-" + index).cz-preview-item.active
+                        div(id="image" + index).cz-preview-item.active
                           img(src=image alt='Product image')
                       else
-                        div(id="image-" + index).cz-preview-item
+                        div(id="image" + index).cz-preview-item
                           img(src=image alt='Product image')
                   else
                     div(id="default-image").cz-preview-item.active
@@ -47,7 +50,7 @@ block content
                 .cz-thumblist.order-sm-1
                   if recipe.images
                     each image, index  in recipe.images
-                      a(href="#image-" + index).cz-thumblist-item
+                      a(href="#image" + index).cz-thumblist-item
                         img(src=image alt='Product thumb')
                   else
                     a(href="#default-image").cz-thumblist-item
@@ -65,12 +68,11 @@ block content
           //  button(type='submit' data-toggle='tooltip' title='Add to Wishlist').btn.btn-icon.btn-secondary.mb-3
           //    i.czi-heart.font-size-lg
           .col-xl-12.px-2.mb-3
-            if recipe.attribution
-              if recipe.attribution.link
-                a(href=recipe.attribution.link target="_blank")
-                  button(type="button").btn.btn-outline-primary 
-                    i.czi-link.mr-2
-                    | #{recipe.attribution.author}
+            if recipe.author
+              a(href=recipe.url target="_blank")
+                button(type="button").btn.btn-outline-primary 
+                  i.czi-link.mr-2
+                  | #{recipe.author}
 
 
       - var ingId = '#ingredients-' + recipe.id

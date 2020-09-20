@@ -91,13 +91,19 @@ block content
                                                         i.czi-announcement.font-size-lg
                                             td #{recipe.author}
                                             td 
-                                                a(href=recipe.url, class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title=recipe.url).btn.btn-outline-secondary.btn-icon
+                                                a(href=recipe.url, target="_blank" class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title=recipe.url).btn.btn-outline-secondary.btn-icon
                                                     i.czi-link.font-size-lg
-                                            td(style='min-width: 9rem;')
+                                            td(style='min-width: 15rem;')
                                                 button(type="button" data-toggle="tooltip", data-placement="top", title="Edit Recipe" data-recipe=JSON.stringify(recipe)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
                                                     i.czi-edit
                                                 a(href="#" data-toggle="tooltip", data-placement="top", title="Inactivate Recipe" data-recipe-id=recipe.id data-recipe-name=recipe.name).btn.btn-outline-warning.btn-icon.inactivateBtn.mr-2
                                                     i.czi-security-close
+                                                - var recipeLink = '/recipe/'+recipe.id
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Go to recipe page").btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                    i.czi-sign-in
+                                                - var recipeLink = '/admin/recipe-ingredients?r='+recipe.id;
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients").btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                    i.czi-basket-alt
                                                     
                                                         
 

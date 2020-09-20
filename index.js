@@ -248,7 +248,7 @@ app.get('/recipe/:recipe', async (req, res) => {
 
 
 
-    res.render('grocery-single', {
+    res.render('recipe', {
         recipe: recipe,
         nestedRecipes: totalRecipes, 
         tags: tags,
