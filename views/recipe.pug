@@ -17,12 +17,15 @@ append config
   - var includeTest = false
 append scripts
   script(src='/js/recipes/recipe.js')
+   - var hostname = 'http://3.14.147.18:3000';
   meta(property="og:site_name" content="Vegan Recipes")
-  meta(property="og:title" content=nestedRecipes[0].name)
-  //meta(property="og:description" content="Your Website Name Here")
-  meta(property="og:image" content="http://3.14.147.18:3000/recipe-images/default.jpg")
-  - var url = "http://3.14.147.18:3000/recipe/" + nestedRecipes[0].id
-  meta(property="og:url" content=url)
+  if nestedRecipes[0]
+    meta(property="og:title" content=nestedRecipes[0].name)
+    meta(property="og:description" content="Your plant based meal awaits!")
+    - var imageUrl = (nestedRecipes[0].images == undefined ? hostname + '/recipe-images/default.jpg' : hostname + nestedRecipes[0].images[0])
+    meta(property="og:image" content=imageUrl)
+    - var url = hostname + "/recipe/" + nestedRecipes[0].id
+    meta(property="og:url" content=url)
   meta(property="og:type" content="website")
   
 //- Page Content
