@@ -24,6 +24,7 @@ append scripts
     meta(property="og:description" content="Your plant based meal awaits!")
     - var imageUrl = (nestedRecipes[0].images == undefined ? hostname + '/recipe-images/default.jpg' : hostname + nestedRecipes[0].images[0])
     meta(property="og:image" content=imageUrl)
+    meta(property="twitter:image" content=imageUrl)
     meta(property="og:image:width" content="518")
     meta(property="og:image:height" content="484")
     - var url = hostname + "/recipe/" + nestedRecipes[0].id
