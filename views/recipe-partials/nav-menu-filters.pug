@@ -1,0 +1,65 @@
+// Primary menu
+ul.navbar-nav.d-lg-none
+	li.nav-item.dropdown
+		a(href='/catalog').nav-link View All
+	if newTags
+		each tags, category in newTags
+			- var catId = category.trim().replace(new RegExp(' ', 'g'),"-");
+			- catId = catId.replace(/[^a-zA-Z0-9-_]/g, ''); //remove anything that wont be put in a url
+			li.nav-item.dropdown
+				a(href='#' data-toggle='dropdown').nav-link.dropdown-toggle #{category}
+				ul.dropdown-menu
+					each tag in tags
+						- var tagUrl = '/catalog?tags=' + tag.id
+						li: a(href=tagUrl).dropdown-item #{tag.name}
+	li.nav-item.dropdown
+		a(href='#' data-toggle='dropdown').nav-link.dropdown-toggle Authors
+		ul.dropdown-menu
+			if authors
+				each author in authors
+					- var authorUrl = '/catalog?a=' + encodeURI(author) 
+					li: a(href=authorUrl).dropdown-item #{author} (#{authorsMap[author]})                         
+                                      
+	//li.nav-item.dropdown
+		a(href='#' data-toggle='dropdown').nav-link.dropdown-toggle Docs / Components
+		ul.dropdown-menu
+			li
+				a(href='docs/dev-setup.html').dropdown-item
+					.d-flex
+						.lead.text-muted.pt-1
+							i.czi-book
+						.ml-2
+							span.d-block.text-heading Documentation
+							small.d-block.text-muted Kick-start customization
+			li.dropdown-divider
+			li
+				a(href='components/typography.html').dropdown-item
+					.d-flex
+						.lead.text-muted.pt-1
+							i.czi-server
+						.ml-2
+							span.d-block.text-heading
+								| Components
+								span.badge.badge-info.ml-2 40+
+							small.d-block.text-muted Faster page building
+			li.dropdown-divider
+			li
+				a(href='docs/changelog.html').dropdown-item
+					.d-flex
+						.lead.text-muted.pt-1
+							i.czi-edit
+						.ml-2
+							span.d-block.text-heading
+								| Changelog
+								span.badge.badge-success.ml-2 v1.2
+							small.d-block.text-muted Regular updates
+			li.dropdown-divider
+			li
+				a(href='mailto:contact@createx.studio').dropdown-item
+					.d-flex
+						.lead.text-muted.pt-1
+							i.czi-help
+						.ml-2
+							span.d-block.text-heading Support
+							small.d-block.text-muted contact@createx.studio
+

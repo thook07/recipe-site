@@ -50,7 +50,10 @@ block content
       // Product
       .col-md-3.col-sm-6.col-xs-2.px-2.mb-4
         .card.product-card
-          span.badge.badge-danger.badge-shadow #{recipe.views}
+          if recipe.views
+            span.badge.badge-danger.badge-shadow #{recipe.views}
+          //else
+            span.badge.badge-success.badge-shadow #{recipe.recipeType}
           if user
             button(type='button' data-user-id=user.id data-recipe-name=recipe.name data-recipe-id=recipe.id).btn-wishlist-left.btn-sm.d-xl-none
               i.czi-basket

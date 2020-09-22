@@ -60,6 +60,9 @@ const Recipe = db.define('recipe', {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     },
+    recipeType: {
+        type: Sequelize.STRING
+    },
     viewCount: {
         type: Sequelize.VIRTUAL,
         async get() {

@@ -13,3 +13,9 @@ cd /var/www/html
 sudo git pull
 //step 7 restart server
 pm2 restart index
+
+
+
+
+// add this to recipes table 09/21/2020
+ALTER TABLE `recipes`.`recipes` ADD COLUMN `recipeType` VARCHAR(45) NULL AFTER `approved`;
