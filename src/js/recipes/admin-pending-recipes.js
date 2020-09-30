@@ -20,6 +20,7 @@ $(document).ready(function(){
 
     $('#approvedBtnModal').on('click', function() {
         var recipeId = $(this).attr('data-recipe-id');
+        
         var data = {
             attributes: {
                 approved: 1
@@ -27,6 +28,7 @@ $(document).ready(function(){
         }
         $.post('/api/recipes/'+recipeId+'/update', data, res => {
             $('#yes-no-modal').modal('hide');
+            sendNotification(recipeId);
             location.reload();
         }).fail(err => {
             console.log(err);
@@ -34,3 +36,17 @@ $(document).ready(function(){
     });
 
 });
+
+function sendNotification(id) {
+    var data = {
+        recipeId: id
+    };
+
+    $.post('/api/notify/new-recipe', data, res => {
+        console.log(data);
+    }).fail(err => {
+        console.log(err);
+    });
+
+
+}

@@ -300,7 +300,7 @@ app.use('/account', require('./routes/account'));
 app.use('/admin', require('./routes/admin')(db));
 
 // -- API Routes
-app.use('/api', require('./routes/api'));
+app.use('/api', require('./routes/api')(app, db));
 
 // -- Profile Routes
 app.use('/profile', require('./routes/profile'));
@@ -530,14 +530,8 @@ app.use(function(req, res) {
 
 
 async function test(){
-    const user = await User.findOne({
-        where: {
-            id: 1
-        }
-    })
-    const list = await user.getGroceryList();
-    
-    
+    console.log('File: ' + app.get('views'))
 }
 
 //test();
+
