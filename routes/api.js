@@ -670,7 +670,13 @@ module.exports = function(app, sequelize){
         mailList = [
             'thook07@gmail.com',
             'lalbers07@gmail.com',
-            'cakers88@hotmail.com'
+            'cakers88@hotmail.com',
+            'brandon.m.springer89@gmail.com',
+            'brianderrow@gmail.com',
+            'amanda.andrew.89@gmail.com',
+            'jeannahook@yahoo.com',
+            'faith.d.hook@gmail.com',
+            'langlolandscaping@gmail.com'
         ]
 
         var mailOptions = {
