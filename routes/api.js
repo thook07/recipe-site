@@ -650,8 +650,8 @@ module.exports = function(app, sequelize){
         console.log(featuredRecipes);
 
         var recentRecipes = await Recipe.findAll({
-            limit: 2,
-            order: [ [ 'createdAt', 'DESC' ]]
+            limit: 3,
+            order: [ [ 'updatedAt', 'DESC' ]]
         });
 
 
@@ -681,7 +681,7 @@ module.exports = function(app, sequelize){
         ]
 
         var mailOptions = {
-            from: "no-reply@veganrecipes.com", // sender address
+            from: "veganrecipes02@gmail.com", // sender address
             subject: 'New Recipe Added: ' + newRecipe.name, // Subject line
             bcc: mailList,
             html: html
