@@ -650,6 +650,9 @@ module.exports = function(app, sequelize){
         console.log(featuredRecipes);
 
         var recentRecipes = await Recipe.findAll({
+            where: {
+                approved: 1
+            },
             limit: 3,
             order: [ [ 'updatedAt', 'DESC' ]]
         });
