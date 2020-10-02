@@ -647,8 +647,6 @@ module.exports = function(app, sequelize){
             }
         });
 
-        console.log(featuredRecipes);
-
         var recentRecipes = await Recipe.findAll({
             where: {
                 approved: 1
@@ -656,9 +654,6 @@ module.exports = function(app, sequelize){
             limit: 3,
             order: [ [ 'updatedAt', 'DESC' ]]
         });
-
-
-
 
         var emailTemplate = app.get('views') + '/email-templates/new-recipe.pug'
         log.debug('Email Template File: ' + emailTemplate)
