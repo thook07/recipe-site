@@ -754,7 +754,7 @@ module.exports = function(app, sequelize){
             hostname: 'veganrecipes.ddns.net'
         });
         
-        const environment = process.env.NODE_ENV || 'development';
+        const environment = 'production' //process.env.NODE_ENV || 'development';
 
         var mailList = [];
 
