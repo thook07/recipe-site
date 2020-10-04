@@ -76,9 +76,11 @@ block content
 											td #{ri.amount}
 											td #{ri.recipeId}
 											td #{ri.ingredientId}
-											td 
-												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Recipe Ingredient" data-ri=JSON.stringify(ri)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+											td(style='min-width: 8rem;')
+												button(type="button"  data-toggle="tooltip", data-placement="top", title="Edit Recipe Ingredient" data-ri=JSON.stringify(ri)).btn.btn-outline-primary.btn-icon.editBtn.mr-1
 													i.czi-edit
+												button(type="button" data-toggle="tooltip", data-placement="top", title="Delete Recipe Ingredient" data-ri-id=ri.id data-ri-desc=ri.ingredientDescription).btn.btn-outline-danger.btn-icon.deleteBtn.mr-1
+													i.czi-trash
 														
 
 	#update-modal.modal-quick-view.modal.fade(tabindex='-1')
@@ -126,5 +128,22 @@ block content
 								i.czi-loading.font-size-base.mr-2
 								| Update Recipe Ingredient
 
-				 
+	#delete-modal.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h6.modal-title.product-title Are you sure you want to delete this recipe ingredient?
+				.modal-body
+					.row.justify-content-center
+						.col-lg-12
+							p This remove Recipe Ingredient: <span id="deleteRecipeName"></span> from the database! Are you sure you want to do this?
+					.row.justify-content-center
+						.col-lg-6
+							button().btn.btn-outline-danger.btn-block#deleteBtnModal.mt-4
+									i.czi-security-check.font-size-base.mr-2
+									| Yes, Delete!
+						.col-lg-6
+							button(data-dismiss="modal").btn.btn-outline-accent.btn-block.mt-4
+									i.czi-security-close.font-size-base.mr-2
+									| No			 
 	include ../recipe-partials/toast-generic-success

@@ -530,8 +530,9 @@ app.use(function(req, res) {
 
 
 async function test(){
-    console.log('File: ' + app.get('views'))
+    const environment = process.env.NODE_ENV || 'development';
+    log.info("Running in the " + environment + ' environment');
 }
 
-//test();
+test();
 

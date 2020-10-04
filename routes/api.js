@@ -361,6 +361,52 @@ module.exports = function(app, sequelize){
         }
     });
 
+    router.post('/recipes/delete', async (req, res) => {
+        log.debug('[/api/recipes/delete] Enter.')
+        const recipeId = req.body.id;
+        log.trace('[/api/recipes/delete] Recipe Id: ' + recipeId)
+        try {
+            log.debug('[/api/recipes/delete] Deleting Recipe Object');
+            var recipeRows = await Recipe.destroy({
+                where: {
+                  id: recipeId
+                }
+            });
+            log.debug('[/api/recipes/delete] Recipe Deleted ['+recipeRows+']. Moving on to Ingredients')
+            var riRows = await RecipeIngredient.destroy({
+                where: {
+                  recipeId: recipeId
+                }
+            });
+            log.debug('[/api/recipes/delete] RecipeIngredients Deleted ['+riRows+']. Moving on to Tags')
+            var tagRows = await RecipeTag.destroy({
+                where: {
+                  recipeId: recipeId
+                }
+            });
+            log.debug('[/api/recipes/delete] Tags Deleted ['+tagRows+']. Checking GroceryLists')
+            var groceryRows = await GroceryListRecipe.destroy({
+                where: {
+                  recipeId: recipeId
+                }
+            });
+            log.debug('[/api/recipes/delete] Grocery Rows Deleted ['+groceryRows+']. Checking Favorites')
+            var favoriteRows = await Favorite.destroy({
+                where: {
+                  recipeId: recipeId
+                }
+            });
+            log.debug('[/api/recipes/delete] Favorite Rows Deleted ['+groceryRows+']')
+            log.info('[/api/recipes/delete] Successfully Delete Recipe ['+recipeId+'] Rows Deleted: ' + (recipeRows + riRows + tagRows + groceryRows + favoriteRows) )
+            res.status(200)
+            res.send("Success");
+        } catch(err) {
+            res.status(400);
+            res.send(err.errors[0].message);
+        }
+        
+    });
+
     router.post('/upload/recipe-images', async (req, res) => {
         try {
             if(!req.files) {
@@ -460,6 +506,29 @@ module.exports = function(app, sequelize){
             res.send(err);
         }
     });
+
+    router.post('/recipe-ingredient/delete', async(req, res) => {
+        log.debug('[/api/recipe-ingredient/delete] Entering.')
+        const riId = req.body.id;
+        log.trace('[/api/recipe-ingredient/delete] Delete Requested for ID:' + riId);
+        try {
+            log.debug('[/api/recipe-ingredient/delete] Updating Recipe Ingredient with id: ' + riId);
+            await RecipeIngredient.destroy({
+                where: {
+                  id: riId
+                }
+            });
+            log.debug('[/api/recipe-ingredient/delete] Deleted!');
+            res.status(200);
+            res.send("Success");
+        } catch(err) {
+            console.log(err);
+            log.error(JSON.stringify(err))
+            res.status(400);
+            res.send(err);
+        }
+    });
+
 
     router.get('/ingredients', async (req, res) => {
         const ingredients = await Ingredient.findAll();
@@ -623,14 +692,14 @@ module.exports = function(app, sequelize){
     });
 
     router.post('/notify/new-recipe/', async (req, res) => {
-        log.debug('Enterig notify. sending new recipe email!')
+        log.debug('[/notify/new-recipe/] Entering notify. sending new recipe email!')
         const recipeId = req.body.recipeId;
-        log.debug('New Recipe ID: ' + recipeId);
+        log.debug('[/notify/new-recipe/] New Recipe ID: ' + recipeId);
 
         const { Op, QueryTypes} = require("sequelize");
 
         newRecipe = await Recipe.findByPk(recipeId);
-
+        
         var top3Recipes = await sequelize.query(`
             SELECT r.*, count(rpv.id) as viewCount FROM recipes r 
             JOIN recipePageVisits rpv on r.id = rpv.recipeId  GROUP BY r.id
@@ -641,11 +710,21 @@ module.exports = function(app, sequelize){
         type: QueryTypes.SELECT
         });
 
+        log.debug('[/notify/new-recipe/] Top Recipes')
+        for(const r of top3Recipes){
+            log.debug('[/notify/new-recipe/] >> ' + r.name)
+        }
+
         var featuredRecipes = await Recipe.findAll({
             where: {
                 id: ['cheese-sauce','spicy-coconut-corn-crack','millionaire-squares','daves-jungle-curry']
             }
         });
+
+        log.debug('[/notify/new-recipe/] Featured Recipes')
+        for(const r of featuredRecipes){
+            log.debug('[/notify/new-recipe/] >> ' + r.name)
+        }
 
         var recentRecipes = await Recipe.findAll({
             where: {
@@ -655,6 +734,16 @@ module.exports = function(app, sequelize){
             order: [ [ 'updatedAt', 'DESC' ]]
         });
 
+        log.debug('[/notify/new-recipe/] Recent Recipes');
+        var i = 0;
+        for(const r of recentRecipes){
+            if( i > 0 ) {
+                log.debug('[/notify/new-recipe/] >> ' + r.name + ' (not shown)');
+            } else {
+                log.debug('[/notify/new-recipe/] >> ' + r.name);
+            }
+        }
+        
         var emailTemplate = app.get('views') + '/email-templates/new-recipe.pug'
         log.debug('Email Template File: ' + emailTemplate)
         var html = pug.renderFile(emailTemplate, {
@@ -665,18 +754,33 @@ module.exports = function(app, sequelize){
             hostname: 'veganrecipes.ddns.net'
         });
         
-        mailList = [
-            'thook07@gmail.com',
-            'lalbers07@gmail.com',
-            'cakers88@hotmail.com',
-            'brandon.m.springer89@gmail.com',
-            'brianderrow@gmail.com',
-            'amanda.andrew.89@gmail.com',
-            'jeannahook@yahoo.com',
-            'faith.d.hook@gmail.com',
-            'langlolandscaping@gmail.com',
-            'Loder.brian@gmail.com'
-        ]
+        const environment = process.env.NODE_ENV || 'development';
+
+        var mailList = [];
+
+        if( environment == 'production') {
+            log.debug('[/notify/new-recipe/] Production Enabled! Sending To All Recipients!')
+            mailList = [
+                'thook07@gmail.com',
+                'lalbers07@gmail.com',
+                'cakers88@hotmail.com',
+                'brandon.m.springer89@gmail.com',
+                'brianderrow@gmail.com',
+                'amanda.andrew.89@gmail.com',
+                'jeannahook@yahoo.com',
+                'faith.d.hook@gmail.com',
+                'langlolandscaping@gmail.com',
+                'Loder.brian@gmail.com',
+                'stevenkabbes@gmail.com'
+            ]
+        } else {
+            log.debug('[/notify/new-recipe/] Running In Dev sending only to certain addresses')
+            mailList = [
+                'thook07@gmail.com'
+            ]
+        }
+
+
 
         var mailOptions = {
             from: "veganrecipes02@gmail.com", // sender address
@@ -684,6 +788,10 @@ module.exports = function(app, sequelize){
             bcc: mailList,
             html: html
         };
+
+
+
+        log.info('Sending Email to ['+mailList.length+'] recepients')
     
         // send mail with defined transport object
         nodemailer.sendMail(mailOptions, function(error, info){

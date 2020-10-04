@@ -59,5 +59,29 @@ $(document).ready(function(){
             console.log(err);
         });
     })
+
+    $('.deleteBtn').on('click', function() {
+        var riId = $(this).attr('data-ri-id');
+        var desc = $(this).attr('data-ri-desc');
+        $('#deleteRecipeName').html(desc + ' ('+riId+')');
+        $('#deleteBtnModal').attr('data-ri-id', riId);
+
+        $('#delete-modal').modal('show');
+    });
+
+    $('#deleteBtnModal').on('click', function() {
+        var riId = $(this).attr('data-ri-id');
+        
+        var data = {
+            id: riId
+        }
+        
+        $.post('/api/recipe-ingredient/delete', data, res => {
+            $('#delete-modal').modal('hide');
+            location.reload();
+        }).fail(err => {
+            console.log(err);
+        });
+    });
     
 });

@@ -101,11 +101,16 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipes', authZ.ensureAdmin(), async (req, res) => {
+    router.get('/recipes', /*authZ.ensureAdmin(),*/ async (req, res) => {
 
         var q = req.query.q || '';
         var r = req.query.r || '';
         var issues = req.query.issues || false;
+
+        var filtered = false;
+        if( q != '' || r != '' || issues) {
+            filtered = true;
+        }
 
         const { Op } = require("sequelize");
         var recipes = []
@@ -133,7 +138,8 @@ module.exports = function(sequelize){
             user: req.user,
             pendingRecipes,
             recipes,
-            q
+            q,
+            filtered
         });
     });
 
@@ -171,7 +177,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipe-ingredients', authZ.ensureAdmin(), async (req, res) => {
+    router.get('/recipe-ingredients', /*authZ.ensureAdmin(),*/ async (req, res) => {
 
         var q = req.query.q || '';
         var i = req.query.i || '';
@@ -282,14 +288,26 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/pending-recipes', authZ.ensureAdmin(), async (req, res) => {
+    router.get('/pending-recipes', /*authZ.ensureAdmin(),*/ async (req, res) => {
 
+        var q = req.query.q || '';
 
-        var recipes = await Recipe.findAll({ where: {approved: false} })
+        var filtered = q == '' ? false : true;
+
+        const { Op } = require("sequelize");
+        var recipes = await Recipe.findAll({ 
+            where: {
+                [Op.and]: [
+                    { approved: false }, 
+                    { name: {[Op.like] : '%'+q+'%' }}
+                ]
+            } 
+        })
         res.render("admin/pending-recipes", {
             user: req.user,
             pendingRecipes: recipes.length,
-            recipes
+            recipes,
+            filtered
         });
     });
 

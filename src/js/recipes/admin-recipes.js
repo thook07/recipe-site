@@ -33,12 +33,27 @@ $(document).ready(function(){
         $("#text-link").val(data.attLink)
         $("#text-cookTime").val(data.cookTime)
         $("#text-prepTime").val(data.prepTime)
+
+        if(data.recipeType) {
+            var recipeTypeArray = data.recipeType.split('|');
+            var recipeType = recipeTypeArray[0];
+            var recipeTypeColor = (recipeTypeArray.length > 1 ? recipeTypeArray[1] : 'info');
+            $("#text-recipe-type").val(recipeType)
+            $('#text-recipe-type-color > option').each(function(){
+                if( $(this).val() == recipeTypeColor ) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+        }
         
         $('#update-modal').modal('show');
 
     });
 
     $('#update-btn').on('click', function(){
+
+        var recipeType = ($('#text-recipe-type').val() == '') ? '' : $('#text-recipe-type').val() + '|' + $('#text-recipe-type-color').val();
+
         var data = {
             attributes: {
                 name: $('#text-name').val(),
@@ -49,7 +64,8 @@ $(document).ready(function(){
                 recipeIngredients: convertFromCSV($("#text-recipeIngredients").val(), true),
                 notes: convertFromCSV($("#text-notes").val(), false),
                 instructions: convertFromCSV($("#text-instructions").val(), false),
-                images: convertFromCSV($("#text-images").val(), false)
+                images: convertFromCSV($("#text-images").val(), false),
+                recipeType: recipeType
             },
             removeIngredientIds: $("#cb-removeIngredientIds").is(":checked"),
             recipeId: $('#text-id').val()

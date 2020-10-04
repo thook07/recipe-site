@@ -52,8 +52,15 @@ block content
         .card.product-card
           if recipe.views
             span.badge.badge-danger.badge-shadow #{recipe.views}
-          //else
-            span.badge.badge-success.badge-shadow #{recipe.recipeType}
+          else
+            if recipe.recipeType
+              - var arr = recipe.recipeType.split("|")
+              - var msg = arr[0];
+              - var badgeColor = arr.length > 1 ? 'badge-' + arr[1] : 'badge-info'
+              if user
+                span(class=badgeColor style="margin-left: 50px; margin-right: 50px; right: 0.75rem;").badge.badge-shadow #{msg}
+              else
+                span(class=badgeColor).badge.badge-shadow #{msg}
           if user
             button(type='button' data-user-id=user.id data-recipe-name=recipe.name data-recipe-id=recipe.id).btn-wishlist-left.btn-sm.d-xl-none
               i.czi-basket

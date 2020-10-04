@@ -32,9 +32,16 @@ block content
                 // Content
                 section(style='padding-right: 2.5rem !important').col-lg-10.p-2
                     .row.p-1.pt-3
-                        .col-lg-8
+                        if filtered
+                            .col-lg-1
+                                a(href="/admin/recipes" data-toggle="tooltip", data-placement="top", title="Remove Filters").btn.btn-primary.btn-icon
+                                    i.czi-close-circle
+                            .col-lg-3
                                 h3 #{pageTitle}
-                        .col-lg-4.d-flex.justify-content-end
+                        else
+                            .col-lg-4
+                                h3 #{pageTitle}
+                        .col-lg-8.d-flex.justify-content-end
                                 select(id="select-recipe-id" name='recipeId').form-control.custom-select.ml-2
                                     option Select Recipe...
                                     each recipe in recipes
@@ -67,13 +74,19 @@ block content
                                     tbody
                                     each recipe in recipes
                                         tr
-                                            td 
+                                            td(style='min-width: 6rem;')
                                                 if recipe.approved
-                                                    button(type="button", data-toggle="tooltip", data-placement="top", title="Active").btn.btn-success.p-1
+                                                    button(type="button", data-toggle="tooltip", data-placement="top", title="Active").btn.btn-success.p-1.mr-2
                                                         i.czi-security-check.font-size-lg
                                                 else 
-                                                    button(type="button", data-toggle="tooltip", data-placement="top", title="Pending Approval").btn.btn-warning.p-1
+                                                    button(type="button", data-toggle="tooltip", data-placement="top", title="Pending Approval").btn.btn-warning.p-1.mr-2
                                                         i.czi-security-close.font-size-lg
+                                                if recipe.recipeType
+                                                    - var arr = recipe.recipeType.split("|")
+                                                    - var msg = arr[0];
+                                                    - var badgeColor = arr.length > 1 ? 'btn-' + arr[1] : 'btn-info'
+                                                    button(class=badgeColor type="button", data-toggle="tooltip", data-placement="top", title=msg).btn.p-1
+                                                        i.czi-lable.font-size-lg
                                             td 
                                                 if recipe.images
                                                     - var imgSrc = recipe.images[0] || '/recipe-images/default.jpg'
@@ -94,16 +107,17 @@ block content
                                                 a(href=recipe.url, target="_blank" class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title=recipe.url).btn.btn-outline-secondary.btn-icon
                                                     i.czi-link.font-size-lg
                                             td(style='min-width: 15rem;')
-                                                button(type="button" data-toggle="tooltip", data-placement="top", title="Edit Recipe" data-recipe=JSON.stringify(recipe)).btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                button(type="button" data-toggle="tooltip", data-placement="top", title="Edit Recipe" data-recipe=JSON.stringify(recipe)).btn.btn-outline-primary.btn-icon.editBtn.mr-1
                                                     i.czi-edit
-                                                a(href="#" data-toggle="tooltip", data-placement="top", title="Inactivate Recipe" data-recipe-id=recipe.id data-recipe-name=recipe.name).btn.btn-outline-warning.btn-icon.inactivateBtn.mr-2
+                                                a(href="#" data-toggle="tooltip", data-placement="top", title="Inactivate Recipe" data-recipe-id=recipe.id data-recipe-name=recipe.name).btn.btn-outline-warning.btn-icon.inactivateBtn.mr-1
                                                     i.czi-security-close
                                                 - var recipeLink = '/recipe/'+recipe.id
-                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Go to recipe page").btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Go to recipe page").btn.btn-outline-primary.btn-icon.editBtn.mr-1
                                                     i.czi-sign-in
                                                 - var recipeLink = '/admin/recipe-ingredients?r='+recipe.id;
-                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients").btn.btn-outline-primary.btn-icon.editBtn.mr-2
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients").btn.btn-outline-primary.btn-icon.editBtn.mr-1
                                                     i.czi-basket-alt
+                                                
                                                     
                                                         
 
@@ -162,6 +176,22 @@ block content
                                     .form-group
                                         label(for="link") Link
                                         input(name='link' id="text-link").form-control
+                            .row
+                                .col-lg-6
+                                    .form-group
+                                        label(for="author") Recipe Type Msg
+                                        input(name='author' id="text-recipe-type").form-control
+                                .col-lg-6
+                                    .form-group
+                                        label(for="link") Msg Type
+                                        select(id="text-recipe-type-color" name='color').form-control.custom-select
+                                            option(value='success') Success (Green)
+                                            option(value='primary') Primary (Red)
+                                            option(value='info') Info (Blue)
+                                            option(value='warning') Warning (Orange)
+                                            option(value='danger') Danger (Dark Pink)
+                                            option(value='accent') Accent (Dark Purple)
+                                            option(value='dark') Dark (Black)
                             button().btn.btn-primary.btn-block#update-btn.mt-4
                                 i.czi-loading.font-size-base.mr-2
                                 | Update Recipe
