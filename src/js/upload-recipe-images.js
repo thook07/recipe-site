@@ -32,10 +32,10 @@ $(document).ready(function(){
         }
         console.log(data);
 
-        $.post( '/api/recipes/'+recipeId+'/update', data, res => {
+        $.post( '/api/recipes/'+$('#recipeSelect').val()+'/update', data, res => {
             console.log('Success!');
             $('#toast-title').text('Success');
-            $('#toast-body').text(recipeId + ' updated successfully!');
+            $('#toast-body').text($('#recipeSelect').val() + ' updated successfully!');
             $('#generic-success-toast').toast('show');
         }).fail(err => {
             console.log(err.responseText)
@@ -47,19 +47,20 @@ $(document).ready(function(){
 
 //loads the images if exists
 async function loadUploadWidget(recipeId){
+    recipeId = $('#recipeSelect').val();
+    console.log('RECIPE ID SET: ' + recipeId);
     var images = await $.get( '/api/recipes/'+recipeId+'/images');
-        
-        $( '#sortable' ).empty();
-        if(images.length > 0) {
-            imageCount = images.length
-            images.forEach(image => {
-                $('#sortable').append(buildListItem(image));
-            });
-        } else {
-            console.log("No Images Available");
-        }
-        $('#upload-widget').removeClass('d-none')
-        $('#sortable').sortable( 'refresh');
+    $( '#sortable' ).empty();
+    if(images.length > 0) {
+        imageCount = images.length
+        images.forEach(image => {
+            $('#sortable').append(buildListItem(image));
+        });
+    } else {
+        console.log("No Images Available");
+    }
+    $('#upload-widget').removeClass('d-none')
+    $('#sortable').sortable( 'refresh');
 }
 
 //placed on the hidden template LI (stored on the DIV)
@@ -94,7 +95,8 @@ Dropzone.options.uploadWidget = {
     renameFile: function (file) {
         fileName = file.name
         var suffix = fileName.substring(fileName.indexOf("."),fileName.length);
-        let newName = recipeId + '-' + (imageCount+1) + suffix;
+        let newName = $('#recipeSelect').val() + '-' + (imageCount+1) + suffix;
+        console.log('New Name: ['+newName+']')
         imageCount += 1;
         return newName;
     },
