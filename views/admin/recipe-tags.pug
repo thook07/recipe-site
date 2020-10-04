@@ -1,0 +1,126 @@
+extends ../recipe-partials/layout-admin
+
+//- Override default config variables
+append config
+	- var isPageTitle = false
+	- var pageTitle = 'Recipe Tags'
+	- var parentMenu = 'Account'
+	- var navbarTemplate = 'navbar-marketplace'
+	- var footerTemplate = 'footer-marketplace'
+	- var isFileUploadScript = true
+	- var isCardScript = false
+	- var isChartScript = true 
+	- var isCodeHighlighting = true 
+append scripts
+	script(src='/js/recipes/admin-recipe-tags.js')
+
+//- Page Content
+block content
+
+	//- dashboard-header.pug template
+	//include partials/dashboard-header
+
+	.mb-5.pb-3
+		.box-shadow-lg.rounded-lg.overflow-hidden
+			.row
+
+				// Sidebar
+				aside.col-lg-2
+					//- sidebar-dashboard.pug template
+					include ../recipe-partials/sidebar-admin
+
+				// Content
+				section(style='padding-right: 2.5rem !important').col-lg-10.p-2
+					.row.p-1.pt-3
+						.col-lg-6
+								h3 #{pageTitle}
+						.col-lg-6.d-flex.justify-content-end
+								select(id="recipeSelect" required).form-control.custom-select
+									option(value="") Choose Recipe
+									each recipe in recipes
+										- if( recipe.id == r) {
+											option(value=recipe.id selected) #{recipe.name}  
+										- } else {
+											option(value=recipe.id) #{recipe.name}  
+										- }
+								button(type="button").btn.btn-primary.btn-icon.ml-2#filterBtn
+										i.czi-rocket.mr-2
+										| Go
+								button(type="button" data-toggle="tooltip", data-placement="top", title="Add Tag to Recipe").btn.btn-primary.btn-icon.ml-2#addTagBtn
+										i.czi-add-circle
+					.row
+						.col-lg-12.p-1
+							.table-responsive
+								table.table.bg-light
+									thead
+									tr
+										th Recipe ID
+										th Tag ID
+										th Actions
+									tbody
+									each rTag in rTags
+										tr
+											td #{rTag.recipeId}
+											td #{rTag.tagId}
+											td 
+												button(type="button"  data-toggle="tooltip", data-placement="top", title="Delete Recipe Tag" data-rtag-recipeId=rTag.recipeId data-rtag-tagId=rTag.tagId).btn.btn-outline-danger.btn-icon.deleteBtn.mr-2
+													i.czi-trash
+														
+
+	#add-modal.modal-quick-view.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h4.modal-title.product-title
+						a
+							| Add Tag
+							i.czi-arrow-right.font-size-lg.ml-2
+					button(type='button' class='close' data-dismiss='modal' aria-label='Close')
+						span(aria-hidden='true') &times;
+				.modal-body
+					.row.justify-content-center
+						.col-lg-10.pr-lg-0
+							.form-group.pb-2
+									label(for='unp-product-name').font-weight-medium Tags
+									.row.my-2
+										.col-lg-6
+											select(id="cr-recipe-tag-select" name='category').form-control.custom-select
+												each tag in tags
+													option(value=tag.id) #{tag.category + ': ' + tag.name}
+										.col-lg-6
+											button(type="button").btn.btn-primary#add-tag-btn
+												i.czi-lable.mr-2
+												| Add Tag
+									.row
+										.col-lg-12
+											//content
+											div(style='min-height: 5rem; background: #FFF').rounded.p-2#tag-container
+							button().btn.btn-primary.btn-block#add-btn.mt-4
+								i.czi-loading.font-size-base.mr-2
+								| Update Tags
+
+	#delete-modal.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h6.modal-title.product-title Are you sure you want to delete this recipe?
+				.modal-body
+					.row.justify-content-center
+						.col-lg-12
+							p This remove <span id="tag-id"></span> from <span id="recipe-id"></span>! Are you sure you want to do this?
+					.row.justify-content-center
+						.col-lg-6
+							button().btn.btn-outline-danger.btn-block#deleteBtnModal.mt-4
+									i.czi-security-check.font-size-base.mr-2
+									| Yes, Delete!
+						.col-lg-6
+							button(data-dismiss="modal").btn.btn-outline-accent.btn-block.mt-4
+									i.czi-security-close.font-size-base.mr-2
+									| No
+
+	#tag-btn-clone.d-none.btn-group.mr-2.mb-2(role="group", aria-label="First group")
+		button(type="button").btn.btn-outline-secondary.btn-sm
+			span.tag-name Oven
+		button(type="button" onclick="removeTag(this)").btn.btn-outline-secondary.btn-sm.removeTagBtn
+			| x			 
+	include ../recipe-partials/toast-generic-success

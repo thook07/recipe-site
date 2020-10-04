@@ -10,6 +10,7 @@ const RecipePageVisit = require('../models/RecipePageVisit')
 const Ingredient = require('../models/Ingredient')
 const IngredientCategory = require('../models/IngredientCategory')
 const Tag = require('../models/Tag')
+const RecipeTag = require('../models/RecipeTag')
 const authZ = require('../config/authorization');
 
 module.exports = function(sequelize){
@@ -265,8 +266,7 @@ module.exports = function(sequelize){
             type: QueryTypes.SELECT
         });
         
-        console.log(tagCategories)
-
+        
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
         res.render("admin/tags", {
             user: req.user,
@@ -274,6 +274,36 @@ module.exports = function(sequelize){
             tagCategories,
             tags,
             q
+        });
+    });
+
+    router.get('/recipe-tags', /*authZ.ensureAdmin(),*/ async(req, res) => {
+        var r = req.query.r || '';
+        var filtered = (r == '' ? false : true);
+        
+        const { Op, QueryTypes } = require("sequelize");
+        var rTags = []
+        if(r != '' ) {
+            rTags = await RecipeTag.findAll({
+                where: {
+                    recipeId: r
+                }
+            })
+        } else {
+            rTags = await RecipeTag.findAll({ limit: 100});
+        }
+
+        var recipes = await Recipe.findAll({ attributes: ['id', 'name'] })
+        var pendingRecipes = await Recipe.count({ where: {approved: false} })
+        const tags = await Tag.findAll();
+        res.render("admin/recipe-tags", {
+            user: req.user,
+            pendingRecipes,
+            recipes,
+            rTags,
+            tags,
+            filtered,
+            r
         });
     });
 
@@ -324,18 +354,21 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/upload-recipe-images', authZ.ensureAdmin(), async (req, res) => {
+    router.get('/upload-recipe-images', /*authZ.ensureAdmin(),*/ async (req, res) => {
         //authZ.protected(req,res);
+
+        var r = req.query.r;
+
         log.trace("[/admin/upload-recipe-images] building add recipe images page")
         
         const recipes = await Recipe.getAllAttributes(['id','name', 'images']);
 
-        console.log(recipes[3].images)
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
         res.render("admin/upload-recipe-images", {
             recipes: recipes,
             user: req.user,
-            pendingRecipes
+            pendingRecipes,
+            recipeId: r
         });
     });
 
@@ -368,8 +401,7 @@ module.exports = function(sequelize){
             type: QueryTypes.SELECT
         });
 
-        console.log(categories)
-
+        
         var pendingRecipes = await Recipe.count({ where: {approved: false} })
         res.render('admin/add-tag', {
             user: req.user,

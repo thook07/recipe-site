@@ -100,7 +100,6 @@ module.exports = function(app, sequelize){
             userId: userId,
             recipeId: recipeId 
             });
-            console.log(favorite);
             await favorite.save();
             res.status(200)
             res.send("Successfully added favorite for " + userId);
@@ -120,7 +119,6 @@ module.exports = function(app, sequelize){
 
         try {
             const favorite = await Favorite.getByIds(userId, recipeId);
-            console.log(favorite);
             await favorite.destroy();
             res.status(200)
             res.send("Successfully added favorite for " + userId);
@@ -620,7 +618,8 @@ module.exports = function(app, sequelize){
     });
 
     router.get('/tags/id', async (req, res) => {
-        const results = await Tag.findAll({ attributes: ['id']});
+        
+        var results = await Tag.findAll({ attributes: ['id']});
         const ids = []
         for(const result of results) {
             ids.push(result.id)
@@ -667,6 +666,83 @@ module.exports = function(app, sequelize){
             res.send(err);
         }
         
+    });
+
+    router.get('/recipe-tags/', async (req, res) => {
+        log.debug('[/api/recipe-tags/id] Grabbing RecipeTags')
+        var r = req.query.r || '';
+        
+        log.debug('[/api/recipe-tags/id] Filter: r=' + r);
+        var results = [];
+        if( r == '') {
+            results = await RecipeTag.findAll({ attributes: ['tagId']});
+        } else {
+            results = await RecipeTag.findAll({ where: { recipeId: r }, attributes: ['tagId']});
+        }
+        const ids = []
+        for(const result of results) {
+            ids.push(result.tagId)
+        }
+
+        var tags = await Tag.findAll({
+            where: {
+                id: ids
+            }
+        });
+        
+        // Compile the source code
+        res.status(200).send(tags)
+    });
+
+    router.post('/recipe-tag/add', async (req, res) => {
+        log.debug('[/api/recipe-tag/add] Enter');
+        const recipeId = req.body.recipeId;
+        const tags = req.body.tags || [];
+        log.debug('[/api/recipe-tag/add] Adding ['+tags.length+'] to ['+recipeId+']');
+        try {
+            for( const tag of tags) {
+                await RecipeTag.create({ 
+                    recipeId: recipeId,
+                    tagId: tag
+                })
+                log.debug('[/api/recipe-tag/add] Added ['+tag+'] to ['+recipeId+'].')
+            }
+            res.status(200).send('Successfully Added ['+tags.length+'] Tags to ['+recipeId+']')
+        } catch( err ) {
+            console.log(err);
+            res.status(500).send(err)
+        }
+
+    });
+
+    router.post('/recipe-tag/delete', async (req, res) => {
+        log.debug('[/api/recipe-tag/delete] Enter');
+        const recipeId = req.body.recipeId;
+        const tagId = req.body.tagId;
+        log.debug('[/api/recipe-tag/delete] Delete ['+tagId+'] from ['+recipeId+']');
+        try {
+            log.debug('[/api/recipe-tag/delete] Deleting RecipeTag');
+            const { Op } = require("sequelize");
+            var rtRows = await RecipeTag.destroy({
+                where: {
+                    [Op.and]: [
+                        { recipeId: recipeId}, 
+                        { tagId: tagId}
+                    ]
+                }
+            });
+            log.debug('[/api/recipe-tag/delete] Deleted ['+rtRows+'] row(s)!');
+            res.status(200);
+            res.send("Success");
+        } catch(err) {
+            console.log(err);
+            log.error(JSON.stringify(err))
+            res.status(400);
+            res.send(err);
+        }
+        
+
+
     });
 
     router.get('/grocery-cart', async (req, res) => {

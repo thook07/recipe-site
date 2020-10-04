@@ -106,17 +106,23 @@ block content
                                             td 
                                                 a(href=recipe.url, target="_blank" class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title=recipe.url).btn.btn-outline-secondary.btn-icon
                                                     i.czi-link.font-size-lg
-                                            td(style='min-width: 15rem;')
+                                            td(style='min-width: 20rem;')
                                                 button(type="button" data-toggle="tooltip", data-placement="top", title="Edit Recipe" data-recipe=JSON.stringify(recipe)).btn.btn-outline-primary.btn-icon.editBtn.mr-1
                                                     i.czi-edit
                                                 a(href="#" data-toggle="tooltip", data-placement="top", title="Inactivate Recipe" data-recipe-id=recipe.id data-recipe-name=recipe.name).btn.btn-outline-warning.btn-icon.inactivateBtn.mr-1
                                                     i.czi-security-close
                                                 - var recipeLink = '/recipe/'+recipe.id
-                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Go to recipe page").btn.btn-outline-primary.btn-icon.editBtn.mr-1
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Go to recipe page").btn.btn-outline-primary.btn-icon.mr-1
                                                     i.czi-sign-in
                                                 - var recipeLink = '/admin/recipe-ingredients?r='+recipe.id;
-                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients").btn.btn-outline-primary.btn-icon.editBtn.mr-1
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="View Recipe Ingredients").btn.btn-outline-primary.btn-icon.mr-1
                                                     i.czi-basket-alt
+                                                - var recipeLink = '/admin/recipe-tags?r='+recipe.id;
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Edit Tags").btn.btn-outline-primary.btn-icon.mr-1
+                                                    i.czi-lable
+                                                - var recipeLink = '/admin/upload-recipe-images?r='+recipe.id;
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Upload Images").btn.btn-outline-primary.btn-icon.mr-1
+                                                    i.czi-instagram
                                                 
                                                     
                                                         

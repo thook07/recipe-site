@@ -10,23 +10,11 @@ $(document).ready(function(){
 
     //whenever the recipe gets selected
     $('#recipeSelect').on('change', async function(e) {
-        console.log($(this).val())
-        recipeId = $(this).val();
-        var images = await $.get( '/api/recipes/'+recipeId+'/images');
-        
-        $( '#sortable' ).empty();
-        if(images.length > 0) {
-            imageCount = images.length
-            images.forEach(image => {
-                $('#sortable').append(buildListItem(image));
-            });
-        } else {
-            console.log("No Images Available");
-        }
-        $('#upload-widget').removeClass('d-none')
-        $('#sortable').sortable( 'refresh');
-        
+        loadUploadWidget($('#recipeSelect').val());
+    });
 
+    $('#refresh-recipe-images-btn').on('click', function(e) {
+        loadUploadWidget($('#recipeSelect').val());
     });
 
     //post the update TODO: disable until ready. 
@@ -56,6 +44,23 @@ $(document).ready(function(){
     });
 
 });
+
+//loads the images if exists
+async function loadUploadWidget(recipeId){
+    var images = await $.get( '/api/recipes/'+recipeId+'/images');
+        
+        $( '#sortable' ).empty();
+        if(images.length > 0) {
+            imageCount = images.length
+            images.forEach(image => {
+                $('#sortable').append(buildListItem(image));
+            });
+        } else {
+            console.log("No Images Available");
+        }
+        $('#upload-widget').removeClass('d-none')
+        $('#sortable').sortable( 'refresh');
+}
 
 //placed on the hidden template LI (stored on the DIV)
 function removeButtonClicked(btn) {

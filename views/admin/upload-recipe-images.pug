@@ -53,7 +53,11 @@ block content
                                         select(id="recipeSelect" required).form-control.custom-select
                                             option(value="") Choose Recipe
                                             each recipe in recipes
-                                                option(value=recipe.id) #{recipe.name}
+                                                - if( recipe.id == recipeId ) {
+                                                    option(value=recipe.id selected) #{recipe.name}    
+                                                - } else {
+                                                    option(value=recipe.id) #{recipe.name}
+                                                - }
                                 .row  
                                     .col-md-12.form-group
                                         // Textual addon
@@ -61,6 +65,9 @@ block content
                             form.dropzone#upload-widget.d-none
                             button(type="button")#update-recipe-images-btn.btn.btn-primary.mt-3.float-right
                                 | Update Recipe Images
+                            if recipeId
+                                button(type="button")#refresh-recipe-images-btn.btn.btn-outline-info.mt-3.float-right.mr-2
+                                    i.czi-reload
                             div(style="display:none !important")#img-template
                                 li.template-li.list-group-item.d-flex.justify-content-between.align-items-center
                                     span
