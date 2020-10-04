@@ -108,12 +108,15 @@ block content
                                             td 
                                                 a(href=recipe.url, class="btn btn-outline-secondary", data-toggle="tooltip", data-placement="top", title=recipe.url).btn.btn-outline-secondary.btn-icon
                                                     i.czi-link.font-size-lg
-                                            td(style='min-width: 8rem;')
+                                            td(style='min-width: 12rem;')
                                                 - var recipeLink = '/recipe/'+recipe.id
                                                 a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Go to recipe page").btn.btn-outline-primary.btn-icon.editBtn.mr-2
                                                     i.czi-sign-in
                                                 button(type="button" data-toggle="tooltip", data-placement="top", title="Delete Recipe" data-recipe-id=recipe.id data-recipe-name=recipe.name).btn.btn-outline-danger.btn-icon.deleteBtn.mr-1
                                                     i.czi-trash
+                                                - var recipeLink = '/admin/upload-recipe-images?r='+recipe.id;
+                                                a(href=recipeLink data-toggle="tooltip", data-placement="top", title="Upload Images").btn.btn-outline-primary.btn-icon.mr-1
+                                                    i.czi-instagram
                                                     
                                                         
 
