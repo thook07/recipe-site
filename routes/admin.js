@@ -102,7 +102,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipes', /*authZ.ensureAdmin(),*/ async (req, res) => {
+    router.get('/recipes', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
         var r = req.query.r || '';
@@ -178,7 +178,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipe-ingredients', /*authZ.ensureAdmin(),*/ async (req, res) => {
+    router.get('/recipe-ingredients', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
         var i = req.query.i || '';
@@ -277,7 +277,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/recipe-tags', /*authZ.ensureAdmin(),*/ async(req, res) => {
+    router.get('/recipe-tags', authZ.ensureAdmin(), async(req, res) => {
         var r = req.query.r || '';
         var filtered = (r == '' ? false : true);
         
@@ -318,7 +318,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/pending-recipes', /*authZ.ensureAdmin(),*/ async (req, res) => {
+    router.get('/pending-recipes', authZ.ensureAdmin(), async (req, res) => {
 
         var q = req.query.q || '';
 
@@ -354,7 +354,7 @@ module.exports = function(sequelize){
         });
     });
 
-    router.get('/upload-recipe-images', /*authZ.ensureAdmin(),*/ async (req, res) => {
+    router.get('/upload-recipe-images', authZ.ensureAdmin(), async (req, res) => {
         //authZ.protected(req,res);
 
         var r = req.query.r;
