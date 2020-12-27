@@ -16,6 +16,18 @@ pm2 restart index
 
 
 
+/***** BACK UP SCRIPT CREATION - 12.27.2020 ********/
+-- start -- 
+ssh root@thecatalyst.ddns.net
+use jls to find the jail
+jexec <jail number> csh
+mysqldump -u root -p recipes > 2020.12.28-recipes.backup.mysql
+exit
+cd /mnt/Backups/Backups/VeganRecipes/database-backups
+cp /mnt/iocage/jails/WebAppPlayground/root/2020.12.28-recipes.backup.mysql .
+-- done --
+
+
 
 // add this to recipes table 09/21/2020
 ALTER TABLE `recipes`.`recipes` ADD COLUMN `recipeType` VARCHAR(45) NULL AFTER `approved`;
