@@ -38,7 +38,7 @@
     "isotope-layout": "^3.0.6",
     "morgan": "^1.10.0",
     "mysql2": "^2.1.0",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.4.16",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "promise": "^8.1.0",
