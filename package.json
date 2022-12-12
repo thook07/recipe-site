@@ -27,7 +27,7 @@
     "core-js": "^3.6.4",
     "crypto": "^1.0.1",
     "dateformat": "^3.0.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
     "express-sessions": "^1.0.6",
